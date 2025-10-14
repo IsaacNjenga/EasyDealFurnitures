@@ -1,0 +1,18 @@
+.ant-menu-submenu-title:hover {
+  color: rgba(177, 183, 201, 0.745) !important;
+}
+.ant-menu-submenu-popup {
+  background-color: #cab1b100 !important;
+}
+
+/* Removes the default purple/gray background of submenu container */
+.ant-menu-sub {
+  background: transparent !important;
+}
+
+/* If you also have horizontal mode (popup style) */
+.ant-menu-submenu-popup > .ant-menu {
+  background: linear-gradient(to right, #8b8787d6 0%, rgb(163, 165, 167) 100%) !important;
+  margin-left:6px !important;
+  border-color: black;
+}

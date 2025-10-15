@@ -12,7 +12,10 @@
 
 /* If you also have horizontal mode (popup style) */
 .ant-menu-submenu-popup > .ant-menu {
-  background: linear-gradient(to right, #8b8787d6 0%, rgb(163, 165, 167) 100%) !important;
+  background:  rgb(255, 255, 255) !important;
   margin-left:6px !important;
-  border-color: black;
+  border-color: white !important;
+  color:white;
+  border-radius: 0px !important;
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.836), 0 0px 0px rgba(0, 0, 0, 0.812) !important;
 }

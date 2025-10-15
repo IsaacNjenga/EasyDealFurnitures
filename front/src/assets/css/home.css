@@ -1,0 +1,23 @@
+.image-wrapper:hover {
+  flex: 3; /* hovered item grows */
+}
+
+.image-wrapper:not(:hover) {
+  flex: 1; /* others shrink equally */
+}
+
+.image-wrapper:not(:hover) p{display: none;
+}
+
+.image-wrapper:hover img {
+  transform: scale(1.05) rotate(1deg);
+  filter: blur(1.2px) grayscale(0%);
+}
+
+.image-wrapper:hover p{display: block;
+  
+}
+.image-wrapper:hover div{
+  filter:  grayscale(100%);
+  background: rgba(0,0,0,0.5);
+}

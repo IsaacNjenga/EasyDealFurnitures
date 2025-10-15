@@ -4,7 +4,6 @@ import { Link, Outlet } from "react-router-dom";
 import FooterComponent from "./footer";
 import chair from "../assets/icons/office-chair.png";
 import chair1 from "../assets/icons/office-chair1.png";
-import chair2 from "../assets/icons/office-chair2.png";
 import { useUser } from "../context/UserContext";
 import {
   CloseOutlined,
@@ -16,14 +15,14 @@ import {
 } from "@ant-design/icons";
 import "../assets/css/navbar.css";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 const { Header, Content, Footer } = Layout;
 
 const iconStyle = {
   fontSize: 32,
-  color: "black",
   transition: "all 0.3s ease",
   cursor: "pointer",
+  color: "#fff",
 };
 
 const menuItems = [
@@ -93,10 +92,10 @@ function Navbar() {
                   src={chair1}
                   alt="logo"
                   style={{
-                    width: scrolled ? 85 : isMobile ? 75 : 150,
-                    height: scrolled ? 85 : isMobile ? 75 : 150,
+                    width: scrolled ? 55 : isMobile ? 65 : 150,
+                    height: scrolled ? 55 : isMobile ? 65 : 150,
                     borderRadius: "50%",
-                    border: "2px solid #3d63d3ff",
+                    //border: "2px solid #3d63d3ff",
                     objectFit: "cover",
                     transition: "all 0.3s ease",
                     cursor: "pointer",
@@ -112,12 +111,13 @@ function Navbar() {
                   }
                 />
                 <Title
-                  level={scrolled ? 2 : isMobile ? 3 : 1}
+                  level={scrolled ? 5 : isMobile ? 4 : 1}
                   style={{
                     width: "50%",
                     transition: "all 0.3s ease",
-                    fontFamily: "Abril FatFace",
-                    letterSpacing: 1.3,
+                    fontFamily: "Bebas Neue",
+                    letterSpacing: 3.5,
+                    color: "#fff",
                   }}
                 >
                   EasyDeal Furnitures
@@ -141,7 +141,7 @@ function Navbar() {
                     type="text"
                     icon={
                       <MenuOutlined
-                        style={{ color: "#2c0606ff", fontSize: 20 }}
+                        style={{ color: "#ecdedeff", fontSize: 20 }}
                       />
                     }
                     onClick={toggleDrawer}
@@ -165,7 +165,7 @@ function Navbar() {
                         style={{
                           fontSize: 20,
                           fontWeight: 300,
-                          color: "#030303ff",
+                          color: "#fff",
                           letterSpacing: 1.3,
                           fontFamily: "DM Sans",
                         }}

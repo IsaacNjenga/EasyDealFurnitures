@@ -2,7 +2,7 @@ import React from "react";
 import { Menu, Button, Layout, Typography, Drawer } from "antd";
 import { Link, Outlet } from "react-router-dom";
 import FooterComponent from "./footer";
-import chair from "../assets/icons/office-chair.png";
+//import chair from "../assets/icons/office-chair.png";
 import chair1 from "../assets/icons/office-chair1.png";
 import { useUser } from "../context/UserContext";
 import {

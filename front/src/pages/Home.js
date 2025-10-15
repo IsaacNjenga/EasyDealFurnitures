@@ -355,8 +355,8 @@ const Collections = () => {
                   borderRadius: "50%",
                   overflow: "hidden",
                   cursor: "pointer",
-                  height: 300,
-                  width: 300,
+                  height: 250,
+                  width: 250,
                   margin: "auto",
                 }}
               >

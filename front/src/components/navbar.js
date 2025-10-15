@@ -116,7 +116,7 @@ function Navbar() {
                     width: "50%",
                     transition: "all 0.3s ease",
                     fontFamily: "Bebas Neue",
-                    letterSpacing: 3.5,
+                    letterSpacing: isMobile ? 2.8 : 3.5,
                     color: "#fff",
                   }}
                 >

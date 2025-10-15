@@ -9,6 +9,7 @@ import {
   Tooltip,
   Typography,
   InputNumber,
+  Image,
 } from "antd";
 import React from "react";
 
@@ -37,19 +38,20 @@ function ViewBestseller({ loading, openModal, setOpenModal, content }) {
     >
       <div style={{ padding: 10, margin: 10 }}>
         <Row gutter={[24, 24]}>
-          <Col xs={24} sm={24} md={15}>
+          <Col xs={24} sm={24} md={14}>
             <Carousel autoplay autoplaySpeed={4500} dots={true} arrows>
               {(Array.isArray(content?.img)
                 ? content?.img
                 : [content?.img]
               ).map((img, i) => (
                 <div key={i}>
-                  <img
+                  <Image
                     src={img}
+                    height={500}
                     alt={content?.name}
                     style={{
                       width: "100%",
-                      height: "500px",
+                      height: "100%",
                       objectFit: "contain",
                       display: "block",
                     }}
@@ -58,7 +60,7 @@ function ViewBestseller({ loading, openModal, setOpenModal, content }) {
               ))}
             </Carousel>
           </Col>
-          <Col xs={24} sm={24} md={9}>
+          <Col xs={24} sm={24} md={8}>
             <Title
               style={{ margin: 0, fontFamily: "DM Sans", letterSpacing: 1 }}
             >
@@ -75,7 +77,7 @@ function ViewBestseller({ loading, openModal, setOpenModal, content }) {
               {content?.description}
             </Paragraph>
             <div style={{ marginBottom: 20 }}>
-              <Text strong style={{ fontFamily: "DM Sans", marginBottom: 10 }}>
+              <Text style={{ fontFamily: "DM Sans", marginBottom: 15 }}>
                 Colours available:{" "}
               </Text>
               <br />
@@ -111,11 +113,10 @@ function ViewBestseller({ loading, openModal, setOpenModal, content }) {
                   type="primary"
                   style={{
                     borderRadius: 4,
-                    border: "2px solid #333",
+                    border: "1px solid #333",
                     background: 0,
                     color: "#333",
                     fontFamily: "DM Sans",
-                    fontWeight: 700,
                     padding: "12px 18px",
                   }}
                 >
@@ -124,16 +125,16 @@ function ViewBestseller({ loading, openModal, setOpenModal, content }) {
               </Space.Compact>
             </div>
 
-            <div style={{ marginBottom: 10 }}>
+            <div style={{ marginBottom: 0 }}>
               {content?.freeShipping && (
-                <Text style={{ color: "green", fontFamily: "DM Sans" }}>
+                <Text style={{ fontFamily: "DM Sans" }}>
                   Free Shipping <CheckCircleOutlined />
                 </Text>
               )}
             </div>
             <div>
               <Text style={{ fontFamily: "DM Sans" }}>
-                <strong>TYPE:</strong> {content?.type.toUpperCase()}
+                TYPE: {content?.type.toUpperCase()}
               </Text>
             </div>
           </Col>

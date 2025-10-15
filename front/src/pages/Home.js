@@ -584,13 +584,13 @@ const BestSellers = ({ setLoading, setContent, setOpenModal }) => {
                             <Button
                               style={{
                                 background: "white",
-                                color: "#333",
-                                border: "2px solid #333",
+                                color: "black",
+                                border: "1px solid black",
                                 borderRadius: 6,
                                 fontFamily: "DM Sans",
                                 letterSpacing: 2,
-                                padding: "6px 20px",
-                                fontWeight: 600,
+                                padding: "20px 28px",
+                                fontWeight: 'bold',
                               }}
                             >
                               ADD TO CART

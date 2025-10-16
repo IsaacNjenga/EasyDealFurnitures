@@ -1,6 +1,6 @@
 export const bestSellersGrid = [
   {
-    key: 1,
+    _id: 1,
     name: "Ergonomic Office chair",
     price: 20000,
     description: "Lorem Ipsum Lorem ipsum",
@@ -14,7 +14,7 @@ export const bestSellersGrid = [
     discount: 5,
   },
   {
-    key: 2,
+    _id: 2,
     name: "Modern Desk",
     price: 15000,
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
@@ -25,7 +25,7 @@ export const bestSellersGrid = [
     discount: 0,
   },
   {
-    key: 3,
+    _id: 3,
     name: "Comfortable Sofa",
     price: 25000,
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
@@ -39,7 +39,7 @@ export const bestSellersGrid = [
     discount: 3,
   },
   {
-    key: 4,
+    _id: 4,
     name: "Minimalist Coffee Table",
     price: 10000,
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
@@ -53,7 +53,7 @@ export const bestSellersGrid = [
 
 export const newArrivalsGrid = [
   {
-    key: 1,
+    _id: 1,
     name: "Ergonomic Bed",
     price: 30000,
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
@@ -64,7 +64,7 @@ export const newArrivalsGrid = [
     discount: 0,
   },
   {
-    key: 2,
+    _id: 2,
     name: "Modern Bookshelf",
     price: 12000,
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
@@ -78,7 +78,7 @@ export const newArrivalsGrid = [
     discount: 10,
   },
   {
-    key: 3,
+    _id: 3,
     name: "Ergonomic Bed",
     price: 30000,
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
@@ -89,7 +89,7 @@ export const newArrivalsGrid = [
     discount: 0,
   },
   {
-    key: 4,
+    _id: 4,
     name: "Comfortable Sofa",
     price: 25000,
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
@@ -106,7 +106,7 @@ export const newArrivalsGrid = [
 
 export const shopProducts = [
   {
-    key: 1,
+    _id: 1,
     name: "Ergonomic Bed",
     price: 30000,
     description:
@@ -133,7 +133,7 @@ export const shopProducts = [
     discount: 10,
   },
   {
-    key: 2,
+    _id: 2,
     name: "Nordic Lounge Chair",
     price: 18000,
     description:
@@ -162,7 +162,7 @@ export const shopProducts = [
     discount: 0,
   },
   {
-    key: 3,
+    _id: 3,
     name: "Walnut Dining Table",
     price: 42000,
     description:
@@ -188,7 +188,7 @@ export const shopProducts = [
     discount: 10,
   },
   {
-    key: 4,
+    _id: 4,
     name: "Modern Floor Lamp",
     price: 9500,
     description:
@@ -213,7 +213,7 @@ export const shopProducts = [
     discount: 0,
   },
   {
-    key: 5,
+    _id: 5,
     name: "Leather Sofa Set",
     price: 75000,
     description:

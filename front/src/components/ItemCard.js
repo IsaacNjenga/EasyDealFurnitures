@@ -10,7 +10,7 @@ function ItemCard({ dataSource, isMobile, viewItem }) {
     <div style={{ margin: 10, padding: 15 }}>
       <Row gutter={[24, 24]}>
         {dataSource.map((b) => (
-          <Col key={b.key} xs={24} sm={12} md={6}>
+          <Col key={b._id} xs={24} sm={12} md={6}>
             <motion.div
               whileHover="hover"
               initial="rest"
@@ -46,7 +46,7 @@ function ItemCard({ dataSource, isMobile, viewItem }) {
                           <div key={i}>
                             <img
                               src={img}
-                              alt={b.key}
+                              alt={b._id}
                               style={{
                                 width: "100%",
                                 height: "320px",

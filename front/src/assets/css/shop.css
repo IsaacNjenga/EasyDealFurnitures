@@ -22,7 +22,7 @@
 }
 
 .scroll-container::-webkit-scrollbar {
-  height: 2px; /* Use height for horizontal scrolling */
+  height: 3px; /* Use height for horizontal scrolling */
   width: 4px;  /* Keep this too, for vertical scroll areas */
 }
 

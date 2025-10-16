@@ -26,10 +26,10 @@ const iconStyle = {
 };
 
 const menuItems = [
-  { key: 1, label: "Home", path: "/" },
+  { key: 1, label: "HOME", path: "/" },
   {
     key: 2,
-    label: "Shop",
+    label: "SHOP",
     path: "/shop",
     children: [
       { key: "2-1", label: "Products", path: "/shop/products" },
@@ -37,6 +37,7 @@ const menuItems = [
       { key: "2-3", label: "New Arrivals", path: "/shop/new" },
     ],
   },
+  { key: 3, label: "CONTACT", path: "/contact" },
 ];
 
 function Navbar() {

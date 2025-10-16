@@ -3,6 +3,7 @@ import Navbar from "./components/navbar";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import { AnimatePresence } from "framer-motion";
+import Contact from "./pages/Contact";
 
 function App() {
   const location = useLocation();
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Navbar />}>
             <Route index element={<Home />} />
             <Route path="/shop" element={<Shop />} />
+            <Route path="/contact" element={<Contact />} />
           </Route>
         </Routes>
       </AnimatePresence>

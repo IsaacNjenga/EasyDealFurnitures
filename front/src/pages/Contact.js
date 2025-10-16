@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Button, Col, Form, Image, Input, Row, Typography } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Image,
+  Input,
+  Row,
+  Typography,
+  notification,
+} from "antd";
 import { useUser } from "../context/UserContext";
 import {
   ClockCircleOutlined,
@@ -55,14 +64,29 @@ function Contact() {
   const { isMobile } = useUser();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotification = (type, message, title) => {
+    api[type]({ message: title, description: message });
+  };
 
   const handleSubmit = async () => {
     setLoading(true);
     try {
       const values = await form.validateFields();
       console.log(values);
+      openNotification(
+        "success",
+        "Email sent successfully. We'll get back to you!",
+        "Success"
+      );
     } catch (error) {
       console.error("Error sending email", error);
+      openNotification(
+        "error",
+        "Email could not be sent. Kindly try again or call us directly.",
+        "Error"
+      );
     } finally {
       setLoading(false);
       form.resetFields();
@@ -71,6 +95,7 @@ function Contact() {
 
   return (
     <div>
+      {contextHolder}
       {/* banner */}
       <div style={{ position: "relative", marginBottom: 10 }}>
         <Image
@@ -94,7 +119,7 @@ function Contact() {
       <div
         style={{
           textAlign: "center",
-          width: "65%",
+          width: isMobile ? "90%" : "65%",
           margin: "20px auto",
           background: "#e9eaee",
         }}
@@ -159,7 +184,7 @@ function Contact() {
           <Paragraph
             style={{
               fontFamily: "DM Sans",
-              width: "80%",
+              width: isMobile ? "100%" : "80%",
               textAlign: "center",
               margin: "0px auto",
               color: "white",
@@ -172,7 +197,9 @@ function Contact() {
             you as soon as possible.
           </Paragraph>
 
-          <div style={{ margin: 20, padding: 20 }}>
+          <div
+            style={{ margin: isMobile ? 14 : 20, padding: isMobile ? 14 : 20 }}
+          >
             <Form
               form={form}
               layout="vertical"
@@ -180,18 +207,26 @@ function Contact() {
               requiredMark={false}
             >
               <Row gutter={[24, 24]}>
-                <Col span={12}>
-                  <Form.Item name="name" rules={[{ required: true }]}>
+                <Col xs={24} md={12}>
+                  <Form.Item
+                    name="name"
+                    rules={[{ required: true, message: "A name is required" }]}
+                  >
                     <Input
                       style={{ borderRadius: 0, color: "#444", height: 50 }}
                       placeholder="Your name"
                     />
                   </Form.Item>{" "}
                 </Col>
-                <Col span={12}>
+                <Col xs={24} md={12}>
                   <Form.Item
                     name="email_address"
-                    rules={[{ required: true }]}
+                    rules={[
+                      {
+                        required: true,
+                        message: "An email address is required",
+                      },
+                    ]}
                     extra={
                       <span style={{ color: "white", fontFamily: "DM Sans" }}>
                         We'll use this email to get back to you
@@ -206,13 +241,23 @@ function Contact() {
                   </Form.Item>{" "}
                 </Col>
               </Row>
-              <Form.Item name="subject" rules={[{ required: true }]}>
+              <Form.Item
+                name="subject"
+                rules={[
+                  { required: true, message: "An email subject is required" },
+                ]}
+              >
                 <Input
                   style={{ borderRadius: 0, color: "#444", height: 50 }}
                   placeholder="Subject"
                 />
               </Form.Item>{" "}
-              <Form.Item name="message" rules={[{ required: true }]}>
+              <Form.Item
+                name="message"
+                rules={[
+                  { required: true, message: "A message body is required" },
+                ]}
+              >
                 <Input.TextArea
                   style={{ borderRadius: 0, color: "#444" }}
                   placeholder="Your message"

@@ -31,10 +31,11 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
         </Text>
       }
       open={openModal}
+      centered
       onCancel={() => setOpenModal(false)}
       confirmLoading={loading}
       width={"70vw"}
-      style={{ width: "auto", marginTop: 0, backgrooundColor: "whitesmoke" }}
+      style={{ width: "auto", marginTop: 0, backgroundColor: "whitesmoke" }}
     >
       <div style={{ padding: 10, margin: 10 }}>
         <Row gutter={[24, 24]}>
@@ -47,7 +48,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                 <div key={i}>
                   <Image
                     src={img}
-                    height={isMobile?250:500}
+                    height={isMobile ? 250 : 500}
                     alt={content?.name}
                     style={{
                       width: "100%",
@@ -71,7 +72,22 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
               style={{ marginTop: 0, marginBottom: 20, fontFamily: "DM Sans" }}
               type="secondary"
             >
-              KES. {content?.price.toLocaleString()}
+              KES.{" "}
+              {content?.discount > 0 ? (
+                <>
+                  <span style={{ textDecoration: "line-through" }}>
+                    {content?.price.toLocaleString()}
+                  </span>{" "}
+                  <span>
+                    {(
+                      ((100 - content?.discount) * content?.price) /
+                      100
+                    ).toLocaleString()}
+                  </span>
+                </>
+              ) : (
+                <span>{content?.price.toLocaleString()}</span>
+              )}
             </Title>
             <Paragraph style={{ fontFamily: "Raleway", marginBottom: 20 }}>
               {content?.description}

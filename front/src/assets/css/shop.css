@@ -1,6 +1,5 @@
 /* Make scrollbar paper-thin and minimal */
-::-webkit-scrollbar {
-    
+::-webkit-scrollbar {    
   height: 2px; /* Use height for horizontal scrolling */
   width: 4px;  /* Keep this too, for vertical scroll areas */
 }
@@ -21,3 +20,25 @@
 ::-webkit-scrollbar-button {
   display: none;
 }
+
+.scroll-container::-webkit-scrollbar {
+  height: 2px; /* Use height for horizontal scrolling */
+  width: 4px;  /* Keep this too, for vertical scroll areas */
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.2);
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0);
+  border-radius: 1px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+.scroll-container::-webkit-scrollbar-button {
+  display: none;
+}
+

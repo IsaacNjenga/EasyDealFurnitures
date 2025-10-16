@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Image, Typography } from "antd";
 import { useUser } from "../context/UserContext";
 import "../assets/css/shop.css";
@@ -21,31 +21,31 @@ const selectableItems = [
   {
     key: 2,
     title: "Bedroom Furniture",
-    img: "https://images.pexels.com/photos/416320/pexels-photo-416320.jpeg",
+    img: "https://images.pexels.com/photos/1571459/pexels-photo-1571459.jpeg",
     link: "/shop",
   },
   {
     key: 3,
     title: "Kitchen Furniture",
-    img: "https://images.pexels.com/photos/416320/pexels-photo-416320.jpeg",
+    img: "https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg",
     link: "/shop",
   },
   {
     key: 4,
     title: "Outdoor Furniture",
-    img: "https://images.pexels.com/photos/416320/pexels-photo-416320.jpeg",
+    img: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg",
     link: "/shop",
   },
   {
     key: 5,
     title: "Living Room Furniture",
-    img: "https://images.pexels.com/photos/416320/pexels-photo-416320.jpeg",
+    img: "https://images.pexels.com/photos/1866149/pexels-photo-1866149.jpeg",
     link: "/shop",
   },
   {
     key: 6,
     title: "Second-Hand Items",
-    img: "https://images.pexels.com/photos/416320/pexels-photo-416320.jpeg",
+    img: "https://images.pexels.com/photos/276528/pexels-photo-276528.jpeg",
     link: "/shop",
   },
 ];
@@ -70,6 +70,16 @@ function Shop() {
   const [openModal, setOpenModal] = useState(false);
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("");
+
+  const filteredProducts = useMemo(() => {
+    if (selectedTab === "") return shopProducts;
+    return shopProducts.filter((p) => p.category === selectedTab);
+  }, [selectedTab]);
+
+  const tabSelector = (name) => {
+    setSelectedTab(name);
+  };
 
   const viewItem = (content) => {
     setLoading(true);
@@ -107,6 +117,7 @@ function Shop() {
         }}
       >
         <div
+          className="scroll-container"
           style={{
             display: "flex",
             flexDirection: "row",
@@ -124,8 +135,16 @@ function Shop() {
                 cursor: "pointer",
                 maxHeight: isMobile ? 150 : 200,
                 maxWidth: 200,
-                flexShrink: 0,
                 transition: "all 0.25s ease-in-out",
+
+                // border:
+                //   selectedTab === s.title
+                //     ? "4px solid #fea549"
+                //     : "2px solid transparent",
+                // boxShadow:
+                //   selectedTab === s.title
+                //     ? "0 4px 12px rgba(0,0,0,0.55)"
+                //     : "none",
               }}
               key={s.key}
               onMouseEnter={(e) =>
@@ -134,6 +153,7 @@ function Shop() {
               onMouseLeave={(e) =>
                 (e.currentTarget.style.transform = "scale(1)")
               }
+              onClick={() => tabSelector(s.title)}
             >
               <img
                 src={s.img}
@@ -146,6 +166,7 @@ function Shop() {
                   borderRadius: 20,
                 }}
               />
+
               <div
                 style={{
                   position: "absolute",
@@ -166,6 +187,7 @@ function Shop() {
                     letterSpacing: 2,
                     textAlign: "center",
                     margin: 0,
+                    textShadow: "1px 1px 2px rgba(0,0,0,0.6)",
                   }}
                 >
                   {s.title}
@@ -176,13 +198,25 @@ function Shop() {
         </div>
       </div>
 
+      <Title
+        style={{ margin: "auto", textAlign: "center", fontFamily: "DM Sans" }}
+      >
+        {selectedTab === "" ? "All Products" : selectedTab}
+      </Title>
+
       {/* products */}
       <div>
-        <ItemCard
-          dataSource={shopProducts}
-          isMobile={isMobile}
-          viewItem={viewItem}
-        />
+        {filteredProducts.length === 0 ? (
+          <div style={{ textAlign: "center", padding: 40 }}>
+            <Text type="secondary">No products found in this category.</Text>
+          </div>
+        ) : (
+          <ItemCard
+            dataSource={selectedTab === "" ? shopProducts : filteredProducts}
+            isMobile={isMobile}
+            viewItem={viewItem}
+          />
+        )}
       </div>
 
       <ViewItem

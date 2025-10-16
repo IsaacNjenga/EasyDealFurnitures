@@ -1,27 +1,15 @@
-import React, { useState } from "react";
-import {
-  Carousel,
-  Image,
-  Button,
-  Typography,
-  Row,
-  Col,
-  Card,
-  Tooltip,
-} from "antd";
+import { useState } from "react";
+import { Carousel, Image, Button, Typography, Row, Col } from "antd";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUser } from "../context/UserContext";
-import {
-  ArrowRightOutlined,
-  EyeOutlined,
-  HeartOutlined,
-} from "@ant-design/icons";
+import { ArrowRightOutlined } from "@ant-design/icons";
 import "../assets/css/home.css";
-import ViewBestseller from "../components/ViewBestseller";
+import { bestSellersGrid, newArrivalsGrid } from "../assets/data/data";
+import ViewItem from "../components/ViewItem";
+import ItemCard from "../components/ItemCard";
 
 const { Title, Text } = Typography;
 
-// ---- Images ----
 const bgImgs = [
   "https://images.pexels.com/photos/2635038/pexels-photo-2635038.jpeg",
   "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg",
@@ -43,105 +31,6 @@ const collectionGrid = [
   { key: 4, img: chairImg, text: "Classic Touch" },
 ];
 
-const bestSellersGrid = [
-  {
-    key: 1,
-    name: "Ergonomic Office chair",
-    price: 20000,
-    description: "Lorem Ipsum Lorem ipsum",
-    colour: ["black", "green"],
-    type: "office chair",
-    img: [
-      "https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg",
-      "https://images.pexels.com/photos/1957477/pexels-photo-1957477.jpeg",
-    ],
-    freeShipping: true,
-  },
-  {
-    key: 2,
-    name: "Modern Desk",
-    price: 15000,
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-    colour: ["brown", "silver"],
-    type: "desk",
-    img: ["https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg"],
-    freeShipping: true,
-  },
-  {
-    key: 3,
-    name: "Comfortable Sofa",
-    price: 25000,
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-    colour: ["beige", "grey"],
-    type: "sofa",
-    img: [
-      "https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg",
-      "https://images.pexels.com/photos/1957477/pexels-photo-1957477.jpeg",
-    ],
-    freeShipping: true,
-  },
-  {
-    key: 4,
-    name: "Minimalist Coffee Table",
-    price: 10000,
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-    colour: ["black", "white"],
-    type: "coffee table",
-    img: ["https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg"],
-    freeShipping: true,
-  },
-];
-
-const newArrivalsGrid = [
-  {
-    key: 1,
-    name: "Ergonomic Bed",
-    price: 30000,
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-    colour: ["black", "white"],
-    type: "bed",
-    img: ["https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg"],
-    freeShipping: false,
-  },
-  {
-    key: 2,
-    name: "Modern Bookshelf",
-    price: 12000,
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-    colour: ["brown", "black"],
-    type: "bookshelf",
-    img: [
-      "https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg",
-      "https://images.pexels.com/photos/1957477/pexels-photo-1957477.jpeg",
-    ],
-    freeShipping: true,
-  },
-  {
-    key: 3,
-    name: "Ergonomic Bed",
-    price: 30000,
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-    colour: ["black", "white"],
-    type: "bed",
-    img: ["https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg"],
-    freeShipping: true,
-  },
-  {
-    key: 4,
-    name: "Comfortable Sofa",
-    price: 25000,
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-    colour: ["beige", "grey"],
-    type: "sofa",
-    img: [
-      "https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg",
-      "https://images.pexels.com/photos/1957477/pexels-photo-1957477.jpeg",
-    ],
-    freeShipping: false,
-  },
-];
-
-// ---- Shared Styles ----
 const heroStyle = {
   position: "absolute",
   top: 0,
@@ -417,7 +306,7 @@ const Collections = () => {
   );
 };
 
-const BestSellers = ({ setLoading, setContent, setOpenModal }) => {
+const BestSellers = ({ setLoading, setContent, setOpenModal, isMobile }) => {
   const viewItem = (content) => {
     setLoading(true);
     setContent(content);
@@ -455,191 +344,12 @@ const BestSellers = ({ setLoading, setContent, setOpenModal }) => {
         Our Best Sellers
       </Title>
 
-      <div style={{ margin: 10, padding: 15 }}>
-        <Row gutter={[24, 24]}>
-          {bestSellersGrid.map((b) => (
-            <Col key={b.key} xs={24} sm={12} md={6}>
-              <motion.div
-                whileHover="hover"
-                initial="rest"
-                animate="rest"
-                variants={{
-                  rest: { scale: 1 },
-                  hover: { scale: 1.02 },
-                }}
-                style={{ borderRadius: 0, overflow: "hidden" }}
-              >
-                <Card
-                  style={{
-                    borderRadius: 0,
-                    overflow: "hidden",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-                    border: "1px solid #ffffff7e00",
-                  }}
-                  cover={
-                    <div
-                      style={{
-                        position: "relative",
-                        width: "100%",
-                        height: 320, // Consistent image height
-                        overflow: "hidden",
-                        borderRadius: 0,
-                      }}
-                      className="card-image-container"
-                    >
-                      {/* Carousel */}
-                      <Carousel autoplay autoplaySpeed={4000} dots={false}>
-                        {(Array.isArray(b.img) ? b.img : [b.img]).map(
-                          (img, i) => (
-                            <div key={i}>
-                              <img
-                                src={img}
-                                alt={b.key}
-                                style={{
-                                  width: "100%",
-                                  height: "320px",
-                                  objectFit: "cover",
-                                  display: "block",
-                                  borderRadius: 0,
-                                }}
-                              />
-                            </div>
-                          )
-                        )}
-                      </Carousel>
-
-                      {/* Slide-up Overlay */}
-                      <motion.div
-                        variants={{
-                          rest: { y: "100%", opacity: 0 },
-                          hover: { y: "0%", opacity: 1 },
-                        }}
-                        transition={{
-                          duration: 0.45,
-                          ease: [0.25, 0.8, 0.25, 1],
-                        }}
-                        className="overlay-buttons"
-                        style={{
-                          position: "absolute",
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          height: "100%",
-                          background: "rgba(0,0,0,0.02)",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "space-between",
-                          padding: "15px",
-                        }}
-                      >
-                        {/* Top Right Buttons */}
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "flex-end",
-                            gap: 10,
-                          }}
-                        >
-                          <Tooltip title="Wishlist" placement="right">
-                            <Button
-                              shape="circle"
-                              icon={<HeartOutlined />}
-                              style={{
-                                background: "white",
-                                color: "#333",
-                                border: "none",
-                                boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-                              }}
-                            />
-                          </Tooltip>
-                          <Tooltip title="View" placement="right">
-                            <Button
-                              shape="circle"
-                              icon={<EyeOutlined />}
-                              onClick={() => viewItem(b)}
-                              style={{
-                                background: "white",
-                                color: "#333",
-                                border: "none",
-                                boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-                              }}
-                            />
-                          </Tooltip>
-                        </div>
-
-                        {/* Bottom Add to Cart Button */}
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <motion.div
-                            variants={{
-                              rest: { y: 20, opacity: 0 },
-                              hover: { y: 0, opacity: 1 },
-                            }}
-                            transition={{
-                              duration: 0.3,
-                              ease: "easeOut",
-                            }}
-                          >
-                            <Button
-                              style={{
-                                background: "white",
-                                color: "black",
-                                border: "1px solid black",
-                                borderRadius: 6,
-                                fontFamily: "DM Sans",
-                                letterSpacing: 2,
-                                padding: "20px 28px",
-                                fontWeight: "bold",
-                              }}
-                            >
-                              ADD TO CART
-                            </Button>
-                          </motion.div>
-                        </div>
-                      </motion.div>
-                    </div>
-                  }
-                >
-                  <Card.Meta
-                    title={
-                      <Title
-                        level={4}
-                        style={{
-                          marginTop: 10,
-                          marginBottom: 0,
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          fontFamily: "DM Sans",
-                        }}
-                      >
-                        {b.name}
-                      </Title>
-                    }
-                    description={
-                      <Text
-                        type="secondary"
-                        style={{
-                          fontSize: 18,
-                          fontFamily: "DM Sans",
-                          color: "#444",
-                        }}
-                      >
-                        KES. {b.price.toLocaleString()}
-                      </Text>
-                    }
-                  />
-                </Card>
-              </motion.div>
-            </Col>
-          ))}
-        </Row>
+      <div>
+        <ItemCard
+          dataSource={bestSellersGrid}
+          isMobile={isMobile}
+          viewItem={viewItem}
+        />
       </div>
     </div>
   );
@@ -745,7 +455,7 @@ const ComfortSection = ({ isMobile }) => {
   );
 };
 
-const NewArrivals = ({ setLoading, setContent, setOpenModal }) => {
+const NewArrivals = ({ setLoading, setContent, setOpenModal, isMobile }) => {
   const viewItem = (content) => {
     setLoading(true);
     setContent(content);
@@ -783,191 +493,12 @@ const NewArrivals = ({ setLoading, setContent, setOpenModal }) => {
         Our New Arrivals
       </Title>
 
-      <div style={{ margin: 10, padding: 15 }}>
-        <Row gutter={[24, 24]}>
-          {newArrivalsGrid.map((b) => (
-            <Col key={b.key} xs={24} sm={12} md={6}>
-              <motion.div
-                whileHover="hover"
-                initial="rest"
-                animate="rest"
-                variants={{
-                  rest: { scale: 1 },
-                  hover: { scale: 1.02 },
-                }}
-                style={{ borderRadius: 0, overflow: "hidden" }}
-              >
-                <Card
-                  style={{
-                    borderRadius: 0,
-                    overflow: "hidden",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-                    border: "1px solid #ffffff7e00",
-                  }}
-                  cover={
-                    <div
-                      style={{
-                        position: "relative",
-                        width: "100%",
-                        height: 320, // Consistent image height
-                        overflow: "hidden",
-                        borderRadius: 0,
-                      }}
-                      className="card-image-container"
-                    >
-                      {/* Carousel */}
-                      <Carousel autoplay autoplaySpeed={4000} dots={false}>
-                        {(Array.isArray(b.img) ? b.img : [b.img]).map(
-                          (img, i) => (
-                            <div key={i}>
-                              <img
-                                src={img}
-                                alt={b.key}
-                                style={{
-                                  width: "100%",
-                                  height: "320px",
-                                  objectFit: "cover",
-                                  display: "block",
-                                  borderRadius: 0,
-                                }}
-                              />
-                            </div>
-                          )
-                        )}
-                      </Carousel>
-
-                      {/* Slide-up Overlay */}
-                      <motion.div
-                        variants={{
-                          rest: { y: "100%", opacity: 0 },
-                          hover: { y: "0%", opacity: 1 },
-                        }}
-                        transition={{
-                          duration: 0.45,
-                          ease: [0.25, 0.8, 0.25, 1],
-                        }}
-                        className="overlay-buttons"
-                        style={{
-                          position: "absolute",
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          height: "100%",
-                          background: "rgba(0,0,0,0.02)",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "space-between",
-                          padding: "15px",
-                        }}
-                      >
-                        {/* Top Right Buttons */}
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "flex-end",
-                            gap: 10,
-                          }}
-                        >
-                          <Tooltip title="Wishlist" placement="right">
-                            <Button
-                              shape="circle"
-                              icon={<HeartOutlined />}
-                              style={{
-                                background: "white",
-                                color: "#333",
-                                border: "none",
-                                boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-                              }}
-                            />
-                          </Tooltip>
-                          <Tooltip title="View" placement="right">
-                            <Button
-                              shape="circle"
-                              icon={<EyeOutlined />}
-                              onClick={() => viewItem(b)}
-                              style={{
-                                background: "white",
-                                color: "#333",
-                                border: "none",
-                                boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-                              }}
-                            />
-                          </Tooltip>
-                        </div>
-
-                        {/* Bottom Add to Cart Button */}
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <motion.div
-                            variants={{
-                              rest: { y: 20, opacity: 0 },
-                              hover: { y: 0, opacity: 1 },
-                            }}
-                            transition={{
-                              duration: 0.3,
-                              ease: "easeOut",
-                            }}
-                          >
-                            <Button
-                              style={{
-                                background: "white",
-                                color: "black",
-                                border: "1px solid black",
-                                borderRadius: 6,
-                                fontFamily: "DM Sans",
-                                letterSpacing: 2,
-                                padding: "20px 28px",
-                                fontWeight: "bold",
-                              }}
-                            >
-                              ADD TO CART
-                            </Button>
-                          </motion.div>
-                        </div>
-                      </motion.div>
-                    </div>
-                  }
-                >
-                  <Card.Meta
-                    title={
-                      <Title
-                        level={4}
-                        style={{
-                          marginTop: 10,
-                          marginBottom: 0,
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          fontFamily: "DM Sans",
-                        }}
-                      >
-                        {b.name}
-                      </Title>
-                    }
-                    description={
-                      <Text
-                        type="secondary"
-                        style={{
-                          fontSize: 18,
-                          fontFamily: "DM Sans",
-                          color: "#444",
-                        }}
-                      >
-                        KES. {b.price.toLocaleString()}
-                      </Text>
-                    }
-                  />
-                </Card>
-              </motion.div>
-            </Col>
-          ))}
-        </Row>
+      <div>
+        <ItemCard
+          dataSource={newArrivalsGrid}
+          isMobile={isMobile}
+          viewItem={viewItem}
+        />
       </div>
     </div>
   );
@@ -1012,7 +543,7 @@ const DiscoverSection = ({ isMobile }) => {
         </Title>
         <Text
           style={{
-            width:isMobile?"80%": "35%",
+            width: isMobile ? "80%" : "35%",
             margin: "10px auto",
             fontFamily: "DM Sans",
             color: "whitesmoke",
@@ -1098,23 +629,29 @@ export default function Home() {
       </div>
 
       <Collections isMobile={isMobile} />
+
       <BestSellers
         isMobile={isMobile}
         setLoading={setLoading}
         setContent={setContent}
         setOpenModal={setOpenModal}
       />
+
       <ComfortSection isMobile={isMobile} />
+
       <NewArrivals
         isMobile={isMobile}
         setLoading={setLoading}
         setContent={setContent}
         setOpenModal={setOpenModal}
       />
+
       <DiscoverSection isMobile={isMobile} />
 
-      <ViewBestseller
+      {/* view modal */}
+      <ViewItem
         setOpenModal={setOpenModal}
+        isMobile={isMobile}
         openModal={openModal}
         loading={loading}
         content={content}

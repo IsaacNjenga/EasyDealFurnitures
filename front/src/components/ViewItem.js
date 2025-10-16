@@ -15,7 +15,7 @@ import React from "react";
 
 const { Title, Paragraph, Text } = Typography;
 
-function ViewBestseller({ loading, openModal, setOpenModal, content }) {
+function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
   return (
     <Modal
       footer={
@@ -47,7 +47,7 @@ function ViewBestseller({ loading, openModal, setOpenModal, content }) {
                 <div key={i}>
                   <Image
                     src={img}
-                    height={500}
+                    height={isMobile?250:500}
                     alt={content?.name}
                     style={{
                       width: "100%",
@@ -144,4 +144,4 @@ function ViewBestseller({ loading, openModal, setOpenModal, content }) {
   );
 }
 
-export default ViewBestseller;
+export default ViewItem;

@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Image, Typography } from "antd";
 import { useUser } from "../context/UserContext";
 import "../assets/css/shop.css";
+import { shopProducts } from "../assets/data/data";
+import ViewItem from "../components/ViewItem";
+import ItemCard from "../components/ItemCard";
 
 const { Title, Text } = Typography;
 
@@ -64,6 +67,16 @@ const heroStyle = {
 
 function Shop() {
   const { isMobile } = useUser();
+  const [openModal, setOpenModal] = useState(false);
+  const [content, setContent] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const viewItem = (content) => {
+    setLoading(true);
+    setContent(content);
+    setOpenModal(true);
+    setTimeout(() => setLoading(false), 100);
+  };
   return (
     <div>
       {/* banner */}
@@ -87,17 +100,21 @@ function Shop() {
       </div>
 
       {/* selectableItems */}
-      <div style={{ margin: '40px 64px', padding: 28 }}>
+      <div
+        style={{
+          margin: isMobile ? "20px 32px" : "40px 64px",
+          padding: isMobile ? 12 : 28,
+        }}
+      >
         <div
           style={{
             display: "flex",
             flexDirection: "row",
-            gap: 40,
-            overflowX: "auto", 
-            overflowY: "hidden", 
-            scrollBehavior: "smooth", 
-            paddingBottom: 40, 
-          
+            gap: isMobile ? 20 : 40,
+            overflowX: "auto",
+            overflowY: "hidden",
+            scrollBehavior: "smooth",
+            paddingBottom: isMobile ? 20 : 40,
           }}
         >
           {selectableItems.map((s) => (
@@ -105,7 +122,7 @@ function Shop() {
               style={{
                 position: "relative",
                 cursor: "pointer",
-                maxHeight: 200,
+                maxHeight: isMobile ? 150 : 200,
                 maxWidth: 200,
                 flexShrink: 0,
                 transition: "all 0.25s ease-in-out",
@@ -122,11 +139,11 @@ function Shop() {
                 src={s.img}
                 alt="img"
                 style={{
-                  width: "200px",
-                  height: "200px",
+                  width: isMobile ? "150px" : "200px",
+                  height: isMobile ? "150px" : "200px",
                   objectFit: "cover",
                   marginBottom: 20,
-                borderRadius: 20,
+                  borderRadius: 20,
                 }}
               />
               <div
@@ -138,13 +155,13 @@ function Shop() {
                   justifyContent: "center",
                   background: "rgba(0,0,0,0.13)",
                   color: "#fff",
-                borderRadius: 20,
+                  borderRadius: 20,
                 }}
               >
                 <p
                   style={{
                     fontFamily: "Inter",
-                    fontSize: 24,
+                    fontSize: isMobile ? 20 : 24,
                     fontWeight: 700,
                     letterSpacing: 2,
                     textAlign: "center",
@@ -158,6 +175,23 @@ function Shop() {
           ))}
         </div>
       </div>
+
+      {/* products */}
+      <div>
+        <ItemCard
+          dataSource={shopProducts}
+          isMobile={isMobile}
+          viewItem={viewItem}
+        />
+      </div>
+
+      <ViewItem
+        isMobile={isMobile}
+        setOpenModal={setOpenModal}
+        openModal={openModal}
+        loading={loading}
+        content={content}
+      />
     </div>
   );
 }

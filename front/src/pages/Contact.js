@@ -67,7 +67,10 @@ function Contact() {
   const [api, contextHolder] = notification.useNotification();
 
   const openNotification = (type, message, title) => {
-    api[type]({ message: title, description: message });
+    api[type]({
+      message: <span style={{ fontFamily: "DM Sans" }}>{title}</span>,
+      description: <span style={{ fontFamily: "DM Sans" }}>{message}</span>,
+    });
   };
 
   const handleSubmit = async () => {
@@ -78,14 +81,14 @@ function Contact() {
       openNotification(
         "success",
         "Email sent successfully. We'll get back to you!",
-        "Success"
+        "Success!"
       );
     } catch (error) {
       console.error("Error sending email", error);
       openNotification(
         "error",
         "Email could not be sent. Kindly try again or call us directly.",
-        "Error"
+        "There was something wrong!"
       );
     } finally {
       setLoading(false);

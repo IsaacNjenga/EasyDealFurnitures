@@ -1,20 +1,12 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Col,
-  Form,
-  Image,
-  Input,
-  Row,
-  Typography,
-  notification,
-} from "antd";
+import { Button, Col, Form, Image, Input, Row, Typography } from "antd";
 import { useUser } from "../context/UserContext";
 import {
   ClockCircleOutlined,
   EnvironmentOutlined,
   PhoneOutlined,
 } from "@ant-design/icons";
+import { useNotification } from "../context/NotificationContext";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -64,14 +56,7 @@ function Contact() {
   const { isMobile } = useUser();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [api, contextHolder] = notification.useNotification();
-
-  const openNotification = (type, message, title) => {
-    api[type]({
-      message: <span style={{ fontFamily: "DM Sans" }}>{title}</span>,
-      description: <span style={{ fontFamily: "DM Sans" }}>{message}</span>,
-    });
-  };
+  const openNotification = useNotification();
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -98,7 +83,6 @@ function Contact() {
 
   return (
     <div>
-      {contextHolder}
       {/* banner */}
       <div style={{ position: "relative", marginBottom: 10 }}>
         <Image

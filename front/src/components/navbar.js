@@ -38,6 +38,7 @@ const menuItems = [
     ],
   },
   { key: 3, label: "CONTACT", path: "/contact" },
+  { key: 4, label: "FAQ's", path: "/faq" },
 ];
 
 function Navbar() {
@@ -169,6 +170,7 @@ function Navbar() {
                           color: "#fff",
                           letterSpacing: 1.3,
                           fontFamily: "DM Sans",
+                          transition: "all 0.2s ease-in-out",
                         }}
                       >
                         {label}{" "}
@@ -303,7 +305,12 @@ function Navbar() {
         >
           <Outlet />
         </Content>
-        <Footer>
+        <Footer
+          style={{
+            margin: 0,
+            padding: 0,
+          }}
+        >
           <FooterComponent />
         </Footer>
       </Layout>

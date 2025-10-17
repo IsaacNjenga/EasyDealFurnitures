@@ -7,6 +7,7 @@ import "../assets/css/home.css";
 import { bestSellersGrid, newArrivalsGrid } from "../assets/data/data";
 import ViewItem from "../components/ViewItem";
 import ItemCard from "../components/ItemCard";
+import { useNavigate } from "react-router-dom";
 
 const { Title, Text } = Typography;
 
@@ -66,7 +67,7 @@ const fadeVariants = {
 };
 
 // ---- Banners ----
-const Banner1 = ({ isMobile, scrolled }) => (
+const Banner1 = ({ isMobile, scrolled, navigate }) => (
   <motion.div
     key="banner1"
     variants={fadeVariants}
@@ -122,6 +123,7 @@ const Banner1 = ({ isMobile, scrolled }) => (
     <Button
       style={btnStyle}
       icon={<ArrowRightOutlined />}
+      onClick={() => navigate("/shop")}
       iconPosition="end"
       onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.15)")}
       onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
@@ -131,7 +133,7 @@ const Banner1 = ({ isMobile, scrolled }) => (
   </motion.div>
 );
 
-const Banner2 = ({ isMobile, scrolled }) => (
+const Banner2 = ({ isMobile, scrolled, navigate }) => (
   <motion.div
     key="banner2"
     variants={fadeVariants}
@@ -186,6 +188,7 @@ const Banner2 = ({ isMobile, scrolled }) => (
     </Text>
     <Button
       style={btnStyle}
+      onClick={() => navigate("/shop")}
       onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.15)")}
       onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
     >
@@ -272,7 +275,7 @@ const Collections = () => {
                     rest: { opacity: 0, y: 0 },
                     hover: { opacity: 1, y: 0 },
                   }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
                   style={{
                     position: "absolute",
                     inset: 0,
@@ -355,7 +358,7 @@ const BestSellers = ({ setLoading, setContent, setOpenModal, isMobile }) => {
   );
 };
 
-const ComfortSection = ({ isMobile }) => {
+const ComfortSection = ({ isMobile, navigate }) => {
   return (
     <div
       style={{
@@ -442,6 +445,7 @@ const ComfortSection = ({ isMobile }) => {
         <Button
           style={btnStyle}
           icon={<ArrowRightOutlined />}
+          onClick={() => navigate("/shop")}
           iconPosition="end"
           onMouseEnter={(e) =>
             (e.currentTarget.style.transform = "scale(1.05)")
@@ -504,7 +508,7 @@ const NewArrivals = ({ setLoading, setContent, setOpenModal, isMobile }) => {
   );
 };
 
-const DiscoverSection = ({ isMobile }) => {
+const DiscoverSection = ({ isMobile, navigate }) => {
   return (
     <div
       style={{
@@ -556,6 +560,7 @@ const DiscoverSection = ({ isMobile }) => {
         <div>
           <Button
             type="primary"
+            onClick={() => navigate("/shop")}
             style={{
               background: "transparent",
               color: "white",
@@ -581,6 +586,7 @@ const DiscoverSection = ({ isMobile }) => {
 
 export default function Home() {
   const { isMobile, scrolled } = useUser();
+  const navigate = useNavigate();
   const [activeSlide, setActiveSlide] = useState(0);
   const [openModal, setOpenModal] = useState(false);
   const [content, setContent] = useState(null);
@@ -621,32 +627,44 @@ export default function Home() {
         {/* Animated Banners */}
         <AnimatePresence mode="wait">
           {activeSlide === 0 ? (
-            <Banner1 key="b1" isMobile={isMobile} scrolled={scrolled} />
+            <Banner1
+              key="b1"
+              isMobile={isMobile}
+              scrolled={scrolled}
+              navigate={navigate}
+            />
           ) : (
-            <Banner2 key="b2" isMobile={isMobile} scrolled={scrolled} />
+            <Banner2
+              key="b2"
+              isMobile={isMobile}
+              scrolled={scrolled}
+              navigate={navigate}
+            />
           )}
         </AnimatePresence>
       </div>
 
-      <Collections isMobile={isMobile} />
+      <Collections isMobile={isMobile} navigate={navigate} />
 
       <BestSellers
         isMobile={isMobile}
         setLoading={setLoading}
         setContent={setContent}
         setOpenModal={setOpenModal}
+        navigate={navigate}
       />
 
-      <ComfortSection isMobile={isMobile} />
+      <ComfortSection isMobile={isMobile} navigate={navigate} />
 
       <NewArrivals
         isMobile={isMobile}
         setLoading={setLoading}
         setContent={setContent}
         setOpenModal={setOpenModal}
+        navigate={navigate}
       />
 
-      <DiscoverSection isMobile={isMobile} />
+      <DiscoverSection isMobile={isMobile} navigate={navigate} />
 
       {/* view modal */}
       <ViewItem

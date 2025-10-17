@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from "react";
-import { Image, Typography } from "antd";
+import { Image, Spin, Typography } from "antd";
 import { useUser } from "../context/UserContext";
 import "../assets/css/shop.css";
 import { shopProducts } from "../assets/data/data";
 import ViewItem from "../components/ViewItem";
 import ItemCard from "../components/ItemCard";
+import emptyImg from "../assets/images/Empty.png";
 
 const { Title, Text } = Typography;
 
@@ -206,9 +207,43 @@ function Shop() {
 
       {/* products */}
       <div>
+        {loading && (
+          <Spin
+            size="large"
+            style={{ display: "block", margin: "40px auto" }}
+          />
+        )}
         {filteredProducts.length === 0 ? (
-          <div style={{ textAlign: "center", padding: 40 }}>
-            <Text type="secondary">No products found in this category.</Text>
+          <div
+            style={{
+              textAlign: "center",
+              padding: 40,
+              display: "flex",
+              gap: 10,
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text
+              type="secondary"
+              style={{ fontFamily: "DM Sans", fontSize: 18 }}
+            >
+              Sorry, no products found in this category.
+            </Text>
+            <Image
+              src={emptyImg}
+              alt="empty_img"
+              preview={false}
+              width={350}
+              height={350}
+              style={{
+                margin: "0 auto",
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
           </div>
         ) : (
           <ItemCard

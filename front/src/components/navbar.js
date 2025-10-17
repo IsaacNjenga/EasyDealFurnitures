@@ -32,7 +32,7 @@ const menuItems = [
     label: "SHOP",
     path: "/shop",
     children: [
-      { key: "2-1", label: "Products", path: "/shop/products" },
+      { key: "2-1", label: "Products", path: "/shop" },
       { key: "2-2", label: "On Sale", path: "/shop/sale" },
       { key: "2-3", label: "New Arrivals", path: "/shop/new" },
     ],
@@ -248,7 +248,7 @@ function Navbar() {
           width={isMobile ? 300 : 500}
           onClose={toggleDrawer}
           open={drawerOpen}
-          style={{ backgroundColor: "#eae4ace8" }}
+          style={{ backgroundColor: "#ffa44a" }}
           closeIcon={
             <CloseOutlined
               style={{
@@ -271,9 +271,10 @@ function Navbar() {
                 <Link
                   to={item.path}
                   style={{
-                    color: "#333",
+                    color: "#fff",
                     textDecoration: "none",
                     fontFamily: "DM Sans",
+                    textShadow: " 2px 2px 2px rgba(0, 0, 0, 0.3)",
                   }}
                 >
                   {item.label}

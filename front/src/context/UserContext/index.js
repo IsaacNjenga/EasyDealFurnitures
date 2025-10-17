@@ -10,8 +10,10 @@ export function UserProvider({ children }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [detailsDrawer, setDetailsDrawer] = useState(false);
 
   const toggleDrawer = () => setDrawerOpen(!drawerOpen);
+  const toggleDetailsDrawer = () => setDetailsDrawer(!detailsDrawer);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -34,7 +36,14 @@ export function UserProvider({ children }) {
     };
   });
 
-  const value = { isMobile, scrolled, toggleDrawer, drawerOpen };
+  const value = {
+    isMobile,
+    scrolled,
+    toggleDrawer,
+    drawerOpen,
+    toggleDetailsDrawer,
+    detailsDrawer,
+  };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

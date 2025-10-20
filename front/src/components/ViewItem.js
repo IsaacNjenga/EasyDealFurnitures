@@ -19,11 +19,14 @@ import {
 import React from "react";
 import DetailsDrawer from "../components/DetailsDrawer";
 import { useUser } from "../context/UserContext";
+import { CartFunctions } from "./CartFunctions";
 
 const { Title, Paragraph, Text } = Typography;
 
 function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
   const { toggleDetailsDrawer, detailsDrawer } = useUser();
+  const { addToCart, removeFromCart, isInCart } = CartFunctions();
+
   return (
     <>
       <Modal
@@ -141,7 +144,15 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                     }}
                   />
                   <Button
+                    onClick={() => {
+                      if (isInCart(content)) {
+                        removeFromCart(content._id);
+                      } else {
+                        addToCart(content);
+                      }
+                    }}
                     type="primary"
+                    danger
                     style={{
                       borderRadius: 4,
                       border: "1px solid #333",
@@ -152,7 +163,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                       fontWeight: 600,
                     }}
                   >
-                    ADD TO CART
+                    {isInCart(content) ? "REMOVE FROM CART" : "ADD TO CART"}
                   </Button>
                 </Space.Compact>
                 <Button
@@ -237,6 +248,13 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                   }}
                 />
                 <Button
+                  onClick={() => {
+                    if (isInCart(content)) {
+                      removeFromCart(content._id);
+                    } else {
+                      addToCart(content);
+                    }
+                  }}
                   type="primary"
                   style={{
                     borderRadius: 4,
@@ -248,7 +266,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                     fontWeight: 600,
                   }}
                 >
-                  ADD TO CART
+                  {isInCart(content) ? "REMOVE FROM CART" : "ADD TO CART"}
                 </Button>
               </Space.Compact>{" "}
             </div>

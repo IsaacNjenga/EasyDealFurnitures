@@ -8,6 +8,7 @@ const { Title, Text } = Typography;
 
 function ItemCard({ dataSource, isMobile, viewItem }) {
   const { addToCart, removeFromCart, isInCart } = CartFunctions();
+
   return (
     <div style={{ margin: 10, padding: 15 }}>
       <Row gutter={[24, 24]}>
@@ -177,16 +178,16 @@ function ItemCard({ dataSource, isMobile, viewItem }) {
                                 addToCart(b);
                               }
                             }}
-                            type={isInCart ? "default" : "primary"}
+                            type="primary"
                             style={{
-                              background: "white",
-                              color: "black",
                               border: "1px solid black",
                               borderRadius: 6,
                               fontFamily: "DM Sans",
                               letterSpacing: 2,
                               padding: "20px 28px",
                               fontWeight: "bold",
+                              background: "white",
+                              color: "#333",
                             }}
                           >
                             {isInCart(b) ? "REMOVE FROM CART" : "ADD TO CART"}

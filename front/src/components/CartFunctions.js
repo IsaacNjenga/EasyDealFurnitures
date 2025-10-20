@@ -30,7 +30,7 @@ export function CartFunctions() {
   };
 
   const isInCart = (item) =>
-    cartItems.some((cartItem) => cartItem._id === item._id);
+    cartItems.some((cartItem) => cartItem._id === item?._id);
 
   return { addToCart, removeFromCart, updateCart, isInCart };
 }

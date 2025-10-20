@@ -59,14 +59,12 @@ const btnStyle = {
   fontFamily: "Inter",
 };
 
-// ---- Animations ----
 const fadeVariants = {
   hidden: { opacity: 0, x: 0 },
   visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeIn" } },
   exit: { opacity: 0, x: -50, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-// ---- Banners ----
 const Banner1 = ({ isMobile, scrolled, navigate }) => (
   <motion.div
     key="banner1"
@@ -78,7 +76,7 @@ const Banner1 = ({ isMobile, scrolled, navigate }) => (
       ...heroStyle,
       alignItems: "flex-start",
       textAlign: "left",
-      background: scrolled ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0)",
+      background: scrolled ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.21)",
       transition: "all 0.2s ease-in-out",
     }}
   >
@@ -87,7 +85,7 @@ const Banner1 = ({ isMobile, scrolled, navigate }) => (
         letterSpacing: 4,
         color: "#fea549",
         fontFamily: "Inter",
-        textShadow: "1px 1px 1px rgba(0, 0, 0, 0.3)",
+        textShadow: "1px 1px 1px rgba(0, 0, 0, 0.35)",
       }}
     >
       MINIMAL MEETS FUNCTIONAL
@@ -144,7 +142,7 @@ const Banner2 = ({ isMobile, scrolled, navigate }) => (
       ...heroStyle,
       alignItems: "flex-end",
       textAlign: "right",
-      background: scrolled ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0)",
+      background: scrolled ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.21)",
       transition: "all 0.2s ease-in-out",
     }}
   >
@@ -154,7 +152,7 @@ const Banner2 = ({ isMobile, scrolled, navigate }) => (
         color: "#fea549",
         fontFamily: "Inter",
         margin: 0,
-        textShadow: "1px 1px 1px rgba(0, 0, 0, 0.3)",
+        textShadow: "1px 1px 1px rgba(0, 0, 0, 0.35)",
       }}
     >
       TIMELESS ELEGANCE
@@ -605,7 +603,7 @@ export default function Home() {
           autoplay
           autoplaySpeed={6500}
           dots={false}
-          //effect="fade"
+          effect="fade"
           beforeChange={(from, to) => setActiveSlide(to)}
         >
           {bgImgs.map((img, index) => (

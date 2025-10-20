@@ -41,7 +41,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
         centered
         onCancel={() => setOpenModal(false)}
         confirmLoading={loading}
-        width={"70vw"}
+        width={isMobile ? "100vw" : "70vw"}
         style={{ width: "auto", marginTop: 0, backgroundColor: "whitesmoke" }}
       >
         <div style={{ padding: 10, margin: 10 }}>
@@ -144,7 +144,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                       background: 0,
                       color: "#333",
                       fontFamily: "DM Sans",
-                      padding: "12px 18px",
+                      padding: "12px 18px",fontWeight: 600,
                     }}
                   >
                     ADD TO CART
@@ -169,11 +169,25 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
         </div>
       </Modal>
       <Drawer
+        title={
+          <span
+            style={{
+              fontFamily: "DM Sans",
+              fontSize: isMobile ? 22 : 28,
+              color: "#444",
+              letterSpacing: 1,
+              fontWeight: 600,
+            }}
+          >
+            {content?.name}
+          </span>
+        }
         placement="right"
-        width={isMobile ? 300 : 500}
+        width={isMobile ? "100%" : 720}
         onClose={toggleDetailsDrawer}
         open={detailsDrawer}
-        style={{ backgroundColor: "#ffa44a" }}
+        style={{ backgroundColor: "whitesmoke", padding: 24 }}
+        keyboard
         closeIcon={
           <CloseOutlined
             style={{
@@ -181,8 +195,43 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
             }}
           />
         }
+        footer={
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              marginTop: 10,
+            }}
+          >
+            <Space.Compact>
+              <InputNumber
+                min={1}
+                keyboard
+                defaultValue={1}
+                style={{
+                  borderRadius: 4,
+                  border: "1px solid #333",
+                }}
+              />
+              <Button
+                type="primary"
+                style={{
+                  borderRadius: 4,
+                  border: "1px solid #333",
+                  background: 0,
+                  color: "#333",
+                  fontFamily: "DM Sans",
+                  padding: "12px 18px",
+                  fontWeight: 600,
+                }}
+              >
+                ADD TO CART
+              </Button>
+            </Space.Compact>
+          </div>
+        }
       >
-        <DetailsDrawer />
+        <DetailsDrawer content={content} isMobile={isMobile} />
       </Drawer>
     </>
   );

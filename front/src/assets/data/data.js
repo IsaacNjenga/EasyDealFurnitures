@@ -12,6 +12,20 @@ export const bestSellersGrid = [
     ],
     freeShipping: true,
     discount: 5,
+    available: true,
+    stockCount: 12,
+    material: "Solid wood frame, memory foam headboard",
+    dimensions: "210cm x 160cm x 100cm",
+    rating: 4.7,
+    totalReviews: 126,
+    shippingInformation: [
+      "Ships within 1-2 business days",
+      "Free shipping on all orders",
+      "30-day return policy",
+    ],
+    careGuide:
+      "Use a slightly damp, soft, lint-free cloth for regular dust removal. Always clean in the direction of the grain.",
+    tags: ["bedroom", "ergonomic", "modern", "furniture"],
   },
   {
     _id: 2,
@@ -23,6 +37,20 @@ export const bestSellersGrid = [
     img: ["https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg"],
     freeShipping: true,
     discount: 0,
+    available: true,
+    stockCount: 12,
+    material: "Solid wood frame, memory foam headboard",
+    dimensions: "210cm x 160cm x 100cm",
+    rating: 4.7,
+    totalReviews: 126,
+    shippingInformation: [
+      "Ships within 1-2 business days",
+      "Free shipping on all orders",
+      "30-day return policy",
+    ],
+    careGuide:
+      "Use a slightly damp, soft, lint-free cloth for regular dust removal. Always clean in the direction of the grain.",
+    tags: ["bedroom", "ergonomic", "modern", "furniture"],
   },
   {
     _id: 3,
@@ -37,6 +65,20 @@ export const bestSellersGrid = [
     ],
     freeShipping: true,
     discount: 3,
+    available: true,
+    stockCount: 12,
+    material: "Solid wood frame, memory foam headboard",
+    dimensions: "210cm x 160cm x 100cm",
+    rating: 4.7,
+    totalReviews: 126,
+    shippingInformation: [
+      "Ships within 1-2 business days",
+      "Free shipping on all orders",
+      "30-day return policy",
+    ],
+    careGuide:
+      "Use a slightly damp, soft, lint-free cloth for regular dust removal. Always clean in the direction of the grain.",
+    tags: ["bedroom", "ergonomic", "modern", "furniture"],
   },
   {
     _id: 4,
@@ -48,6 +90,20 @@ export const bestSellersGrid = [
     img: ["https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg"],
     freeShipping: true,
     discount: 10,
+    available: true,
+    stockCount: 12,
+    material: "Solid wood frame, memory foam headboard",
+    dimensions: "210cm x 160cm x 100cm",
+    rating: 4.7,
+    totalReviews: 126,
+    shippingInformation: [
+      "Ships within 1-2 business days",
+      "Free shipping on all orders",
+      "30-day return policy",
+    ],
+    careGuide:
+      "Use a slightly damp, soft, lint-free cloth for regular dust removal. Always clean in the direction of the grain.",
+    tags: ["bedroom", "ergonomic", "modern", "furniture"],
   },
 ];
 
@@ -62,6 +118,20 @@ export const newArrivalsGrid = [
     img: ["https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg"],
     freeShipping: false,
     discount: 0,
+    available: true,
+    stockCount: 12,
+    material: "Solid wood frame, memory foam headboard",
+    dimensions: "210cm x 160cm x 100cm",
+    rating: 4.7,
+    totalReviews: 126,
+    shippingInformation: [
+      "Ships within 1-2 business days",
+      "Free shipping on all orders",
+      "30-day return policy",
+    ],
+    careGuide:
+      "Use a slightly damp, soft, lint-free cloth for regular dust removal. Always clean in the direction of the grain.",
+    tags: ["bedroom", "ergonomic", "modern", "furniture"],
   },
   {
     _id: 2,
@@ -76,6 +146,20 @@ export const newArrivalsGrid = [
     ],
     freeShipping: true,
     discount: 10,
+    available: true,
+    stockCount: 12,
+    material: "Solid wood frame, memory foam headboard",
+    dimensions: "210cm x 160cm x 100cm",
+    rating: 4.7,
+    totalReviews: 126,
+    shippingInformation: [
+      "Ships within 1-2 business days",
+      "Free shipping on all orders",
+      "30-day return policy",
+    ],
+    careGuide:
+      "Use a slightly damp, soft, lint-free cloth for regular dust removal. Always clean in the direction of the grain.",
+    tags: ["bedroom", "ergonomic", "modern", "furniture"],
   },
   {
     _id: 3,
@@ -87,6 +171,20 @@ export const newArrivalsGrid = [
     img: ["https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg"],
     freeShipping: true,
     discount: 0,
+    available: true,
+    stockCount: 12,
+    material: "Solid wood frame, memory foam headboard",
+    dimensions: "210cm x 160cm x 100cm",
+    rating: 4.7,
+    totalReviews: 126,
+    shippingInformation: [
+      "Ships within 1-2 business days",
+      "Free shipping on all orders",
+      "30-day return policy",
+    ],
+    careGuide:
+      "Use a slightly damp, soft, lint-free cloth for regular dust removal. Always clean in the direction of the grain.",
+    tags: ["bedroom", "ergonomic", "modern", "furniture"],
   },
   {
     _id: 4,
@@ -101,6 +199,20 @@ export const newArrivalsGrid = [
     ],
     freeShipping: false,
     discount: 0,
+    available: true,
+    stockCount: 12,
+    material: "Solid wood frame, memory foam headboard",
+    dimensions: "210cm x 160cm x 100cm",
+    rating: 4.7,
+    totalReviews: 126,
+    shippingInformation: [
+      "Ships within 1-2 business days",
+      "Free shipping on all orders",
+      "30-day return policy",
+    ],
+    careGuide:
+      "Use a slightly damp, soft, lint-free cloth for regular dust removal. Always clean in the direction of the grain.",
+    tags: ["bedroom", "ergonomic", "modern", "furniture"],
   },
 ];
 

@@ -1,4 +1,8 @@
-import { CheckCircleOutlined, CloseOutlined } from "@ant-design/icons";
+import {
+  CheckCircleOutlined,
+  CloseOutlined,
+  HeartOutlined,
+} from "@ant-design/icons";
 import {
   Space,
   Button,
@@ -144,12 +148,28 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                       background: 0,
                       color: "#333",
                       fontFamily: "DM Sans",
-                      padding: "12px 18px",fontWeight: 600,
+                      padding: "12px 18px",
+                      fontWeight: 600,
                     }}
                   >
                     ADD TO CART
                   </Button>
                 </Space.Compact>
+                <Button
+                  icon={<HeartOutlined />}
+                  style={{
+                    marginTop: 10,
+                    borderRadius: 4,
+                    border: "1px solid #333",
+                    background: 0,
+                    color: "#333",
+                    fontFamily: "DM Sans",
+                    padding: "12px 18px",
+                    fontWeight: 600,
+                  }}
+                >
+                  ADD TO WISHLIST
+                </Button>
               </div>
 
               <div style={{ marginBottom: 0 }}>
@@ -201,20 +221,40 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
               display: "flex",
               justifyContent: "flex-end",
               marginTop: 10,
+              gap: 15,
+              alignItems: "center",
             }}
           >
-            <Space.Compact>
-              <InputNumber
-                min={1}
-                keyboard
-                defaultValue={1}
-                style={{
-                  borderRadius: 4,
-                  border: "1px solid #333",
-                }}
-              />
+            <div>
+              <Space.Compact>
+                <InputNumber
+                  min={1}
+                  keyboard
+                  defaultValue={1}
+                  style={{
+                    borderRadius: 4,
+                    border: "1px solid #333",
+                  }}
+                />
+                <Button
+                  type="primary"
+                  style={{
+                    borderRadius: 4,
+                    border: "1px solid #333",
+                    background: 0,
+                    color: "#333",
+                    fontFamily: "DM Sans",
+                    padding: "12px 18px",
+                    fontWeight: 600,
+                  }}
+                >
+                  ADD TO CART
+                </Button>
+              </Space.Compact>{" "}
+            </div>
+            <div>
               <Button
-                type="primary"
+                icon={<HeartOutlined />}
                 style={{
                   borderRadius: 4,
                   border: "1px solid #333",
@@ -225,9 +265,9 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                   fontWeight: 600,
                 }}
               >
-                ADD TO CART
+                ADD TO WISHLIST
               </Button>
-            </Space.Compact>
+            </div>
           </div>
         }
       >

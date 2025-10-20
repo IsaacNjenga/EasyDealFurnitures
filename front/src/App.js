@@ -5,6 +5,7 @@ import Shop from "./pages/Shop";
 import { AnimatePresence } from "framer-motion";
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
+import Wishlist from "./pages/wishlist";
 
 function App() {
   const location = useLocation();
@@ -18,6 +19,7 @@ function App() {
             <Route path="/shop" element={<Shop />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/faq" element={<FAQ />} />
+            <Route path="/wishlist" element={<Wishlist />} />
           </Route>
         </Routes>
       </AnimatePresence>

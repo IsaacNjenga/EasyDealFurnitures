@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Button, Layout, Typography, Drawer } from "antd";
+import { Menu, Button, Layout, Typography, Drawer, Tooltip, Badge } from "antd";
 import { Link, Outlet } from "react-router-dom";
 import FooterComponent from "./footer";
 //import chair from "../assets/icons/office-chair.png";
@@ -14,6 +14,8 @@ import {
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import "../assets/css/navbar.css";
+import { useCart } from "../context/CartContext";
+import Cart from "./Cart";
 
 const { Title } = Typography;
 const { Header, Content, Footer } = Layout;
@@ -39,10 +41,12 @@ const menuItems = [
   },
   { key: 3, label: "CONTACT", path: "/contact" },
   { key: 4, label: "FAQ's", path: "/faq" },
+  { key: 5, label: "MY WISHLIST", path: "/wishlist" },
 ];
 
 function Navbar() {
   const { isMobile, scrolled, toggleDrawer, drawerOpen } = useUser();
+  const { cartItems, cartOpen, toggleCart } = useCart();
 
   const headerStyle = {
     position: "fixed",
@@ -209,36 +213,54 @@ function Navbar() {
                   gap: 25,
                 }}
               >
-                <SearchOutlined
-                  style={iconStyle}
-                  onClick={toggleDrawer}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform = "scale(1.05)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.transform = "scale(1)")
-                  }
-                />
-                <ShoppingCartOutlined
-                  style={iconStyle}
-                  onClick={toggleDrawer}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform = "scale(1.05)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.transform = "scale(1)")
-                  }
-                />
-                <HeartOutlined
-                  style={iconStyle}
-                  onClick={toggleDrawer}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform = "scale(1.05)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.transform = "scale(1)")
-                  }
-                />
+                <Tooltip title="Search...">
+                  <SearchOutlined
+                    style={iconStyle}
+                    onClick={toggleDrawer}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.transform = "scale(1.05)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.transform = "scale(1)")
+                    }
+                  />
+                </Tooltip>
+                <Tooltip title="My Cart">
+                  <Badge
+                    dot={cartItems.length > 0 ? true : false}
+                    // overflowCount={10}
+                    // count={cartItems.length}
+                    // offset={[2, 2]} // optional: adjusts badge position
+                    // style={{
+                    //   backgroundColor: "#fea549",
+                    //    color: "#fff",
+                    //    fontFamily: "DM Sans",
+                    // }}
+                  >
+                    <ShoppingCartOutlined
+                      style={iconStyle}
+                      onClick={toggleCart}
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.transform = "scale(1.05)")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.transform = "scale(1)")
+                      }
+                    />
+                  </Badge>
+                </Tooltip>
+                <Tooltip title="Wishlist">
+                  <HeartOutlined
+                    style={iconStyle}
+                    onClick={toggleDrawer}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.transform = "scale(1.05)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.transform = "scale(1)")
+                    }
+                  />
+                </Tooltip>
               </div>
             )}
           </div>
@@ -297,6 +319,35 @@ function Navbar() {
               </div>
             </Menu.Item> */}
           </Menu>
+        </Drawer>
+        <Drawer
+          title={
+            <Title
+              style={{
+                fontFamily: "DM Sans",
+                fontSize: isMobile ? 22 : 28,
+                color: "#444",
+                letterSpacing: 1,
+                fontWeight: 600,
+              }}
+            >
+              My Cart
+            </Title>
+          }
+          placement="right"
+          width={720}
+          onClose={toggleCart}
+          open={cartOpen}
+          style={{ backgroundColor: "whitesmoke" }}
+          closeIcon={
+            <CloseOutlined
+              style={{
+                color: "#333",
+              }}
+            />
+          }
+        >
+          <Cart />
         </Drawer>
         <Content
           style={{

@@ -1,6 +1,7 @@
 import {
   CheckCircleOutlined,
   CloseOutlined,
+  HeartFilled,
   HeartOutlined,
 } from "@ant-design/icons";
 import {
@@ -17,12 +18,14 @@ import {
 import DetailsDrawer from "../components/DetailsDrawer";
 import { useUser } from "../context/UserContext";
 import { CartFunctions } from "../utils/CartFunctions";
+import { WishFunctions } from "../utils/WishFunctions";
 
 const { Title, Paragraph, Text } = Typography;
 
 function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
   const { toggleDetailsDrawer, detailsDrawer } = useUser();
   const { addToCart, removeFromCart, isInCart } = CartFunctions();
+  const { addToWish, removeFromWish, isInWish } = WishFunctions();
 
   return (
     <>
@@ -153,7 +156,20 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                   {isInCart(content) ? "REMOVE FROM CART" : "ADD TO CART"}
                 </Button>
                 <Button
-                  icon={<HeartOutlined />}
+                  onClick={() => {
+                    if (isInWish(content)) {
+                      removeFromWish(content?._id);
+                    } else {
+                      addToWish(content);
+                    }
+                  }}
+                  icon={
+                    isInWish(content) ? (
+                      <HeartFilled style={{ color: "red" }} />
+                    ) : (
+                      <HeartOutlined />
+                    )
+                  }
                   style={{
                     marginTop: 10,
                     borderRadius: 4,
@@ -165,7 +181,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                     fontWeight: 600,
                   }}
                 >
-                  ADD TO WISHLIST
+                  {isInWish(content) ? "ADDED TO WISHLIST" : "ADD TO WISHLIST"}
                 </Button>
               </div>
 
@@ -247,7 +263,20 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
             </div>
             <div>
               <Button
-                icon={<HeartOutlined />}
+                onClick={() => {
+                  if (isInWish(content)) {
+                    removeFromWish(content?._id);
+                  } else {
+                    addToWish(content);
+                  }
+                }}
+                icon={
+                  isInWish(content) ? (
+                    <HeartFilled style={{ color: "red" }} />
+                  ) : (
+                    <HeartOutlined />
+                  )
+                }
                 style={{
                   borderRadius: 4,
                   border: "1px solid #333",
@@ -258,7 +287,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                   fontWeight: 600,
                 }}
               >
-                ADD TO WISHLIST
+                {isInWish(content) ? "ADDED TO WISHLIST" : "ADD TO WISHLIST"}
               </Button>
             </div>
           </div>

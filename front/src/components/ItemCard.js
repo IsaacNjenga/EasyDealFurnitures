@@ -1,13 +1,15 @@
 import React from "react";
 import { Carousel, Button, Typography, Row, Col, Card, Tooltip } from "antd";
-import { EyeOutlined, HeartOutlined } from "@ant-design/icons";
+import { EyeOutlined, HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import { CartFunctions } from "../utils/CartFunctions";
+import { WishFunctions } from "../utils/WishFunctions";
 
 const { Title, Text } = Typography;
 
 function ItemCard({ dataSource, isMobile, viewItem }) {
   const { addToCart, removeFromCart, isInCart } = CartFunctions();
+  const { addToWish, removeFromWish, isInWish } = WishFunctions();
 
   return (
     <div style={{ margin: 10, padding: 15 }}>
@@ -128,7 +130,20 @@ function ItemCard({ dataSource, isMobile, viewItem }) {
                         <Tooltip title="Wishlist" placement="right">
                           <Button
                             shape="circle"
-                            icon={<HeartOutlined />}
+                            onClick={() => {
+                              if (isInWish(b)) {
+                                removeFromWish(b._id);
+                              } else {
+                                addToWish(b);
+                              }
+                            }}
+                            icon={
+                              isInWish(b) ? (
+                                <HeartFilled style={{ color: "red" }} />
+                              ) : (
+                                <HeartOutlined />
+                              )
+                            }
                             style={{
                               background: "white",
                               color: "#333",

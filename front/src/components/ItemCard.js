@@ -2,7 +2,7 @@ import React from "react";
 import { Carousel, Button, Typography, Row, Col, Card, Tooltip } from "antd";
 import { EyeOutlined, HeartOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
-import { CartFunctions } from "./CartFunctions";
+import { CartFunctions } from "../utils/CartFunctions";
 
 const { Title, Text } = Typography;
 

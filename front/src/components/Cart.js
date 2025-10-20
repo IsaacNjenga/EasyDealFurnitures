@@ -9,8 +9,8 @@ import {
   Empty,
   Image,
 } from "antd";
-import { DeleteOutlined } from "@ant-design/icons"; // adjust path if needed
-import { CartFunctions } from "./CartFunctions";
+import { DeleteOutlined } from "@ant-design/icons"; 
+import { CartFunctions } from "../utils/CartFunctions";
 import { useUser } from "../context/UserContext";
 
 const { Text, Title } = Typography;
@@ -71,7 +71,10 @@ function Cart() {
                 />
               }
               title={
-                <Text strong style={{ fontSize: isMobile ? 18 : 22,marginBottom: 0 }}>
+                <Text
+                  strong
+                  style={{ fontSize: isMobile ? 18 : 22, marginBottom: 0 }}
+                >
                   {item.name}
                 </Text>
               }

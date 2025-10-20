@@ -4,7 +4,6 @@ import {
   HeartOutlined,
 } from "@ant-design/icons";
 import {
-  Space,
   Button,
   Carousel,
   Col,
@@ -12,14 +11,12 @@ import {
   Row,
   Tooltip,
   Typography,
-  InputNumber,
   Image,
   Drawer,
 } from "antd";
-import React from "react";
 import DetailsDrawer from "../components/DetailsDrawer";
 import { useUser } from "../context/UserContext";
-import { CartFunctions } from "./CartFunctions";
+import { CartFunctions } from "../utils/CartFunctions";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -133,39 +130,28 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
               </div>
               {/* add to cart */}
               <div style={{ marginBottom: 20 }}>
-                <Space.Compact>
-                  <InputNumber
-                    min={1}
-                    keyboard
-                    defaultValue={1}
-                    style={{
-                      borderRadius: 4,
-                      border: "1px solid #333",
-                    }}
-                  />
-                  <Button
-                    onClick={() => {
-                      if (isInCart(content)) {
-                        removeFromCart(content._id);
-                      } else {
-                        addToCart(content);
-                      }
-                    }}
-                    type="primary"
-                    danger
-                    style={{
-                      borderRadius: 4,
-                      border: "1px solid #333",
-                      background: 0,
-                      color: "#333",
-                      fontFamily: "DM Sans",
-                      padding: "12px 18px",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {isInCart(content) ? "REMOVE FROM CART" : "ADD TO CART"}
-                  </Button>
-                </Space.Compact>
+                <Button
+                  onClick={() => {
+                    if (isInCart(content)) {
+                      removeFromCart(content._id);
+                    } else {
+                      addToCart(content);
+                    }
+                  }}
+                  type="primary"
+                  danger
+                  style={{
+                    borderRadius: 4,
+                    border: "1px solid #333",
+                    background: 0,
+                    color: "#333",
+                    fontFamily: "DM Sans",
+                    padding: "12px 18px",
+                    fontWeight: 600,
+                  }}
+                >
+                  {isInCart(content) ? "REMOVE FROM CART" : "ADD TO CART"}
+                </Button>
                 <Button
                   icon={<HeartOutlined />}
                   style={{
@@ -237,38 +223,27 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
             }}
           >
             <div>
-              <Space.Compact>
-                <InputNumber
-                  min={1}
-                  keyboard
-                  defaultValue={1}
-                  style={{
-                    borderRadius: 4,
-                    border: "1px solid #333",
-                  }}
-                />
-                <Button
-                  onClick={() => {
-                    if (isInCart(content)) {
-                      removeFromCart(content._id);
-                    } else {
-                      addToCart(content);
-                    }
-                  }}
-                  type="primary"
-                  style={{
-                    borderRadius: 4,
-                    border: "1px solid #333",
-                    background: 0,
-                    color: "#333",
-                    fontFamily: "DM Sans",
-                    padding: "12px 18px",
-                    fontWeight: 600,
-                  }}
-                >
-                  {isInCart(content) ? "REMOVE FROM CART" : "ADD TO CART"}
-                </Button>
-              </Space.Compact>{" "}
+              <Button
+                onClick={() => {
+                  if (isInCart(content)) {
+                    removeFromCart(content._id);
+                  } else {
+                    addToCart(content);
+                  }
+                }}
+                type="primary"
+                style={{
+                  borderRadius: 4,
+                  border: "1px solid #333",
+                  background: 0,
+                  color: "#333",
+                  fontFamily: "DM Sans",
+                  padding: "12px 18px",
+                  fontWeight: 600,
+                }}
+              >
+                {isInCart(content) ? "REMOVE FROM CART" : "ADD TO CART"}
+              </Button>
             </div>
             <div>
               <Button

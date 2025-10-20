@@ -88,6 +88,7 @@ function Shop() {
     setOpenModal(true);
     setTimeout(() => setLoading(false), 100);
   };
+  
   return (
     <div>
       {/* banner */}

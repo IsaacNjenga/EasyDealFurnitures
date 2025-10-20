@@ -1,20 +1,22 @@
 import React from "react";
 import { useCart } from "../context/CartContext";
 import {
-  Avatar,
   List,
   InputNumber,
   Button,
   Typography,
   Divider,
   Empty,
+  Image,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons"; // adjust path if needed
 import { CartFunctions } from "./CartFunctions";
+import { useUser } from "../context/UserContext";
 
 const { Text, Title } = Typography;
 
 function Cart() {
+  const { isMobile } = useUser();
   const { cartItems } = useCart();
   const { updateCart, removeFromCart } = CartFunctions();
 
@@ -25,23 +27,29 @@ function Cart() {
 
   if (cartItems.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16">
+      <div>
         <Empty description="Your cart is empty" />
       </div>
     );
   }
 
   return (
-    <div className="p-4">
+    <div style={{ padding: 10 }}>
       <List
         itemLayout="horizontal"
         dataSource={cartItems}
         renderItem={(item) => (
           <List.Item
+            style={{ flexWrap: "wrap" }}
             actions={[
+              <InputNumber
+                min={1}
+                value={item.quantity}
+                onChange={(value) => updateCart(item, value)}
+                style={{ width: isMobile ? 95 : 115 }}
+                suffix={item.quantity > 1 ? "Items" : "Item"}
+              />,
               <Button
-                key="remove"
-                type="text"
                 danger
                 icon={<DeleteOutlined />}
                 onClick={() => removeFromCart(item._id)}
@@ -50,44 +58,56 @@ function Cart() {
           >
             <List.Item.Meta
               avatar={
-                <Avatar
-                  shape="square"
-                  size={80}
-                  src={item.img?.[0]}
-                  alt={item.type}
+                <Image
+                  src={item.img[0]}
+                  alt={item.name}
+                  width={isMobile ? 75 : 85}
+                  height={isMobile ? 75 : 85}
+                  style={{
+                    borderRadius: 8,
+                    objectFit: "cover",
+                    maxWidth: "100%",
+                  }}
                 />
               }
-              title={<Text strong>{item.name}</Text>}
+              title={
+                <Text strong style={{ fontSize: isMobile ? 18 : 22,marginBottom: 0 }}>
+                  {item.name}
+                </Text>
+              }
               description={
-                <>
-                  <Text type="secondary">
-                    Ksh {item.price.toLocaleString()}
-                  </Text>
-                  <div style={{ marginTop: 8 }}>
-                    <Text style={{ marginRight: 8 }}>Qty:</Text>
-                    <InputNumber
-                      min={1}
-                      value={item.quantity}
-                      onChange={(val) => updateCart(item, val)}
-                      style={{ width: 70 }}
-                    />
-                  </div>
-                </>
+                <Text
+                  strong
+                  style={{ fontSize: isMobile ? 12 : 16, marginTop: 0 }}
+                >
+                  KES. {item.price.toLocaleString()} x {item.quantity} = KES.
+                  {(item.price * item.quantity).toLocaleString()}
+                  <p
+                    style={{
+                      color: "red",
+                      fontSize: isMobile ? 8 : 12,
+                      marginTop: 0,
+                    }}
+                  >
+                    TYPE: {item.type.toUpperCase()}
+                  </p>
+                </Text>
               }
             />
-
-            <div style={{ textAlign: "right" }}>
-              <Text strong>
-                Subtotal: Ksh {(item.price * item.quantity).toLocaleString()}
-              </Text>
-            </div>
           </List.Item>
         )}
       />
 
       <Divider />
 
-      <div className="flex justify-between items-center mt-4">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginTop: 10,
+        }}
+      >
         <Title level={5}>Total:</Title>
         <Title level={5} style={{ color: "#1677ff" }}>
           Ksh {total.toLocaleString()}

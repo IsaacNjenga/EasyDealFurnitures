@@ -17,7 +17,7 @@ import "../assets/css/navbar.css";
 import { useCart } from "../context/CartContext";
 import Cart from "./Cart";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 const { Header, Content, Footer } = Layout;
 
 const iconStyle = {
@@ -265,6 +265,7 @@ function Navbar() {
             )}
           </div>
         </Header>
+        {/* menu drawer */}
         <Drawer
           placement="right"
           width={isMobile ? 300 : 500}
@@ -303,23 +304,27 @@ function Navbar() {
                 </Link>
               </Menu.Item>
             ))}
-            {/* <Menu.Item>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 25,
-                }}
-              >
-                <SearchOutlined style={iconStyle} onClick={toggleDrawer} />
-                <ShoppingCartOutlined
-                  style={iconStyle}
-                  onClick={toggleDrawer}
-                />
-                <HeartOutlined style={iconStyle} onClick={toggleDrawer} />
+            <Menu.Item>
+              <div>
+                <Badge dot={cartItems.length>0?true:false}>
+                  <Text
+                    style={{
+                      color: "#fff",
+                      textDecoration: "none",
+                      fontFamily: "DM Sans",
+                      textShadow: " 2px 2px 2px rgba(0, 0, 0, 0.3)",
+                    }}
+                    onClick={toggleCart}
+                  >
+                    MY CART
+                  </Text>
+                </Badge>
               </div>
-            </Menu.Item> */}
+            </Menu.Item>
           </Menu>
         </Drawer>
+
+        {/* cart drawer */}
         <Drawer
           title={
             <Title

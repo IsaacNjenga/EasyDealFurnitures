@@ -2,10 +2,12 @@ import React from "react";
 import { Carousel, Button, Typography, Row, Col, Card, Tooltip } from "antd";
 import { EyeOutlined, HeartOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
+import { CartFunctions } from "./CartFunctions";
 
 const { Title, Text } = Typography;
 
 function ItemCard({ dataSource, isMobile, viewItem }) {
+  const { addToCart, removeFromCart, isInCart } = CartFunctions();
   return (
     <div style={{ margin: 10, padding: 15 }}>
       <Row gutter={[24, 24]}>
@@ -168,6 +170,14 @@ function ItemCard({ dataSource, isMobile, viewItem }) {
                           }}
                         >
                           <Button
+                            onClick={() => {
+                              if (isInCart(b)) {
+                                removeFromCart(b._id);
+                              } else {
+                                addToCart(b);
+                              }
+                            }}
+                            type={isInCart ? "default" : "primary"}
                             style={{
                               background: "white",
                               color: "black",
@@ -179,7 +189,7 @@ function ItemCard({ dataSource, isMobile, viewItem }) {
                               fontWeight: "bold",
                             }}
                           >
-                            ADD TO CART
+                            {isInCart(b) ? "REMOVE FROM CART" : "ADD TO CART"}
                           </Button>
                         </motion.div>
                       </div>

@@ -7,7 +7,7 @@ export function useCart() {
 }
 export const CartProvider = ({ children }) => {
   const [cartOpen, setCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([{ key: 1, img: "" }]);
+  const [cartItems, setCartItems] = useState([]);
 
   const toggleCart = () => setCartOpen(!cartOpen);
 

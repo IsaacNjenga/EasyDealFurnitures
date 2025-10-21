@@ -8,7 +8,6 @@ import { useUser } from "../context/UserContext";
 import {
   CloseOutlined,
   DownOutlined,
-  HeartOutlined,
   MenuOutlined,
   SearchOutlined,
   ShoppingCartOutlined,
@@ -227,15 +226,15 @@ function Navbar() {
                 </Tooltip>
                 <Tooltip title="My Cart">
                   <Badge
-                    dot={cartItems.length > 0 ? true : false}
-                    // overflowCount={10}
-                    // count={cartItems.length}
-                    // offset={[2, 2]} // optional: adjusts badge position
-                    // style={{
-                    //   backgroundColor: "#fea549",
-                    //    color: "#fff",
-                    //    fontFamily: "DM Sans",
-                    // }}
+                    //dot={cartItems.length > 0 ? true : false}
+                    overflowCount={10}
+                    count={cartItems.length}
+                    offset={[2, 2]} 
+                    style={{
+                      backgroundColor: "#fea549",
+                      color: "#fff",
+                      fontFamily: "DM Sans",
+                    }}
                   >
                     <ShoppingCartOutlined
                       style={iconStyle}
@@ -248,19 +247,7 @@ function Navbar() {
                       }
                     />
                   </Badge>
-                </Tooltip>
-                <Tooltip title="Wishlist">
-                  <HeartOutlined
-                    style={iconStyle}
-                    onClick={toggleDrawer}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.transform = "scale(1.05)")
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.transform = "scale(1)")
-                    }
-                  />
-                </Tooltip>
+                </Tooltip>               
               </div>
             )}
           </div>
@@ -306,7 +293,7 @@ function Navbar() {
             ))}
             <Menu.Item>
               <div>
-                <Badge dot={cartItems.length>0?true:false}>
+                <Badge dot={cartItems.length > 0 ? true : false}>
                   <Text
                     style={{
                       color: "#fff",

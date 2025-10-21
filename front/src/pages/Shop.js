@@ -88,7 +88,7 @@ function Shop() {
     setOpenModal(true);
     setTimeout(() => setLoading(false), 100);
   };
-  
+
   return (
     <div>
       {/* banner */}
@@ -247,11 +247,13 @@ function Shop() {
             />
           </div>
         ) : (
-          <ItemCard
-            dataSource={selectedTab === "" ? shopProducts : filteredProducts}
-            isMobile={isMobile}
-            viewItem={viewItem}
-          />
+          <div style={{ margin: "10px 10px", padding: "10px 15px" }}>
+            <ItemCard
+              dataSource={selectedTab === "" ? shopProducts : filteredProducts}
+              isMobile={isMobile}
+              viewItem={viewItem}
+            />
+          </div>
         )}
       </div>
 

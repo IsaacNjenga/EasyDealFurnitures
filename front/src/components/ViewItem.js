@@ -19,6 +19,7 @@ import DetailsDrawer from "../components/DetailsDrawer";
 import { useUser } from "../context/UserContext";
 import { CartFunctions } from "../utils/CartFunctions";
 import { WishFunctions } from "../utils/WishFunctions";
+import { useNotification } from "../context/NotificationContext";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -26,6 +27,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
   const { toggleDetailsDrawer, detailsDrawer } = useUser();
   const { addToCart, removeFromCart, isInCart } = CartFunctions();
   const { addToWish, removeFromWish, isInWish } = WishFunctions();
+  const openNotification = useNotification();
 
   return (
     <>
@@ -139,6 +141,11 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                       removeFromCart(content._id);
                     } else {
                       addToCart(content);
+                      openNotification(
+                        "success",
+                        "Item has been added to your cart",
+                        "Success!"
+                      );
                     }
                   }}
                   type="primary"
@@ -161,6 +168,11 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                       removeFromWish(content?._id);
                     } else {
                       addToWish(content);
+                      openNotification(
+                        "success",
+                        "Item added to your wishlist",
+                        "Nice!"
+                      );
                     }
                   }}
                   icon={
@@ -245,6 +257,11 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                     removeFromCart(content._id);
                   } else {
                     addToCart(content);
+                    openNotification(
+                      "success",
+                      "Item has been added to your cart",
+                      "Success!"
+                    );
                   }
                 }}
                 type="primary"
@@ -268,6 +285,11 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                     removeFromWish(content?._id);
                   } else {
                     addToWish(content);
+                    openNotification(
+                      "success",
+                      "Item added to your wishlist",
+                      "Nice!"
+                    );
                   }
                 }}
                 icon={

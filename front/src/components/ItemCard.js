@@ -4,12 +4,14 @@ import { EyeOutlined, HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import { CartFunctions } from "../utils/CartFunctions";
 import { WishFunctions } from "../utils/WishFunctions";
+import { useNotification } from "../context/NotificationContext";
 
 const { Title, Text } = Typography;
 
 function ItemCard({ dataSource, isMobile, viewItem }) {
   const { addToCart, removeFromCart, isInCart } = CartFunctions();
   const { addToWish, removeFromWish, isInWish } = WishFunctions();
+  const openNotification = useNotification();
 
   return (
     <div style={{ margin: 10, padding: 15 }}>
@@ -127,7 +129,14 @@ function ItemCard({ dataSource, isMobile, viewItem }) {
                           gap: 10,
                         }}
                       >
-                        <Tooltip title="Wishlist" placement="right">
+                        <Tooltip
+                          title={
+                            isInWish(b)
+                              ? "Remove from wishlist"
+                              : "Add to wishlist"
+                          }
+                          placement="right"
+                        >
                           <Button
                             shape="circle"
                             onClick={() => {
@@ -135,6 +144,11 @@ function ItemCard({ dataSource, isMobile, viewItem }) {
                                 removeFromWish(b._id);
                               } else {
                                 addToWish(b);
+                                openNotification(
+                                  "success",
+                                  "Item added to your wishlist",
+                                  "Nice!"
+                                );
                               }
                             }}
                             icon={
@@ -191,6 +205,11 @@ function ItemCard({ dataSource, isMobile, viewItem }) {
                                 removeFromCart(b._id);
                               } else {
                                 addToCart(b);
+                                openNotification(
+                                  "success",
+                                  "Item has been added to your cart",
+                                  "Success!"
+                                );
                               }
                             }}
                             type="primary"

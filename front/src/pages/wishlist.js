@@ -63,6 +63,35 @@ function Wishlist() {
         </div>
       </div>
 
+      <div style={{ margin: "30px 0", padding: "20px 0" }}>
+        <div style={{ textAlign: "center", margin: "10px 0" }}>
+          <Text
+            style={{
+              letterSpacing: 3,
+              color: "#fea549",
+              fontFamily: "Inter",
+              margin: 0,
+              textShadow: "1px 1px 1px rgba(0, 0, 0, 0.3)",
+              fontSize: 20,
+            }}
+          >
+            FURNITURE FOR YOUR LIFESTYLE
+          </Text>
+        </div>
+        <Title
+          level={2}
+          style={{
+            textAlign: "center",
+            fontFamily: "DM Sans",
+            margin: 0,
+            letterSpacing: 1.5,
+            fontWeight: 600,
+          }}
+        >
+          You Ask, We Deliver
+        </Title>
+      </div>
+
       <div>
         {wishItems.length === 0 ? (
           <div
@@ -98,11 +127,13 @@ function Wishlist() {
             />
           </div>
         ) : (
-          <ItemCard
-            dataSource={wishItems}
-            isMobile={isMobile}
-            viewItem={viewItem}
-          />
+          <div style={{ margin: "10px 10px", padding: "10px 15px" }}>
+            <ItemCard
+              dataSource={wishItems}
+              isMobile={isMobile}
+              viewItem={viewItem}
+            />
+          </div>
         )}
       </div>
 

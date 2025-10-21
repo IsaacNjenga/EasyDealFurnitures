@@ -33,7 +33,7 @@ const menuItems = [
     label: "SHOP",
     path: "/shop",
     children: [
-      { key: "2-1", label: "Products", path: "/shop" },
+      { key: "2-1", label: "All Products", path: "/shop" },
       { key: "2-2", label: "On Sale", path: "/shop/sale" },
       { key: "2-3", label: "New Arrivals", path: "/shop/new" },
     ],

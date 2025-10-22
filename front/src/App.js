@@ -8,6 +8,7 @@ import FAQ from "./pages/FAQ";
 import Wishlist from "./pages/wishlist";
 import OnSale from "./pages/OnSale";
 import NewArrivals from "./pages/NewArrivals";
+import Checkout from "./pages/Checkout";
 
 function App() {
   const location = useLocation();
@@ -25,6 +26,7 @@ function App() {
             <Route path="/faq" element={<FAQ />} />
             <Route path="/wishlist" element={<Wishlist />} />
           </Route>
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
       </AnimatePresence>
     </div>

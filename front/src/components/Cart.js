@@ -9,13 +9,15 @@ import {
   Empty,
   Image,
 } from "antd";
-import { DeleteOutlined } from "@ant-design/icons"; 
+import { DeleteOutlined } from "@ant-design/icons";
 import { CartFunctions } from "../utils/CartFunctions";
 import { useUser } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const { Text, Title } = Typography;
 
 function Cart() {
+  const navigate = useNavigate();
   const { isMobile } = useUser();
   const { cartItems } = useCart();
   const { updateCart, removeFromCart } = CartFunctions();
@@ -117,7 +119,13 @@ function Cart() {
         </Title>
       </div>
 
-      <Button type="primary" block size="large" style={{ marginTop: 16 }}>
+      <Button
+        type="primary"
+        block
+        size="large"
+        style={{ marginTop: 16 }}
+        onClick={() => navigate("/checkout")}
+      >
         Proceed to Checkout
       </Button>
     </div>

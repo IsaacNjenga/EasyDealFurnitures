@@ -11,14 +11,16 @@ import {
   Col,
   Image,
   Space,
+  InputNumber,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useUser } from "../context/UserContext";
 import chair1 from "../assets/icons/office-chair1.png";
 import { useNotification } from "../context/NotificationContext";
-import { EnvironmentOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import GetLocation from "../components/GetLocation";
+import { CartFunctions } from "../utils/CartFunctions";
 
 const { Title, Text } = Typography;
 
@@ -28,6 +30,7 @@ function Checkout() {
   const { isMobile } = useUser();
   const openNotification = useNotification();
   const { useMyLocation, addressDetails, geoLoading } = GetLocation();
+  const { updateCart, removeFromCart } = CartFunctions();
   const [deliveryOption, setDeliveryOption] = useState("delivery");
   const [paymentMethod, setPaymentMethod] = useState("mpesa");
   const [formData, setFormData] = useState({
@@ -166,6 +169,20 @@ function Checkout() {
                   borderBottom: "1px solid #f0f0f0",
                   padding: "10px 0",
                 }}
+                actions={[
+                  <InputNumber
+                    min={1}
+                    value={item.quantity}
+                    onChange={(value) => updateCart(item, value)}
+                    style={{ width: isMobile ? 95 : 115 }}
+                    suffix={item.quantity > 1 ? "Items" : "Item"}
+                  />,
+                  <Button
+                    danger
+                    icon={<DeleteOutlined />}
+                    onClick={() => removeFromCart(item._id)}
+                  />,
+                ]}
               >
                 <List.Item.Meta
                   avatar={

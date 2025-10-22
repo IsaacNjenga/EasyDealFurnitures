@@ -10,12 +10,15 @@ import {
   Row,
   Col,
   Image,
+  Space,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useUser } from "../context/UserContext";
 import chair1 from "../assets/icons/office-chair1.png";
 import { useNotification } from "../context/NotificationContext";
+import { EnvironmentOutlined } from "@ant-design/icons";
+import GetLocation from "../components/GetLocation";
 
 const { Title, Text } = Typography;
 
@@ -24,6 +27,8 @@ function Checkout() {
   const { cartItems } = useCart();
   const { isMobile, scrolled } = useUser();
   const openNotification = useNotification();
+  const { selectedLocation, useMyLocation, addressDetails, geoLoading } =
+    GetLocation();
   const [deliveryOption, setDeliveryOption] = useState("delivery");
   const [paymentMethod, setPaymentMethod] = useState("mpesa");
   const [formData, setFormData] = useState({
@@ -40,6 +45,7 @@ function Checkout() {
   );
   const shippingFee = deliveryOption === "delivery" ? 500 : 0;
   const total = subtotal + shippingFee;
+
 
   const handleCheckout = () => {
     if (deliveryOption === "delivery") {
@@ -278,17 +284,31 @@ function Checkout() {
                     </Col>
                   </Row>
 
-                  <Input
-                    placeholder="Delivery Address"
-                    value={formData.address}
-                    onChange={(e) =>
-                      setFormData({ ...formData, address: e.target.value })
-                    }
-                    style={{ fontFamily: "DM Sans", height: 40 }}
-                  />
+                  <Space.Compact>
+                    <Input
+                      placeholder="Delivery Address"
+                      value={
+                        formData.address || addressDetails.formattedAddress
+                      }
+                      onChange={(e) =>
+                        setFormData({ ...formData, address: e.target.value })
+                      }
+                      style={{ fontFamily: "DM Sans", height: 40 }}
+                    />
+                    <Button
+                      type="primary"
+                      icon={<EnvironmentOutlined />}
+                      style={{ height: 40, fontFamily: "DM Sans" }}
+                      onClick={useMyLocation}
+                      loading={geoLoading}
+                    >
+                      Use my location
+                    </Button>
+                  </Space.Compact>
+
                   <Input
                     placeholder="City / Town"
-                    value={formData.city}
+                    value={formData.city || addressDetails.city}
                     onChange={(e) =>
                       setFormData({ ...formData, city: e.target.value })
                     }

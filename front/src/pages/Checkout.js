@@ -25,10 +25,9 @@ const { Title, Text } = Typography;
 function Checkout() {
   const navigate = useNavigate();
   const { cartItems } = useCart();
-  const { isMobile, scrolled } = useUser();
+  const { isMobile } = useUser();
   const openNotification = useNotification();
-  const { selectedLocation, useMyLocation, addressDetails, geoLoading } =
-    GetLocation();
+  const { useMyLocation, addressDetails, geoLoading } = GetLocation();
   const [deliveryOption, setDeliveryOption] = useState("delivery");
   const [paymentMethod, setPaymentMethod] = useState("mpesa");
   const [formData, setFormData] = useState({
@@ -45,7 +44,6 @@ function Checkout() {
   );
   const shippingFee = deliveryOption === "delivery" ? 500 : 0;
   const total = subtotal + shippingFee;
-
 
   const handleCheckout = () => {
     if (deliveryOption === "delivery") {
@@ -95,8 +93,8 @@ function Checkout() {
           src={chair1}
           alt="logo"
           style={{
-            width: scrolled ? 55 : isMobile ? 65 : 150,
-            height: scrolled ? 55 : isMobile ? 65 : 150,
+            width: isMobile ? 75 : 150,
+            height: isMobile ? 75 : 150,
             borderRadius: "50%",
             objectFit: "cover",
             transition: "all 0.3s ease",
@@ -111,9 +109,9 @@ function Checkout() {
           onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
         />
         <Title
-          level={scrolled ? 5 : isMobile ? 4 : 1}
+          level={isMobile ? 4 : 1}
           style={{
-            width: "20%",
+            width: isMobile ? "40%" : "20%",
             transition: "all 0.3s ease",
             fontFamily: "Bebas Neue",
             letterSpacing: isMobile ? 2.8 : 3.5,
@@ -367,9 +365,6 @@ function Checkout() {
                 </Radio>
                 <Radio value="paypal" style={{ fontFamily: "DM Sans" }}>
                   PayPal
-                </Radio>
-                <Radio value="card" style={{ fontFamily: "DM Sans" }}>
-                  Credit/Debit Card
                 </Radio>
                 <Radio value="onDelivery" style={{ fontFamily: "DM Sans" }}>
                   Pay on Delivery

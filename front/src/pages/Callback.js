@@ -4,15 +4,29 @@ import { Link } from "react-router-dom";
 
 function Callback() {
   return (
-    <Result
-      status="success"
-      title="Transaction Successful"
-      subTitle="Your order has been successfully processed. We will be in touch with you shortly to confirm delivery details."
+    <div
+      style={{
+        background: "whitesmoke",
+        minHeight: "100vh",
+      }}
     >
-      <Button type="primary">
-        <Link to="/">Go Back Home</Link>
-      </Button>
-    </Result>
+      <div
+        style={{
+          margin: "0 auto",
+        }}
+      >
+        <Result
+          status="success"
+          title="Transaction Successful"
+          subTitle="Your order has been successfully processed. We will be in touch with you shortly to confirm delivery details."
+          extra={
+            <Button type="primary">
+              <Link to="/">Go Back Home</Link>
+            </Button>
+          }
+        />
+      </div>
+    </div>
   );
 }
 

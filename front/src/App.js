@@ -12,6 +12,7 @@ import Checkout from "./pages/Checkout";
 import Callback from "./pages/Callback";
 import Cancel from "./pages/Cancel";
 import axios from "axios";
+import LocationMap from "./pages/LocationMap";
 
 axios.defaults.baseURL = "http://localhost:3001/EasyDeal";
 axios.defaults.withCredentials = true;
@@ -35,6 +36,7 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/cancel" element={<Cancel />} />
           <Route path="/callback" element={<Callback />} />
+          <Route path="/location" element={<LocationMap />} />
         </Routes>
       </AnimatePresence>
     </div>

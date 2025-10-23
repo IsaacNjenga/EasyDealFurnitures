@@ -14,7 +14,7 @@ import Cancel from "./pages/Cancel";
 import axios from "axios";
 import LocationMap from "./pages/LocationMap";
 
-axios.defaults.baseURL = "http://localhost:3001/EasyDeal";
+axios.defaults.baseURL = "https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal";
 axios.defaults.withCredentials = true;
 
 function App() {

@@ -90,10 +90,10 @@ const OurLocation = () => {
       >
         Get route
       </Button>
-      <div>
+      <div style={{ marginBottom: 10 }}>
         {userLat && userLng && (
           <Text style={{ fontFamily: "DM Sans" }}>
-            Note: Your location may not be totally accurate.
+            Note: Your location may not be 100% accurate.
           </Text>
         )}
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, Col, Form, Image, Input, Row, Typography } from "antd";
 import { useUser } from "../context/UserContext";
 import {
@@ -7,6 +7,20 @@ import {
   PhoneOutlined,
 } from "@ant-design/icons";
 import { useNotification } from "../context/NotificationContext";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  LayersControl,
+} from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import { CustomMarker } from "../components/CustomMarker";
+import GetLocation from "../components/GetLocation";
+import "leaflet-routing-machine";
+import { Routing } from "../components/Routing";
+
+const { BaseLayer } = LayersControl;
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -33,8 +47,8 @@ const contactInfo = [
     key: 1,
     icon: EnvironmentOutlined,
     title: "Location",
-    content: "Ngara rd, Nairobi, Kenya",
-    content2: "O. Rongai",
+    content: "Ngara Road, Nairobi, Kenya",
+    content2: "Opp. Ngara Post Office",
   },
   {
     key: 2,
@@ -51,6 +65,77 @@ const contactInfo = [
     content2: "Holidays: 9:00 a.m - 5:00 p.m",
   },
 ];
+
+const OurLocation = () => {
+  const { selectedLocation, useMyLocationRoute, geoLoading } = GetLocation();
+
+  const userLat = selectedLocation.lat;
+  const userLng = selectedLocation.lng;
+
+  // const userLat = -1.2142139; ? for testing
+  // const userLng = 36.8661946;
+
+  const storeLat = -1.276502;
+  const storeLng = 36.826517;
+
+  return (
+    <div style={{ marginTop: 0 }}>
+      <Title style={{ fontFamily: "DM Sans" }}>Our Location</Title>
+      <Button
+        type="primary"
+        icon={<EnvironmentOutlined />}
+        style={{ height: 40, fontFamily: "DM Sans", marginBottom: 10 }}
+        onClick={useMyLocationRoute}
+        loading={geoLoading}
+      >
+        Get route
+      </Button>
+      <div>
+        {userLat && userLng && (
+          <Text style={{ fontFamily: "DM Sans" }}>
+            Note: Your location may not be totally accurate.
+          </Text>
+        )}
+      </div>
+
+      <MapContainer
+        center={[storeLat, storeLng]}
+        zoom={15}
+        style={{ height: "400px", width: "100%" }}
+      >
+        <LayersControl position="topright">
+          <BaseLayer checked name="Street View">
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          </BaseLayer>
+
+          <BaseLayer name="Satellite">
+            <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
+          </BaseLayer>
+
+          <BaseLayer name="Terrain">
+            <TileLayer url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png" />
+          </BaseLayer>
+
+          <BaseLayer name="Dark Mode">
+            <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
+          </BaseLayer>
+        </LayersControl>
+        <Marker position={[storeLat, storeLng]} icon={CustomMarker}>
+          <Popup>Your current location</Popup>
+        </Marker>
+
+        {userLat && userLng && (
+          <Routing
+            userLat={userLat}
+            userLng={userLng}
+            storeLat={storeLat}
+            storeLng={storeLng}
+          />
+        )}
+      </MapContainer>
+    </div>
+  );
+};
 
 function Contact() {
   const { isMobile } = useUser();
@@ -269,6 +354,9 @@ function Contact() {
               </Button>
             </Form>
           </div>
+        </div>
+        <div style={{ margin: 0, padding: 0 }}>
+          <OurLocation />
         </div>
       </div>
     </div>

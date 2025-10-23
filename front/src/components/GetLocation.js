@@ -98,9 +98,43 @@ function GetLocation() {
     }
   };
 
+  const useMyLocationRoute = (e) => {
+    e.preventDefault();
+
+    const params = new URLSearchParams(reactRouterLocation.search);
+    const city = params.get("city");
+
+    if (city) {
+      console.log(city);
+    } else if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          setSelectedLocation({ lat, lng });
+        },
+        (error) => {
+          openNotification(
+            "error",
+            "Unable to access your location.",
+            "Error!"
+          );
+          console.error("Geolocation error:", error);
+        }
+      );
+    } else {
+      openNotification(
+        "warning",
+        "Geolocation is disabed. Please enable it.",
+        "There was an error!"
+      );
+      console.log("Geolocation not supported by this browser");
+    }
+  };
+
   return {
     selectedLocation,
-    useMyLocation,
+    useMyLocation,useMyLocationRoute,
     addressDetails,
     geoLoading: loading,
   };

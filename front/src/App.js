@@ -9,6 +9,12 @@ import Wishlist from "./pages/wishlist";
 import OnSale from "./pages/OnSale";
 import NewArrivals from "./pages/NewArrivals";
 import Checkout from "./pages/Checkout";
+import Callback from "./pages/Callback";
+import Cancel from "./pages/Cancel";
+import axios from "axios";
+
+axios.defaults.baseURL = "http://localhost:3001/EasyDeal";
+axios.defaults.withCredentials = true;
 
 function App() {
   const location = useLocation();
@@ -27,6 +33,8 @@ function App() {
             <Route path="/wishlist" element={<Wishlist />} />
           </Route>
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/cancel" element={<Cancel />} />
+          <Route path="/callback" element={<Callback />} />
         </Routes>
       </AnimatePresence>
     </div>

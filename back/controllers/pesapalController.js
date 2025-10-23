@@ -2,16 +2,17 @@ import axios from "axios";
 import dotenv from "dotenv";
 dotenv.config();
 
-const submission_url = process.env.PESAPAL_URL;
+const submission_url = process.env.PESAPAL_SUBMISSION_URL;
 const transaction_url = process.env.PESAPAL_TRANSACTION_URL;
 const notification_id = process.env.PESAPAL_IPN_ID;
 const callback_url = process.env.CALLBACK_URL;
 const cancellation_url = process.env.CANCELLATION_URL;
 
 const submitOrder = async (req, res) => {
-  const { amount, email } = req.body;
+  const { amount, phone_number } = req.body;
 
-   console.log("body", req.body);
+  console.log("body", req.body);
+
   try {
     const token = req.token;
 
@@ -21,24 +22,31 @@ const submitOrder = async (req, res) => {
       });
     }
 
+    if (!phone_number) {
+      return res.status(400).json({
+        error: "Invalid phone number. Please provide a valid phone number.",
+      });
+    }
+
     const formattedAmount = parseFloat(amount).toFixed(2);
 
     const orderDetails = {
       id: `order-${Date.now()}`,
       amount: formattedAmount,
-      currency: "USD",
+      currency: "KES",
       description: "EasyDeal Furnitures",
       callback_url: callback_url,
       cancellation_url: cancellation_url,
       notification_id: notification_id,
       billing_address: {
-        email: email,
-        phone_number: "",
+        email: "",
+        phone_number: phone_number,
         first_name: "",
         last_name: "",
       },
     };
-   // console.log("Order Details:", orderDetails);
+
+    //console.log("Order Details:", orderDetails);
 
     const response = await axios.post(submission_url, orderDetails, {
       headers: {

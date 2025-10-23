@@ -5,7 +5,7 @@ dotenv.config();
 const accessToken = async (req, res, next) => {
   const consumer_key = process.env.PESAPAL_CONSUMER_KEY;
   const consumer_secret = process.env.PESAPAL_CONSUMER_SECRET;
-  const token_url = process.env.PESAPAL_TOKEN;
+  const token_url = process.env.PESAPAL_TOKEN_URL;
 
   try {
     const response = await axios.post(

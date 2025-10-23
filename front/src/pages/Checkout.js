@@ -21,6 +21,7 @@ import { useNotification } from "../context/NotificationContext";
 import { DeleteOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import GetLocation from "../components/GetLocation";
 import { CartFunctions } from "../utils/CartFunctions";
+import axios from "axios";
 
 const { Title, Text } = Typography;
 
@@ -31,6 +32,7 @@ function Checkout() {
   const openNotification = useNotification();
   const { useMyLocation, addressDetails, geoLoading } = GetLocation();
   const { updateCart, removeFromCart } = CartFunctions();
+  const [loading, setLoading] = useState(false);
   const [deliveryOption, setDeliveryOption] = useState("delivery");
   const [paymentMethod, setPaymentMethod] = useState("mpesa");
   const [formData, setFormData] = useState({
@@ -48,32 +50,54 @@ function Checkout() {
   const shippingFee = deliveryOption === "delivery" ? 500 : 0;
   const total = subtotal + shippingFee;
 
-  const handleCheckout = () => {
-    if (deliveryOption === "delivery") {
-      if (
-        !formData.full_name ||
-        !formData.phone ||
-        !formData.address ||
-        !formData.city ||
-        !formData.details
-      ) {
-        openNotification(
-          "warning",
-          "Please fill in all delivery details.",
-          "Error!"
-        );
-        return;
+  const handleCheckout = async () => {
+    setLoading(true);
+    try {
+      if (deliveryOption === "delivery") {
+        if (
+          !formData.full_name ||
+          !formData.phone ||
+          !formData.address ||
+          !formData.city
+        ) {
+          openNotification(
+            "warning",
+            "Please fill in all delivery details.",
+            "Error!"
+          );
+          return;
+        }
       }
+      openNotification("success", "Proceeding to payment...", "Success!");
+      const checkoutData = {
+        ...formData,
+        deliveryOption: deliveryOption,
+        paymentMethod: paymentMethod,
+        items: cartItems,
+      };
+
+      const paymentDetails = {
+        amount: total,
+        phone_number: checkoutData.phone,
+      };
+
+      const res = await axios.post("initiate-payment", paymentDetails);
+      const { redirectUrl } = res.data;
+      
+      window.location.href = redirectUrl;
+
+      setFormData({});
+    } catch (error) {
+      console.error(error);
+      openNotification(
+        "error",
+        "An error occurred while processing your checkout. Kindly try again or call us directly.",
+        "Something went wrong"
+      );
+    } finally {
+      setLoading(false);
     }
-    openNotification("success", "Proceeding to payment...", "Success!");
-    const checkoutData = {
-      ...formData,
-      deliveryOption: deliveryOption,
-      paymentMethod: paymentMethod,
-      items: cartItems,
-    };
-    console.log(checkoutData);
-    setFormData({});
+
     // TO:DO integrate payment API call here
   };
 
@@ -446,6 +470,7 @@ function Checkout() {
             type="primary"
             block
             size="large"
+            loading={loading}
             onClick={handleCheckout}
             style={{
               backgroundColor: "#fea549",
@@ -453,7 +478,7 @@ function Checkout() {
               fontFamily: "DM Sans",
             }}
           >
-            Proceed to Payment
+            {loading ? "Please wait..." : "Proceed to Payment"}
           </Button>
           <Button
             block

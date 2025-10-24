@@ -221,8 +221,8 @@ function Checkout() {
                     <Image
                       src={item.img[0]}
                       alt={item.name}
-                      width={isMobile ? 75 : 85}
-                      height={isMobile ? 75 : 85}
+                      width={isMobile ? 70 : 85}
+                      height={isMobile ? 70 : 85}
                       style={{
                         borderRadius: 8,
                         objectFit: "cover",
@@ -234,7 +234,7 @@ function Checkout() {
                     <Text
                       strong
                       style={{
-                        fontSize: isMobile ? 16 : 20,
+                        fontSize: isMobile ? 16 : 22,
                         marginBottom: 0,
                         fontFamily: "DM Sans",
                       }}
@@ -243,43 +243,109 @@ function Checkout() {
                     </Text>
                   }
                   description={
+                    <>
+                      {isMobile ? (
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "flex-start",
+                          }}
+                        >
+                          <Text
+                            strong
+                            style={{
+                              fontSize: isMobile ? 12 : 16,
+                              marginBottom: 0,
+                            }}
+                          >
+                            KES.{" "}
+                            {item.discount > 0
+                              ? (
+                                  ((100 - item.discount) * item.price) /
+                                  100
+                                ).toLocaleString()
+                              : item.price.toLocaleString()}{" "}
+                            x {item.quantity} = KES.{" "}
+                            {(item.discount > 0
+                              ? ((100 - item.discount) * item.price) / 100
+                              : item.price * item.quantity
+                            ).toLocaleString()}{" "}
+                            {item.discount > 0 ? (
+                              <Tag color="#ffa34a">{item.discount}% off</Tag>
+                            ) : null}
+                          </Text>
+                          <p
+                            style={{
+                              color: "red",
+                              fontSize: isMobile ? 8 : 12,
+                              marginTop: 0,
+                            }}
+                          >
+                            TYPE: {item.type.toUpperCase()}
+                          </p>
+                        </div>
+                      ) : (
+                        <Text
+                          strong
+                          style={{ fontSize: isMobile ? 12 : 16, marginTop: 0 }}
+                        >
+                          KES.{" "}
+                          {item.discount > 0
+                            ? (
+                                ((100 - item.discount) * item.price) /
+                                100
+                              ).toLocaleString()
+                            : item.price.toLocaleString()}{" "}
+                          x {item.quantity} = KES.{" "}
+                          {(item.discount > 0
+                            ? ((100 - item.discount) * item.price) / 100
+                            : item.price * item.quantity
+                          ).toLocaleString()}{" "}
+                          {item.discount > 0 ? (
+                            <Tag color="#ffa34a">{item.discount}% off</Tag>
+                          ) : null}
+                          <p
+                            style={{
+                              color: "red",
+                              fontSize: isMobile ? 8 : 12,
+                              marginTop: 0,
+                            }}
+                          >
+                            TYPE: {item.type.toUpperCase()}
+                          </p>
+                        </Text>
+                      )}
+                    </>
+                  }
+                />
+                {!isMobile && (
+                  <div>
                     <Text
-                      type="secondary"
+                      strong
                       style={{
-                        fontSize: isMobile ? 8 : 12,
-                        marginTop: 0,
+                        fontSize: isMobile ? 10 : 14,
                         fontFamily: "DM Sans",
                       }}
                     >
-                      TYPE: {item.type.toUpperCase()}
+                      {item.discount > 0 ? (
+                        <Tag color="#ffa34a">{item.discount}% off</Tag>
+                      ) : null}{" "}
+                      KES.{" "}
+                      {item.discount > 0
+                        ? (
+                            ((100 - item.discount) * item.price) /
+                            100
+                          ).toLocaleString()
+                        : item.price.toLocaleString()}{" "}
+                      x {item.quantity} = KES.{" "}
+                      {(item.discount > 0
+                        ? ((100 - item.discount) * item.price) / 100
+                        : item.price * item.quantity
+                      ).toLocaleString()}
                     </Text>
-                  }
-                />
-                <div>
-                  <Text
-                    strong
-                    style={{
-                      fontSize: isMobile ? 10 : 14,
-                      fontFamily: "DM Sans",
-                    }}
-                  >
-                    {item.discount > 0 ? (
-                      <Tag color="#ffa34a">{item.discount}% off</Tag>
-                    ) : null}{" "}
-                    KES.{" "}
-                    {item.discount > 0
-                      ? (
-                          ((100 - item.discount) * item.price) /
-                          100
-                        ).toLocaleString()
-                      : item.price.toLocaleString()}{" "}
-                    x {item.quantity} = KES.{" "}
-                    {(item.discount > 0
-                      ? ((100 - item.discount) * item.price) / 100
-                      : item.price * item.quantity
-                    ).toLocaleString()}
-                  </Text>
-                </div>
+                  </div>
+                )}
               </List.Item>
             )}
           />

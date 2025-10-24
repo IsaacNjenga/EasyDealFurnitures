@@ -12,6 +12,7 @@ import {
   Image,
   Space,
   InputNumber,
+  Tag,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
@@ -44,7 +45,12 @@ function Checkout() {
   });
 
   const subtotal = cartItems.reduce(
-    (total, item) => total + item.price * (item.quantity || 1),
+    (total, item) =>
+      total +
+      (item.discount > 0
+        ? ((100 - item.discount) * item.price) / 100
+        : item.price) *
+        (item.quantity || 1),
     0
   );
   const shippingFee = deliveryOption === "delivery" ? 500 : 0;
@@ -83,7 +89,7 @@ function Checkout() {
 
       const res = await axios.post("initiate-payment", paymentDetails);
       const { redirectUrl } = res.data;
-      
+
       window.location.href = redirectUrl;
 
       setFormData({});
@@ -194,18 +200,20 @@ function Checkout() {
                   padding: "10px 0",
                 }}
                 actions={[
-                  <InputNumber
-                    min={1}
-                    value={item.quantity}
-                    onChange={(value) => updateCart(item, value)}
-                    style={{ width: isMobile ? 95 : 115 }}
-                    suffix={item.quantity > 1 ? "Items" : "Item"}
-                  />,
-                  <Button
-                    danger
-                    icon={<DeleteOutlined />}
-                    onClick={() => removeFromCart(item._id)}
-                  />,
+                  <Space.Compact>
+                    <InputNumber
+                      min={1}
+                      value={item.quantity}
+                      onChange={(value) => updateCart(item, value)}
+                      style={{ width: isMobile ? 70 : 115 }}
+                      suffix={item.quantity > 1 ? "Items" : "Item"}
+                    />
+                    <Button
+                      danger
+                      icon={<DeleteOutlined />}
+                      onClick={() => removeFromCart(item._id)}
+                    />
+                  </Space.Compact>,
                 ]}
               >
                 <List.Item.Meta
@@ -255,8 +263,21 @@ function Checkout() {
                       fontFamily: "DM Sans",
                     }}
                   >
-                    KES. {item.price.toLocaleString()} x {item.quantity} = KES.
-                    {(item.price * item.quantity).toLocaleString()}
+                    {item.discount > 0 ? (
+                      <Tag color="#ffa34a">{item.discount}% off</Tag>
+                    ) : null}{" "}
+                    KES.{" "}
+                    {item.discount > 0
+                      ? (
+                          ((100 - item.discount) * item.price) /
+                          100
+                        ).toLocaleString()
+                      : item.price.toLocaleString()}{" "}
+                    x {item.quantity} = KES.{" "}
+                    {(item.discount > 0
+                      ? ((100 - item.discount) * item.price) / 100
+                      : item.price * item.quantity
+                    ).toLocaleString()}
                   </Text>
                 </div>
               </List.Item>

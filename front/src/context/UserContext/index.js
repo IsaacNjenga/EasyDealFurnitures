@@ -11,6 +11,13 @@ export function UserProvider({ children }) {
   const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [detailsDrawer, setDetailsDrawer] = useState(false);
+  const [userLocation, setUserLocation] = useState(() => {
+    //load from localstorage on first render
+    const storedLocation = localStorage.getItem("userLocation");
+    return storedLocation
+      ? JSON.parse(storedLocation)
+      : { lat: null, lng: null };
+  });
 
   const toggleDrawer = () => setDrawerOpen(!drawerOpen);
   const toggleDetailsDrawer = () => setDetailsDrawer(!detailsDrawer);
@@ -36,6 +43,10 @@ export function UserProvider({ children }) {
     };
   });
 
+  useEffect(() => {
+    localStorage.setItem("userLocation", JSON.stringify(userLocation));
+  }, [userLocation]);
+
   const value = {
     isMobile,
     scrolled,
@@ -43,6 +54,8 @@ export function UserProvider({ children }) {
     drawerOpen,
     toggleDetailsDrawer,
     detailsDrawer,
+    userLocation,
+    setUserLocation,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useLocation as useReactRouterLocation } from "react-router-dom";
 import { useNotification } from "../context/NotificationContext";
 import axios from "axios";
+import { useUser } from "../context/UserContext";
 
 const key = process.env.REACT_APP_OPENCAGE_API_KEY;
 
 function GetLocation() {
   const reactRouterLocation = useReactRouterLocation();
   const openNotification = useNotification();
+  const { setUserLocation } = useUser();
   const [selectedLocation, setSelectedLocation] = useState({
     lat: null,
     lng: null,
@@ -112,6 +114,7 @@ function GetLocation() {
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
           setSelectedLocation({ lat, lng });
+          setUserLocation({ lat, lng });
         },
         (error) => {
           openNotification(
@@ -134,7 +137,8 @@ function GetLocation() {
 
   return {
     selectedLocation,
-    useMyLocation,useMyLocationRoute,
+    useMyLocation,
+    useMyLocationRoute,
     addressDetails,
     geoLoading: loading,
   };

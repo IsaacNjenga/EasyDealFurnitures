@@ -2,7 +2,6 @@ import React from "react";
 import {
   Typography,
   Tag,
-  Rate,
   Divider,
   Space,
   Tooltip,
@@ -85,7 +84,7 @@ function DetailsDrawer({ content, isMobile }) {
           {content?.type?.toUpperCase()}
         </Text>
       </div>
-      {/* Rating */}
+      {/* Rating
       <div style={{ display: "flex", alignItems: "center", marginBottom: 16 }}>
         <Rate
           disabled
@@ -96,7 +95,7 @@ function DetailsDrawer({ content, isMobile }) {
         <Text style={{ marginLeft: 8, fontFamily: "DM Sans" }}>
           ({content?.totalReviews} reviews)
         </Text>
-      </div>
+      </div> */}
       {/* Availability */}
       <div
         style={{

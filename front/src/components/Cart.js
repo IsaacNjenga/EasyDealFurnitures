@@ -8,6 +8,8 @@ import {
   Divider,
   Empty,
   Image,
+  Space,
+  Tag,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { CartFunctions } from "../utils/CartFunctions";
@@ -23,7 +25,12 @@ function Cart() {
   const { updateCart, removeFromCart } = CartFunctions();
 
   const total = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) =>
+      sum +
+      (item.discount > 0
+        ? ((100 - item.discount) * item.price) / 100
+        : item.price) *
+        item.quantity,
     0
   );
 
@@ -44,18 +51,21 @@ function Cart() {
           <List.Item
             style={{ flexWrap: "wrap" }}
             actions={[
-              <InputNumber
-                min={1}
-                value={item.quantity}
-                onChange={(value) => updateCart(item, value)}
-                style={{ width: isMobile ? 95 : 115 }}
-                suffix={item.quantity > 1 ? "Items" : "Item"}
-              />,
-              <Button
-                danger
-                icon={<DeleteOutlined />}
-                onClick={() => removeFromCart(item._id)}
-              />,
+              <Space.Compact>
+                <InputNumber
+                  min={1}
+                  value={item.quantity}
+                  onChange={(value) => updateCart(item, value)}
+                  style={{ width: isMobile ? 70 : 115 }}
+                  suffix={item.quantity > 1 ? "Items" : "Item"}
+                />
+
+                <Button
+                  danger
+                  icon={<DeleteOutlined />}
+                  onClick={() => removeFromCart(item._id)}
+                />
+              </Space.Compact>,
             ]}
           >
             <List.Item.Meta
@@ -63,40 +73,101 @@ function Cart() {
                 <Image
                   src={item.img[0]}
                   alt={item.name}
-                  width={isMobile ? 75 : 85}
-                  height={isMobile ? 75 : 85}
+                  width={isMobile ? 70 : 85}
+                  height={isMobile ? 70 : 85}
                   style={{
                     borderRadius: 8,
                     objectFit: "cover",
                     maxWidth: "100%",
+                    margin: 0,
                   }}
                 />
               }
               title={
-                <Text
-                  strong
-                  style={{ fontSize: isMobile ? 18 : 22, marginBottom: 0 }}
-                >
-                  {item.name}
-                </Text>
+                <>
+                  <Text
+                    strong
+                    style={{ fontSize: isMobile ? 16 : 22, marginBottom: 0 }}
+                  >
+                    {item.name}
+                  </Text>
+                </>
               }
               description={
-                <Text
-                  strong
-                  style={{ fontSize: isMobile ? 12 : 16, marginTop: 0 }}
-                >
-                  KES. {item.price.toLocaleString()} x {item.quantity} = KES.
-                  {(item.price * item.quantity).toLocaleString()}
-                  <p
-                    style={{
-                      color: "red",
-                      fontSize: isMobile ? 8 : 12,
-                      marginTop: 0,
-                    }}
-                  >
-                    TYPE: {item.type.toUpperCase()}
-                  </p>
-                </Text>
+                <>
+                  {isMobile ? (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+                      }}
+                    >
+                      <Text
+                        strong
+                        style={{
+                          fontSize: isMobile ? 12 : 16,
+                          marginBottom: 0,
+                        }}
+                      >
+                        KES.{" "}
+                        {item.discount > 0
+                          ? (
+                              ((100 - item.discount) * item.price) /
+                              100
+                            ).toLocaleString()
+                          : item.price.toLocaleString()}{" "}
+                        x {item.quantity} = KES.{" "}
+                        {(item.discount > 0
+                          ? ((100 - item.discount) * item.price) / 100
+                          : item.price * item.quantity
+                        ).toLocaleString()}{" "}
+                      {item.discount > 0 ? (
+                        <Tag color="#ffa34a">{item.discount}% off</Tag>
+                      ) : null}
+                      </Text>
+                      <p
+                        style={{
+                          color: "red",
+                          fontSize: isMobile ? 8 : 12,
+                          marginTop: 0,
+                        }}
+                      >
+                        TYPE: {item.type.toUpperCase()}
+                      </p>
+                    </div>
+                  ) : (
+                    <Text
+                      strong
+                      style={{ fontSize: isMobile ? 12 : 16, marginTop: 0 }}
+                    >
+                      KES.{" "}
+                      {item.discount > 0
+                        ? (
+                            ((100 - item.discount) * item.price) /
+                            100
+                          ).toLocaleString()
+                        : item.price.toLocaleString()}{" "}
+                      x {item.quantity} = KES.{" "}
+                      {(item.discount > 0
+                        ? ((100 - item.discount) * item.price) / 100
+                        : item.price * item.quantity
+                      ).toLocaleString()}{" "}
+                      {item.discount > 0 ? (
+                        <Tag color="#ffa34a">{item.discount}% off</Tag>
+                      ) : null}
+                      <p
+                        style={{
+                          color: "red",
+                          fontSize: isMobile ? 8 : 12,
+                          marginTop: 0,
+                        }}
+                      >
+                        TYPE: {item.type.toUpperCase()}
+                      </p>
+                    </Text>
+                  )}
+                </>
               }
             />
           </List.Item>

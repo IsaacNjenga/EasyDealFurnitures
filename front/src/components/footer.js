@@ -33,7 +33,7 @@ function FooterComponent() {
       console.log(values);
       openNotification(
         "success",
-        " Thank you for subscribing to our newsletter.",
+        "Thank you for subscribing to our newsletter.",
         "Success!"
       );
     } catch (error) {

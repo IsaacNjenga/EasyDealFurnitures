@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Image, Spin, Typography } from "antd";
+import { Button, Image, Spin, Typography } from "antd";
 import { useUser } from "../context/UserContext";
 import "../assets/css/shop.css";
 import { shopProducts } from "../assets/data/data";
@@ -200,59 +200,115 @@ function Shop() {
         </div>
       </div>
 
-      <Title
-        style={{ margin: "auto", textAlign: "center", fontFamily: "DM Sans" }}
+      {/* header */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "relative",
+          flexDirection: isMobile ? "column" : "column",
+          margin: isMobile ? "10px 15px" : "20px 0",
+        }}
       >
-        {selectedTab === "" ? "All Products" : selectedTab}
-      </Title>
+        {/* Center title */}
+        <div
+          style={{
+            textAlign: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Title
+            level={isMobile ? 4 : 2}
+            style={{
+              margin: 0,
+              textAlign: "center",
+              fontFamily: "DM Sans",
+            }}
+          >
+            {selectedTab === "" ? "All Products" : selectedTab}
+          </Title>
+        </div>
+
+        {/* Left button (on mobile, aligned left) */}
+        {selectedTab !== "" && (
+          <div
+            style={{
+              margin: isMobile ? "0" : "0 34px",
+              padding: isMobile ? "0" : "0 16px",
+              position: isMobile ? "" : "absolute",
+              left: isMobile ? "auto" : 0,
+            }}
+          >
+            <Button
+              type="primary"
+              style={{
+                fontFamily: "DM Sans",
+                fontSize: isMobile ? 13 : 16,
+                height: isMobile ? 35 : 40,
+              }}
+              onClick={() => setSelectedTab("")}
+            >
+              All Products
+            </Button>
+          </div>
+        )}
+      </div>
 
       {/* products */}
       <div>
-        {loading && (
-          <Spin
-            size="large"
-            style={{ display: "block", margin: "40px auto" }}
-          />
-        )}
-        {filteredProducts.length === 0 ? (
-          <div
-            style={{
-              textAlign: "center",
-              padding: 40,
-              display: "flex",
-              gap: 10,
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              type="secondary"
-              style={{ fontFamily: "DM Sans", fontSize: 18 }}
-            >
-              Sorry, no products found in this category.
-            </Text>
-            <Image
-              src={emptyImg}
-              alt="empty_img"
-              preview={false}
-              width={350}
-              height={350}
-              style={{
-                margin: "0 auto",
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-              }}
+        {loading ? (
+          <div style={{ margin: "10px 10px", padding: "10px 15px" }}>
+            <Spin
+              size="large"
+              style={{ display: "block", margin: "40px auto" }}
             />
           </div>
         ) : (
-          <div style={{ margin: "10px 10px", padding: "10px 15px" }}>
-            <ItemCard
-              dataSource={selectedTab === "" ? shopProducts : filteredProducts}
-              isMobile={isMobile}
-              viewItem={viewItem}
-            />
+          <div>
+            {filteredProducts.length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: 40,
+                  display: "flex",
+                  gap: 10,
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text
+                  type="secondary"
+                  style={{ fontFamily: "DM Sans", fontSize: 18 }}
+                >
+                  Sorry, no products found in this category.
+                </Text>
+                <Image
+                  src={emptyImg}
+                  alt="empty_img"
+                  preview={false}
+                  width={350}
+                  height={350}
+                  style={{
+                    margin: "0 auto",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+            ) : (
+              <div style={{ margin: "0px 10px", padding: "10px 15px" }}>
+                <ItemCard
+                  dataSource={
+                    selectedTab === "" ? shopProducts : filteredProducts
+                  }
+                  isMobile={isMobile}
+                  viewItem={viewItem}
+                />
+              </div>
+            )}
           </div>
         )}
       </div>

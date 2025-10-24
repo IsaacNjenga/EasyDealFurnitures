@@ -143,7 +143,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                       addToCart(content);
                       openNotification(
                         "success",
-                        "Item has been added to your cart",
+                        "An item has been added to your cart",
                         "Success!"
                       );
                     }
@@ -170,7 +170,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                       addToWish(content);
                       openNotification(
                         "success",
-                        "Item added to your wishlist",
+                        "An item has been added to your wishlist",
                         "Nice!"
                       );
                     }
@@ -259,7 +259,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                     addToCart(content);
                     openNotification(
                       "success",
-                      "Item has been added to your cart",
+                      "An item has been added to your cart",
                       "Success!"
                     );
                   }
@@ -287,7 +287,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                     addToWish(content);
                     openNotification(
                       "success",
-                      "Item added to your wishlist",
+                      "An item has been added to your wishlist",
                       "Nice!"
                     );
                   }

@@ -9,10 +9,10 @@ const key = process.env.REACT_APP_OPENCAGE_API_KEY;
 function GetLocation() {
   const reactRouterLocation = useReactRouterLocation();
   const openNotification = useNotification();
-  const { setUserLocation } = useUser();
+  const { userLocation, setUserLocation } = useUser();
   const [selectedLocation, setSelectedLocation] = useState({
-    lat: null,
-    lng: null,
+    lat: userLocation.lat || null,
+    lng: userLocation.lng || null,
   });
   const [loading, setLoading] = useState(false);
   const [addressDetails, setAddressDetails] = useState({
@@ -24,7 +24,8 @@ function GetLocation() {
     setLoading(true);
     try {
       const res = await axios.get(
-        `https://api.opencagedata.com/geocode/v1/json?q=${lat}%2C+${lng}&key=${key}`
+        `https://api.opencagedata.com/geocode/v1/json?q=${lat}%2C+${lng}&key=${key}`,
+        { withCredentials: false }
       );
       const result = res.data.results[0];
 
@@ -79,6 +80,7 @@ function GetLocation() {
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
           setSelectedLocation({ lat, lng });
+          setUserLocation({ lat, lng });
           reverseGeocode(lat, lng);
         },
         (error) => {

@@ -146,7 +146,7 @@ function ItemCard({ dataSource, isMobile, viewItem }) {
                                 addToWish(b);
                                 openNotification(
                                   "success",
-                                  "Item added to your wishlist",
+                                  "An item has been added to your wishlist",
                                   "Nice!"
                                 );
                               }
@@ -207,7 +207,7 @@ function ItemCard({ dataSource, isMobile, viewItem }) {
                                 addToCart(b);
                                 openNotification(
                                   "success",
-                                  "Item has been added to your cart",
+                                  "An item has been added to your cart",
                                   "Success!"
                                 );
                               }

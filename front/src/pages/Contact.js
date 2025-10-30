@@ -19,6 +19,7 @@ import { CustomMarker } from "../components/CustomMarker";
 import GetLocation from "../components/GetLocation";
 import "leaflet-routing-machine";
 import { Routing } from "../components/Routing";
+import axios from "axios";
 
 const { BaseLayer } = LayersControl;
 
@@ -147,12 +148,19 @@ function Contact() {
     setLoading(true);
     try {
       const values = await form.validateFields();
-      console.log(values);
-      openNotification(
-        "success",
-        "Email sent successfully. We'll get back to you!",
-        "Success!"
+      //console.log(values);
+
+      const res = await axios.post(
+        "https://easy-deal-admin-server.vercel.app/EasyAdmin/create-mail",
+        values
       );
+      if (res.data.success) {
+        openNotification(
+          "success",
+          "Email sent successfully. We'll get back to you!",
+          "Success!"
+        );
+      }
     } catch (error) {
       console.error("Error sending email", error);
       openNotification(

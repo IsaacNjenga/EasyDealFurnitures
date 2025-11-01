@@ -289,7 +289,7 @@ function Contact() {
               <Row gutter={[24, 24]}>
                 <Col xs={24} md={12}>
                   <Form.Item
-                    name="name"
+                    name="full_name"
                     rules={[{ required: true, message: "A name is required" }]}
                   >
                     <Input

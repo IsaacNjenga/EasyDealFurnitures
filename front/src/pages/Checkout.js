@@ -62,6 +62,7 @@ function Checkout() {
       if (deliveryOption === "delivery") {
         if (
           !formData.full_name ||
+          !formData.email ||
           !formData.phone ||
           !formData.address ||
           !formData.city
@@ -75,16 +76,32 @@ function Checkout() {
         }
       }
       openNotification("success", "Proceeding to payment...", "Success!");
+
       const checkoutData = {
-        ...formData,
-        deliveryOption: deliveryOption,
-        paymentMethod: paymentMethod,
-        items: cartItems,
+        order: cartItems,
+        customer_info: {
+          full_name: formData.full_name,
+          phone: formData.phone,
+          address: formData.address,
+          city: formData.city,
+          coordinates: "",
+          email: formData.email,
+          additional_info: formData.details,
+        },
+        payment_method: paymentMethod,
+        total: total,
+        items: cartItems.length,
+        delivery_option: deliveryOption,
+        shipping_fee: shippingFee,
+        date: new Date().toISOString(),
       };
+
+      //console.log(checkoutData);
 
       const paymentDetails = {
         amount: total,
-        phone_number: checkoutData.phone,
+        phone_number: formData.phone,
+        email: formData.email,
       };
 
       const res = await axios.post("initiate-payment", paymentDetails);
@@ -92,7 +109,7 @@ function Checkout() {
 
       window.location.href = redirectUrl;
 
-      setFormData({});
+      // setFormData({});
     } catch (error) {
       console.error(error);
       openNotification(
@@ -384,6 +401,9 @@ function Checkout() {
                 <div
                   style={{ display: "flex", flexDirection: "column", gap: 10 }}
                 >
+                  <p style={{ margin: 0 }}>
+                    We'll use these details to contact you
+                  </p>
                   <Row gutter={[24, 24]}>
                     <Col xs={24} sm={24} md={12} lg={12}>
                       <Input
@@ -409,6 +429,15 @@ function Checkout() {
                       />
                     </Col>
                   </Row>
+
+                  <Input
+                    placeholder="Email Address"
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                    style={{ fontFamily: "DM Sans", height: 40 }}
+                  />
 
                   <Space.Compact>
                     <Input

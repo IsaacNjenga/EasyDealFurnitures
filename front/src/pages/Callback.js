@@ -1,26 +1,27 @@
 import { Button, Result } from "antd";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useNotification } from "../context/NotificationContext";
 import axios from "axios";
+import TransactionStatusCard from "../components/StatusCard";
 
 function Callback() {
   const [searchParams] = useSearchParams();
   const tracking_id = searchParams.get("OrderTrackingId");
-
-  console.log("OrderTrackingId:", tracking_id);
   const [loading, setLoading] = useState(false);
+  const [transactionStatusData, setTransactionStatusData] = useState(null);
   const openNotification = useNotification();
+
+  //const tracking_id = "c32d7d6c-6066-4e86-9185-db2170b087d9";
+
   const getTransactionStatus = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`transaction-status/${tracking_id}`);
+      const res = await axios.get(
+        `transaction-status?orderTrackingId=${tracking_id}`
+      );
       console.log(res.data);
-      // openNotification(
-      //   "success",
-      //   "Transaction status fetched successfully.",
-      //   "Success!"
-      // );
+      setTransactionStatusData(res.data);
     } catch (error) {
       openNotification(
         "error",
@@ -68,12 +69,14 @@ function Callback() {
             </>
           }
         />
+        {transactionStatusData && (
+          <TransactionStatusCard
+            transactionStatusData={transactionStatusData}
+          />
+        )}
       </div>
     </div>
   );
 }
 
 export default Callback;
-
-
-//cfbb4f2a-f256-4e1a-8d20-db21904d95d0

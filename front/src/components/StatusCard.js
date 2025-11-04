@@ -1,10 +1,6 @@
 import { Card, Tag, Typography, Divider, Row, Col, Space } from "antd";
 import { motion } from "framer-motion";
-import {
-  CheckCircleFilled,
-  CloseCircleFilled,
-  DollarOutlined,
-} from "@ant-design/icons";
+import { CheckCircleFilled, CloseCircleFilled } from "@ant-design/icons";
 
 const { Text, Title } = Typography;
 
@@ -45,7 +41,7 @@ const TransactionStatusCard = ({ transactionStatusData }) => {
       <Card
         style={{
           width: "100%",
-          maxWidth: 700,
+          maxWidth: 500,
           margin: "20px auto",
           borderRadius: 16,
           boxShadow: "0 4px 30px rgba(0,0,0,0.05)",
@@ -73,8 +69,13 @@ const TransactionStatusCard = ({ transactionStatusData }) => {
             </Col>
             <Col>
               <Tag
-                color={statusColor}
-                style={{ fontSize: 14, padding: "4px 10px", borderRadius: 8 }}
+                style={{
+                  fontSize: 14,
+                  padding: "4px 10px",
+                  borderRadius: 8,
+                  color: "white",
+                  background: statusColor,
+                }}
               >
                 {payment_status_description}
               </Tag>
@@ -113,9 +114,9 @@ const TransactionStatusCard = ({ transactionStatusData }) => {
               <Text type="secondary">Amount</Text>
             </Col>
             <Col>
-              <Text strong style={{ color: "#1677ff" }}>
-                <DollarOutlined /> {amount?.toLocaleString()} {currency}
-              </Text>
+              <Tag strong color="green">
+                {currency} {amount?.toLocaleString()}
+              </Tag>
             </Col>
           </Row>
 
@@ -163,3 +164,5 @@ const TransactionStatusCard = ({ transactionStatusData }) => {
 };
 
 export default TransactionStatusCard;
+
+

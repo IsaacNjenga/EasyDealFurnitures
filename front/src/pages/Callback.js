@@ -1,5 +1,5 @@
 import { Button, Result } from "antd";
-import { useState } from "react";
+import {  useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useNotification } from "../context/NotificationContext";
 import axios from "axios";
@@ -12,8 +12,6 @@ function Callback() {
   const [transactionStatusData, setTransactionStatusData] = useState(null);
   const openNotification = useNotification();
 
-  //const tracking_id = "c32d7d6c-6066-4e86-9185-db2170b087d9";
-
   const getTransactionStatus = async () => {
     setLoading(true);
     try {
@@ -22,13 +20,26 @@ function Callback() {
       );
       console.log(res.data);
       setTransactionStatusData(res.data);
+
+      const isSuccess =
+        res.data?.payment_status_description?.toLowerCase() === "completed" ||
+        res.data?.status_code === 1;
+
+      if (isSuccess) {
+        localStorage.removeItem("cart");
+        openNotification(
+          "success",
+          "Payment confirmed! Your cart has been cleared.",
+          "Thank you for your purchase."
+        );
+      }
     } catch (error) {
       openNotification(
         "error",
         "Failed to fetch transaction status. Contact us if the problem persists.",
         "Something went wrong..."
       );
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -41,11 +52,7 @@ function Callback() {
         minHeight: "100vh",
       }}
     >
-      <div
-        style={{
-          margin: "0 auto",
-        }}
-      >
+      <div style={{ margin: "0 auto" }}>
         <Result
           status="success"
           title="Transaction Successful"
@@ -80,3 +87,5 @@ function Callback() {
 }
 
 export default Callback;
+
+//const tracking_id = "c32d7d6c-6066-4e86-9185-db2170b087d9";

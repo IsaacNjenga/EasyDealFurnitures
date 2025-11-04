@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Input,
@@ -77,6 +77,16 @@ function Checkout() {
       }
       openNotification("success", "Proceeding to payment...", "Success!");
 
+      const paymentDetails = {
+        //amount: total,
+        amount: 1, //temp for testing
+        phone_number: formData.phone,
+        email: formData.email,
+      };
+
+      const res = await axios.post("initiate-payment", paymentDetails);
+      const { redirectUrl, orderTrackingId } = res.data;
+
       const checkoutData = {
         order: cartItems,
         customer_info: {
@@ -89,27 +99,20 @@ function Checkout() {
           additional_info: formData.details,
         },
         payment_method: paymentMethod,
+        subtotal: subtotal,
         total: total,
         items: cartItems.length,
         delivery_option: deliveryOption,
         shipping_fee: shippingFee,
         date: new Date().toISOString(),
+        orderTrackingId: orderTrackingId,
       };
 
-      //console.log(checkoutData);
-
-      const paymentDetails = {
-        amount: total,
-        phone_number: formData.phone,
-        email: formData.email,
-      };
-
-      const res = await axios.post("initiate-payment", paymentDetails);
-      const { redirectUrl } = res.data;
+      console.log("checkout Data:", checkoutData);
 
       window.location.href = redirectUrl;
 
-      // setFormData({});
+      setFormData({});
     } catch (error) {
       console.error(error);
       openNotification(
@@ -120,8 +123,6 @@ function Checkout() {
     } finally {
       setLoading(false);
     }
-
-    // TO:DO integrate payment API call here
   };
 
   return (

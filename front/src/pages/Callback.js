@@ -34,7 +34,7 @@ function Callback() {
       }
 
       const response = await axios.put(
-        "https://easy-deal-admin-server.vercel.app/EasyAdmin/order-update",
+        `https://easy-deal-admin-server.vercel.app/EasyAdmin/client-order-update?tracking_id=${tracking_id}`,
         { updateData: res.data }
       );
 

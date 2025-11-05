@@ -138,7 +138,6 @@ function Shop() {
                 maxHeight: isMobile ? 150 : 200,
                 maxWidth: 200,
                 transition: "all 0.25s ease-in-out",
-
                 // border:
                 //   selectedTab === s.title
                 //     ? "4px solid #fea549"

@@ -31,17 +31,19 @@ function Checkout() {
   const { cartItems } = useCart();
   const { isMobile } = useUser();
   const openNotification = useNotification();
-  const { useMyLocation, addressDetails, geoLoading } = GetLocation();
+  const { useMyLocation, addressDetails, geoLoading, selectedLocation } =
+    GetLocation();
   const { updateCart, removeFromCart } = CartFunctions();
   const [loading, setLoading] = useState(false);
   const [deliveryOption, setDeliveryOption] = useState("delivery");
   const [paymentMethod, setPaymentMethod] = useState("mpesa");
   const [formData, setFormData] = useState({
-    full_name: "",
+    first_name: "",
+    last_name: "",
     phone: "",
-    address: "",
-    city: "",
-    details: "",
+    //address: "",
+    //details: "",
+    email: "",
   });
 
   const subtotal = cartItems.reduce(
@@ -60,28 +62,32 @@ function Checkout() {
     setLoading(true);
     try {
       if (deliveryOption === "delivery") {
-        if (
-          !formData.full_name ||
-          !formData.email ||
-          !formData.phone ||
-          !formData.address ||
-          !formData.city
-        ) {
+        const missingFields = Object.entries(formData)
+          .filter(([key, value]) => !value)
+          .map(([key]) => key);
+
+        if (missingFields.length > 0) {
           openNotification(
             "warning",
-            "Please fill in all delivery details.",
+            `Please fill in the following fields: ${missingFields.join(", ")}.`,
             "Error!"
           );
           return;
         }
       }
-      openNotification("success", "Proceeding to payment...", "Success!");
+      openNotification(
+        "success",
+        "Proceeding to payment. Please wait...",
+        "Success!"
+      );
 
       const paymentDetails = {
         //amount: total,
         amount: 1, //temp for testing
         phone_number: formData.phone,
         email: formData.email,
+        first_name: formData.first_name,
+        last_name: formData.last_name,
       };
 
       const res = await axios.post("initiate-payment", paymentDetails);
@@ -90,11 +96,12 @@ function Checkout() {
       const checkoutData = {
         order: cartItems,
         customer_info: {
-          full_name: formData.full_name,
+          first_name: formData.first_name,
+          last_name: formData.last_name,
           phone: formData.phone,
-          address: formData.address,
-          city: formData.city,
-          coordinates: "",
+          address: addressDetails.formattedAddress,
+          city: addressDetails.city,
+          coordinates: { lat: selectedLocation.lat, lng: selectedLocation.lng },
           email: formData.email,
           additional_info: formData.details,
         },
@@ -108,9 +115,15 @@ function Checkout() {
         orderTrackingId: orderTrackingId,
       };
 
-      console.log("checkout Data:", checkoutData);
+      //console.log("checkout Data:", checkoutData);
 
-      window.location.href = redirectUrl;
+      const response = await axios.post(
+        "https://easy-deal-admin-server.vercel.app/EasyAdmin/create-order",
+        checkoutData
+      );
+      if (response.data.success) {
+        window.location.href = redirectUrl;
+      }
 
       setFormData({});
     } catch (error) {
@@ -408,17 +421,33 @@ function Checkout() {
                   <Row gutter={[24, 24]}>
                     <Col xs={24} sm={24} md={12} lg={12}>
                       <Input
-                        placeholder="Full Name"
-                        value={formData.full_name}
+                        placeholder="First Name"
+                        value={formData.first_name}
                         onChange={(e) =>
                           setFormData({
                             ...formData,
-                            full_name: e.target.value,
+                            first_name: e.target.value,
                           })
                         }
                         style={{ fontFamily: "DM Sans", height: 40 }}
                       />
                     </Col>
+                    <Col xs={24} sm={24} md={12} lg={12}>
+                      <Input
+                        placeholder="Last Name"
+                        value={formData.last_name}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            last_name: e.target.value,
+                          })
+                        }
+                        style={{ fontFamily: "DM Sans", height: 40 }}
+                      />
+                    </Col>
+                  </Row>
+
+                  <Row gutter={[24, 24]}>
                     <Col xs={24} sm={24} md={12} lg={12}>
                       <Input
                         placeholder="Phone Number"
@@ -429,23 +458,23 @@ function Checkout() {
                         style={{ fontFamily: "DM Sans", height: 40 }}
                       />
                     </Col>
+                    <Col xs={24} sm={24} md={12} lg={12}>
+                      <Input
+                        placeholder="Email Address"
+                        value={formData.email}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
+                        style={{ fontFamily: "DM Sans", height: 40 }}
+                      />
+                    </Col>
                   </Row>
-
-                  <Input
-                    placeholder="Email Address"
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                    style={{ fontFamily: "DM Sans", height: 40 }}
-                  />
 
                   <Space.Compact>
                     <Input
-                      placeholder="Delivery Address"
-                      value={
-                        formData.address || addressDetails.formattedAddress
-                      }
+                      placeholder="Delivery Address (Click the button)"
+                      disabled
+                      value={addressDetails.formattedAddress}
                       onChange={(e) =>
                         setFormData({ ...formData, address: e.target.value })
                       }
@@ -462,14 +491,36 @@ function Checkout() {
                     </Button>
                   </Space.Compact>
 
-                  <Input
+                  {/* <Space.Compact>
+                    <Input
+                      placeholder="Lat"
+                      disabled
+                      value={formData.lat || selectedLocation.lat}
+                      onChange={(e) =>
+                        setFormData({ ...formData, lat: e.target.value })
+                      }
+                      style={{ fontFamily: "DM Sans", height: 40 }}
+                    />
+                    <Input
+                      placeholder="Lng"
+                      disabled
+                      value={formData.lng || selectedLocation.lng}
+                      onChange={(e) =>
+                        setFormData({ ...formData, lng: e.target.value })
+                      }
+                      style={{ fontFamily: "DM Sans", height: 40 }}
+                    />
+                  </Space.Compact> */}
+
+                  {/* <Input
                     placeholder="City / Town"
                     value={formData.city || addressDetails.city}
                     onChange={(e) =>
                       setFormData({ ...formData, city: e.target.value })
                     }
                     style={{ fontFamily: "DM Sans", height: 40 }}
-                  />
+                  /> */}
+
                   <Input.TextArea
                     placeholder="Additional Details"
                     value={formData.details}
@@ -481,20 +532,84 @@ function Checkout() {
                   />
                 </div>
               ) : (
-                <div style={{ marginTop: 10, lineHeight: 1.8 }}>
-                  <strong>Pickup Location:</strong>
-                  <p style={{ margin: 0, fontFamily: "DM Sans" }}>
-                    EasyDeal Furniture
-                  </p>
-                  <p style={{ margin: 0, fontFamily: "DM Sans" }}>
-                    Ngara Rd., Nairobi, Kenya
-                  </p>
-                  <p style={{ margin: 0, fontFamily: "DM Sans" }}>
-                    Mon–Sat: 8:00 AM – 6:00 PM
-                  </p>
-                  <p style={{ margin: 0, fontFamily: "DM Sans" }}>
-                    Call: +254 720 731-982
-                  </p>
+                <div style={{ marginTop: 0, lineHeight: 1.8 }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 10,
+                    }}
+                  >
+                    <p style={{ margin: 0 }}>
+                      We'll use these details to contact you
+                    </p>
+                    <Row gutter={[24, 24]}>
+                      <Col xs={24} sm={24} md={12} lg={12}>
+                        <Input
+                          placeholder="First Name"
+                          value={formData.first_name}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              first_name: e.target.value,
+                            })
+                          }
+                          style={{ fontFamily: "DM Sans", height: 40 }}
+                        />
+                      </Col>
+                      <Col xs={24} sm={24} md={12} lg={12}>
+                        <Input
+                          placeholder="Last Name"
+                          value={formData.last_name}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              last_name: e.target.value,
+                            })
+                          }
+                          style={{ fontFamily: "DM Sans", height: 40 }}
+                        />
+                      </Col>
+                    </Row>
+
+                    <Row gutter={[24, 24]}>
+                      <Col xs={24} sm={24} md={12} lg={12}>
+                        <Input
+                          placeholder="Phone Number"
+                          value={formData.phone}
+                          onChange={(e) =>
+                            setFormData({ ...formData, phone: e.target.value })
+                          }
+                          style={{ fontFamily: "DM Sans", height: 40 }}
+                        />
+                      </Col>
+                      <Col xs={24} sm={24} md={12} lg={12}>
+                        <Input
+                          placeholder="Email Address"
+                          value={formData.email}
+                          onChange={(e) =>
+                            setFormData({ ...formData, email: e.target.value })
+                          }
+                          style={{ fontFamily: "DM Sans", height: 40 }}
+                        />
+                      </Col>
+                    </Row>
+                  </div>
+                  <div style={{ marginTop: 10 }}>
+                    <strong>Pickup Location:</strong>
+                    <p style={{ margin: 0, fontFamily: "DM Sans" }}>
+                      EasyDeal Furniture
+                    </p>
+                    <p style={{ margin: 0, fontFamily: "DM Sans" }}>
+                      Ngara Rd., Nairobi, Kenya
+                    </p>
+                    <p style={{ margin: 0, fontFamily: "DM Sans" }}>
+                      Mon–Sat: 8:00 AM – 6:00 PM
+                    </p>
+                    <p style={{ margin: 0, fontFamily: "DM Sans" }}>
+                      Call: +254 720 731-982
+                    </p>
+                  </div>
                 </div>
               )}
             </Card>
@@ -521,11 +636,11 @@ function Checkout() {
                 <Radio value="mpesa" style={{ fontFamily: "DM Sans" }}>
                   M-Pesa
                 </Radio>
-                <Radio value="paypal" style={{ fontFamily: "DM Sans" }}>
+                {/* <Radio value="paypal" style={{ fontFamily: "DM Sans" }}>
                   PayPal
-                </Radio>
+                </Radio> */}
                 <Radio value="onDelivery" style={{ fontFamily: "DM Sans" }}>
-                  Pay on Delivery
+                  Cash on Delivery
                 </Radio>
               </Radio.Group>
             </Card>

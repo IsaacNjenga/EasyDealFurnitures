@@ -9,7 +9,7 @@ const callback_url = process.env.CALLBACK_URL;
 const cancellation_url = process.env.CANCELLATION_URL;
 
 const submitOrder = async (req, res) => {
-  const { amount, phone_number, email } = req.body;
+  const { amount, phone_number, email, first_name, last_name } = req.body;
 
   console.log("body", req.body);
 
@@ -41,8 +41,8 @@ const submitOrder = async (req, res) => {
       billing_address: {
         email: email,
         phone_number: phone_number,
-        first_name: "",
-        last_name: "",
+        first_name: first_name,
+        last_name: last_name,
       },
     };
 

@@ -1,5 +1,5 @@
 import { Button, Result } from "antd";
-import {  useState } from "react";
+import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useNotification } from "../context/NotificationContext";
 import axios from "axios";
@@ -18,7 +18,6 @@ function Callback() {
       const res = await axios.get(
         `transaction-status?orderTrackingId=${tracking_id}`
       );
-      console.log(res.data);
       setTransactionStatusData(res.data);
 
       const isSuccess =
@@ -30,6 +29,19 @@ function Callback() {
         openNotification(
           "success",
           "Payment confirmed! Your cart has been cleared.",
+          "Thank you for your purchase."
+        );
+      }
+
+      const response = await axios.put(
+        "https://easy-deal-admin-server.vercel.app/EasyAdmin/order-update",
+        { updateData: res.data }
+      );
+
+      if (response.data.success) {
+        openNotification(
+          "success",
+          "Transaction confirmed!",
           "Thank you for your purchase."
         );
       }

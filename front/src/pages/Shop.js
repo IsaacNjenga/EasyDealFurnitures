@@ -1,55 +1,17 @@
-import React, { useMemo, useState } from "react";
-import { Button, Image, Spin, Typography } from "antd";
+import { useMemo, useState } from "react";
+import { Button, Image, Row, Skeleton, Typography } from "antd";
 import { useUser } from "../context/UserContext";
 import "../assets/css/shop.css";
-import { shopProducts } from "../assets/data/data";
 import ViewItem from "../components/ViewItem";
 import ItemCard from "../components/ItemCard";
 import emptyImg from "../assets/images/Empty.png";
+import useFetchAllProducts from "../assets/hooks/fetchAllProducts";
+import { selectableItems } from "../utils/ShopPageFunctions";
 
 const { Title, Text } = Typography;
 
 const bannerImg =
   "https://images.pexels.com/photos/416320/pexels-photo-416320.jpeg";
-
-const selectableItems = [
-  {
-    key: 1,
-    title: "Office Furniture",
-    img: "https://images.pexels.com/photos/416320/pexels-photo-416320.jpeg",
-    link: "/shop",
-  },
-  {
-    key: 2,
-    title: "Bedroom Furniture",
-    img: "https://images.pexels.com/photos/1571459/pexels-photo-1571459.jpeg",
-    link: "/shop",
-  },
-  {
-    key: 3,
-    title: "Kitchen Furniture",
-    img: "https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg",
-    link: "/shop",
-  },
-  {
-    key: 4,
-    title: "Outdoor Furniture",
-    img: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg",
-    link: "/shop",
-  },
-  {
-    key: 5,
-    title: "Living Room Furniture",
-    img: "https://images.pexels.com/photos/1866149/pexels-photo-1866149.jpeg",
-    link: "/shop",
-  },
-  {
-    key: 6,
-    title: "Second-Hand Items",
-    img: "https://images.pexels.com/photos/276528/pexels-photo-276528.jpeg",
-    link: "/shop",
-  },
-];
 
 const heroStyle = {
   position: "absolute",
@@ -72,11 +34,12 @@ function Shop() {
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectedTab, setSelectedTab] = useState("");
+  const { products, productsLoading, handleLoadMore } = useFetchAllProducts();
 
   const filteredProducts = useMemo(() => {
-    if (selectedTab === "") return shopProducts;
-    return shopProducts.filter((p) => p.category === selectedTab);
-  }, [selectedTab]);
+    if (selectedTab === "") return products;
+    return products.filter((p) => p.category === selectedTab);
+  }, [selectedTab, products]);
 
   const tabSelector = (name) => {
     setSelectedTab(name);
@@ -256,12 +219,13 @@ function Shop() {
 
       {/* products */}
       <div>
-        {loading ? (
-          <div style={{ margin: "10px 10px", padding: "10px 15px" }}>
-            <Spin
-              size="large"
-              style={{ display: "block", margin: "40px auto" }}
-            />
+        {productsLoading ? (
+          <div style={{ margin: "0px 10px", padding: "10px 15px" }}>
+            <Row gutter={[32, 32]}>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Skeleton.Button key={i} active size="large" block />
+              ))}
+            </Row>
           </div>
         ) : (
           <div>
@@ -300,9 +264,7 @@ function Shop() {
             ) : (
               <div style={{ margin: "0px 10px", padding: "10px 15px" }}>
                 <ItemCard
-                  dataSource={
-                    selectedTab === "" ? shopProducts : filteredProducts
-                  }
+                  dataSource={selectedTab === "" ? products : filteredProducts}
                   isMobile={isMobile}
                   viewItem={viewItem}
                 />
@@ -310,6 +272,19 @@ function Shop() {
             )}
           </div>
         )}
+      </div>
+      <div
+        style={{
+          margin: "0 auto",
+          padding: "10px 15px",
+          textAlign: "center",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Button type="primary" onClick={handleLoadMore}>
+          Load More
+        </Button>
       </div>
 
       <ViewItem

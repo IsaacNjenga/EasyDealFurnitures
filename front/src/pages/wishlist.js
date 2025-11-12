@@ -29,7 +29,7 @@ const heroStyle = {
 
 function Wishlist() {
   const { isMobile } = useUser();
-  const { wishItems } = useWish();
+  const { liveWishItems } = useWish();
   const [openModal, setOpenModal] = useState(false);
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -93,7 +93,7 @@ function Wishlist() {
       </div>
 
       <div>
-        {wishItems.length === 0 ? (
+        {liveWishItems.length === 0 ? (
           <div
             style={{
               textAlign: "center",
@@ -129,7 +129,7 @@ function Wishlist() {
         ) : (
           <div style={{ margin: "10px 10px", padding: "10px 15px" }}>
             <ItemCard
-              dataSource={wishItems}
+              dataSource={liveWishItems}
               isMobile={isMobile}
               viewItem={viewItem}
             />

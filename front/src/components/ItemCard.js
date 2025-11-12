@@ -54,13 +54,8 @@ function ItemCard({ dataSource, isMobile, viewItem }) {
                             <img
                               src={img}
                               alt={b._id}
-                              style={{
-                                width: "100%",
-                                height: "320px",
-                                objectFit: "cover",
-                                display: "block",
-                                borderRadius: 0,
-                              }}
+                              loading="lazy"
+                              className="item-card-img"
                             />
                           </div>
                         )
@@ -306,4 +301,4 @@ function ItemCard({ dataSource, isMobile, viewItem }) {
   );
 }
 
-export default ItemCard;
+export default React.memo(ItemCard);

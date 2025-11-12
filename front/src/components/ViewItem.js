@@ -26,6 +26,7 @@ import { CartFunctions } from "../utils/CartFunctions";
 import { WishFunctions } from "../utils/WishFunctions";
 import { useNotification } from "../context/NotificationContext";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -113,6 +114,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                       <Image
                         src={img}
                         alt="img"
+                        loading="lazy"
                         height={isMobile ? 300 : 500}
                         width={isMobile ? 300 : 500}
                         style={{
@@ -528,4 +530,4 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
   );
 }
 
-export default ViewItem;
+export default React.memo(ViewItem);

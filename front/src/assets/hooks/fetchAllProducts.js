@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { useNotification } from "../contexts/NotificationContext";
+import { useNotification } from "../../context/NotificationContext";
 
 function useFetchAllProducts() {
   const openNotification = useNotification();
@@ -56,7 +56,7 @@ function useFetchAllProducts() {
       setRefreshing(false);
       setProductsLoading(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

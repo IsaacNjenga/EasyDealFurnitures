@@ -28,7 +28,7 @@ const { Title, Text } = Typography;
 
 function Checkout() {
   const navigate = useNavigate();
-  const { cartItems } = useCart();
+  const { liveCartItems } = useCart();
   const { isMobile } = useUser();
   const openNotification = useNotification();
   const { useMyLocation, addressDetails, geoLoading, selectedLocation } =
@@ -46,7 +46,7 @@ function Checkout() {
     email: "",
   });
 
-  const subtotal = cartItems.reduce(
+  const subtotal = liveCartItems.reduce(
     (total, item) =>
       total +
       (item.discount > 0
@@ -94,7 +94,7 @@ function Checkout() {
       const { redirectUrl, orderTrackingId } = res.data;
 
       const checkoutData = {
-        order: cartItems,
+        order: liveCartItems,
         customer_info: {
           first_name: formData.first_name,
           last_name: formData.last_name,
@@ -108,7 +108,7 @@ function Checkout() {
         payment_method: paymentMethod,
         subtotal: subtotal,
         total: total,
-        items: cartItems.length,
+        items: liveCartItems.length,
         delivery_option: deliveryOption,
         shipping_fee: shippingFee,
         date: new Date().toISOString(),
@@ -223,7 +223,7 @@ function Checkout() {
           <Divider />
           <List
             itemLayout="horizontal"
-            dataSource={cartItems}
+            dataSource={liveCartItems}
             renderItem={(item) => (
               <List.Item
                 style={{

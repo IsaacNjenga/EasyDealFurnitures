@@ -64,7 +64,7 @@ export const bestSellersGrid = [
       "https://images.pexels.com/photos/1957477/pexels-photo-1957477.jpeg",
     ],
     freeShipping: true,
-    discount: 3,
+    discount: 0,
     available: true,
     stockCount: 12,
     material: "Solid wood frame, memory foam headboard",
@@ -297,7 +297,7 @@ export const shopProducts = [
     careGuide:
       "Wipe with a soft cloth. Avoid abrasive cleaners. Use coasters to protect the surface.",
     tags: ["dining", "table", "wooden", "handcrafted"],
-    discount: 10,
+    discount: 69,
   },
   {
     _id: 4,

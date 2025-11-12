@@ -21,10 +21,10 @@ const { Text, Title } = Typography;
 function Cart() {
   const navigate = useNavigate();
   const { isMobile } = useUser();
-  const { cartItems } = useCart();
+  const { liveCartItems } = useCart();
   const { updateCart, removeFromCart } = CartFunctions();
 
-  const total = cartItems.reduce(
+  const total = liveCartItems.reduce(
     (sum, item) =>
       sum +
       (item.discount > 0
@@ -34,7 +34,7 @@ function Cart() {
     0
   );
 
-  if (cartItems.length === 0) {
+  if (liveCartItems.length === 0) {
     return (
       <div>
         <Empty description="Your cart is empty" />
@@ -46,7 +46,7 @@ function Cart() {
     <div style={{ padding: 10 }}>
       <List
         itemLayout="horizontal"
-        dataSource={cartItems}
+        dataSource={liveCartItems}
         renderItem={(item) => (
           <List.Item
             style={{ flexWrap: "wrap" }}
@@ -122,9 +122,9 @@ function Cart() {
                           ? ((100 - item.discount) * item.price) / 100
                           : item.price * item.quantity
                         ).toLocaleString()}{" "}
-                      {item.discount > 0 ? (
-                        <Tag color="#ffa34a">{item.discount}% off</Tag>
-                      ) : null}
+                        {item.discount > 0 ? (
+                          <Tag color="#ffa34a">{item.discount}% off</Tag>
+                        ) : null}
                       </Text>
                       <p
                         style={{

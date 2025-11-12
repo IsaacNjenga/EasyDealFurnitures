@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { shopProducts } from "../../assets/data/data";
 
 const CartContext = createContext();
 
@@ -19,7 +20,21 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const value = { cartOpen, toggleCart, setCartItems, cartItems };
+  // compute merged items
+  const liveCartItems = cartItems
+    .map((item) => {
+      const product = shopProducts.find((p) => p._id === item._id);
+      return product ? { ...product, quantity: item.quantity } : null;
+    })
+    .filter(Boolean); //remove non existent items
+
+  const value = {
+    cartOpen,
+    toggleCart,
+    setCartItems,
+    cartItems,
+    liveCartItems,
+  };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };

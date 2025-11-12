@@ -29,12 +29,12 @@ function App() {
           <Route path="/" element={<Navbar />}>
             <Route index element={<Home />} />
             <Route path="/shop" element={<Shop />} />
+            <Route path="shop/product" element={<ProductDetails />} />
             <Route path="/shop/sale" element={<OnSale />} />
             <Route path="/shop/new" element={<NewArrivals />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/product" element={<ProductDetails />} />
           </Route>
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/cancel" element={<Cancel />} />

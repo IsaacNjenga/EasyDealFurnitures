@@ -25,10 +25,12 @@ import { useUser } from "../context/UserContext";
 import { CartFunctions } from "../utils/CartFunctions";
 import { WishFunctions } from "../utils/WishFunctions";
 import { useNotification } from "../context/NotificationContext";
+import { useNavigate } from "react-router-dom";
 
 const { Title, Paragraph, Text } = Typography;
 
 function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
+  const navigate = useNavigate();
   const { toggleDetailsDrawer, detailsDrawer } = useUser();
   const { addToCart, removeFromCart, isInCart } = CartFunctions();
   const { addToWish, removeFromWish, isInWish } = WishFunctions();
@@ -404,7 +406,8 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
               {/* View More Details Link */}
               <Button
                 type="link"
-                onClick={toggleDetailsDrawer}
+                // onClick={toggleDetailsDrawer}
+                onClick={() => navigate(`/shop/product?id=${content?._id}`)}
                 style={{
                   padding: 0,
                   height: "auto",
@@ -519,7 +522,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
           </Space>
         }
       >
-        <DetailsDrawer content={content} isMobile={isMobile} />
+        <DetailsDrawer content={content} />
       </Drawer>
     </>
   );

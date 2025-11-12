@@ -17,6 +17,7 @@ import {
   StarOutlined,
   ScissorOutlined,
 } from "@ant-design/icons";
+//import { useUser } from "../context/UserContext";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -28,11 +29,11 @@ const iconStyle = {
   marginRight: 8,
 };
 
-function DetailsDrawer({ content, isMobile }) {
+function DetailsDrawer({ content }) {
+  //const { isMobile } = useUser();
   if (!content) return null;
   return (
     <div>
-      {" "}
       {/* Image Gallery */}
       <div>
         {" "}

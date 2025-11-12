@@ -13,8 +13,10 @@ import Callback from "./pages/Callback";
 import Cancel from "./pages/Cancel";
 import axios from "axios";
 import LocationMap from "./pages/LocationMap";
+import ProductDetails from "./pages/ProductDetails";
 
-axios.defaults.baseURL = "https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal";
+axios.defaults.baseURL =
+  "https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal";
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -32,6 +34,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/product" element={<ProductDetails />} />
           </Route>
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/cancel" element={<Cancel />} />

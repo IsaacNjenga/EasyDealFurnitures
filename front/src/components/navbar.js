@@ -100,13 +100,13 @@ function Navbar() {
                     width: scrolled ? 55 : isMobile ? 65 : 150,
                     height: scrolled ? 55 : isMobile ? 65 : 150,
                     borderRadius: "50%",
-                    //border: "2px solid #3d63d3ff",
                     objectFit: "cover",
                     transition: "all 0.3s ease",
                     cursor: "pointer",
                     marginTop: 5,
                     marginBottom: 0,
                     marginRight: 5,
+                    boxShadow: "0 4px 16px rgba(254, 165, 73, 0.4)",
                   }}
                   onMouseEnter={(e) =>
                     (e.currentTarget.style.transform = "scale(1.05)")
@@ -229,7 +229,7 @@ function Navbar() {
                     //dot={cartItems.length > 0 ? true : false}
                     overflowCount={10}
                     count={cartItems.length}
-                    offset={[2, 2]} 
+                    offset={[2, 2]}
                     style={{
                       backgroundColor: "#fea549",
                       color: "#fff",
@@ -247,7 +247,7 @@ function Navbar() {
                       }
                     />
                   </Badge>
-                </Tooltip>               
+                </Tooltip>
               </div>
             )}
           </div>

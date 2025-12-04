@@ -10,7 +10,7 @@ const { Title, Text } = Typography;
 
 function ItemCard({ dataSource, isMobile, viewItem }) {
   const { addToCart, removeFromCart, isInCart } = CartFunctions();
-  const { addToWish, removeFromWish, isInWish } = WishFunctions();
+  const { addToWish, removeFromWish, isInWish} = WishFunctions();
   const openNotification = useNotification();
 
   return (

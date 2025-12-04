@@ -253,7 +253,8 @@ const Collections = () => {
                 {/* Image */}
                 <motion.img
                   src={c.img}
-                  alt={c.text}
+                  alt="_img"
+                  loading="lazy"
                   style={{
                     width: "100%",
                     height: "100%",
@@ -611,6 +612,7 @@ export default function Home() {
               key={index}
               src={img}
               alt={`bg-${index}`}
+              loading='lazy'
               preview={false}
               width="100%"
               height={isMobile ? 400 : 700}

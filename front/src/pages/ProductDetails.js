@@ -90,6 +90,7 @@ function ProductDetails() {
       <div style={{ position: "relative", marginBottom: 10 }}>
         <Image
           src={content?.img[0]}
+          loading="lazy"
           alt="bgImg"
           width="100%"
           height={isMobile ? 350 : 500}

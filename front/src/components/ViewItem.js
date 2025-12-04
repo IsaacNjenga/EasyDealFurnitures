@@ -1,5 +1,6 @@
 import {
   CloseOutlined,
+  ExpandOutlined,
   HeartFilled,
   HeartOutlined,
   ShoppingCartOutlined,
@@ -97,7 +98,13 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                   borderRadius: 0,
                 }}
               >
-                <Carousel autoplay autoplaySpeed={4500} dots arrows>
+                <Carousel
+                  autoplay
+                  autoplaySpeed={4500}
+                  dots
+                  arrows={!isMobile}
+                  dotPosition="bottom"
+                >
                   {(Array.isArray(content?.img)
                     ? content?.img
                     : [content?.img]
@@ -123,9 +130,13 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                           objectFit: isMobile ? "cover" : "contain",
                           borderRadius: 6,
                         }}
-                        preview={{
-                          mask: "Click to zoom",
-                        }}
+                         preview={{
+                    mask: (
+                      <>
+                        <ExpandOutlined /> View Full Size
+                      </>
+                    ),
+                  }}
                       />
                     </div>
                   ))}

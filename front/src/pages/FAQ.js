@@ -6,9 +6,6 @@ import { PlusOutlined } from "@ant-design/icons";
 const { Title, Text } = Typography;
 const { Panel } = Collapse;
 
-const bannerImg =
-  "https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg";
-
 const heroStyle = {
   position: "absolute",
   top: 0,
@@ -63,7 +60,8 @@ function FAQ() {
       {/* banner */}
       <div style={{ position: "relative", marginBottom: 10 }}>
         <Image
-          src={bannerImg}
+          src="https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg"
+          loading="lazy"
           alt="bgImg"
           width="100%"
           height={isMobile ? 350 : 500}

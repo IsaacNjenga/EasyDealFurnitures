@@ -25,9 +25,6 @@ const { BaseLayer } = LayersControl;
 
 const { Title, Text, Paragraph } = Typography;
 
-const bannerImg =
-  "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg";
-
 const heroStyle = {
   position: "absolute",
   top: 0,
@@ -179,9 +176,10 @@ function Contact() {
       {/* banner */}
       <div style={{ position: "relative", marginBottom: 10 }}>
         <Image
-          src={bannerImg}
+          src='https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg'
           alt="bgImg"
           width="100%"
+          loading="lazy"
           height={isMobile ? 350 : 500}
           preview={false}
           style={{

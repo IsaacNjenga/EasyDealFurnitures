@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Button, Image, Row, Skeleton, Typography } from "antd";
+import { Button, Col, Image, Row, Skeleton, Typography } from "antd";
 import { useUser } from "../context/UserContext";
 import "../assets/css/shop.css";
 import ViewItem from "../components/ViewItem";
@@ -9,9 +9,6 @@ import useFetchAllProducts from "../assets/hooks/fetchAllProducts";
 import { selectableItems } from "../utils/ShopPageFunctions";
 
 const { Title, Text } = Typography;
-
-const bannerImg =
-  "https://images.pexels.com/photos/416320/pexels-photo-416320.jpeg";
 
 const heroStyle = {
   position: "absolute",
@@ -57,9 +54,10 @@ function Shop() {
       {/* banner */}
       <div style={{ position: "relative", marginBottom: 10 }}>
         <Image
-          src={bannerImg}
+          src="https://images.pexels.com/photos/416320/pexels-photo-416320.jpeg"
           alt="bgImg"
           width="100%"
+          loading="lazy"
           height={isMobile ? 350 : 500}
           preview={false}
           style={{
@@ -223,7 +221,9 @@ function Shop() {
           <div style={{ margin: "0px 10px", padding: "10px 15px" }}>
             <Row gutter={[32, 32]}>
               {Array.from({ length: 6 }).map((_, i) => (
-                <Skeleton.Button key={i} active size="large" block />
+                <Col key={i} xs={24} sm={12} md={8}>
+                  <Skeleton active avatar paragraph={{ rows: 3 }} />
+                </Col>
               ))}
             </Row>
           </div>

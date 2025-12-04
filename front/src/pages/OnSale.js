@@ -9,9 +9,6 @@ import emptyImg from "../assets/images/Empty.png";
 
 const { Title, Text } = Typography;
 
-const bannerImg =
-  "https://images.pexels.com/photos/1571459/pexels-photo-1571459.jpeg";
-
 const heroStyle = {
   position: "absolute",
   top: 0,
@@ -47,7 +44,8 @@ function OnSale() {
       {/* banner */}
       <div style={{ position: "relative", marginBottom: 10 }}>
         <Image
-          src={bannerImg}
+          src="https://images.pexels.com/photos/1571459/pexels-photo-1571459.jpeg"
+          loading="lazy"
           alt="bgImg"
           width="100%"
           height={isMobile ? 350 : 500}

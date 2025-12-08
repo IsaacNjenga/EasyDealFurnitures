@@ -13,7 +13,7 @@ function AuthProvider({ children }) {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(null);
-  const [openAuthModal, setOpenAuthModal] = useState(true);
+  const [openAuthModal, setOpenAuthModal] = useState(false);
   const [localUser, setlocalUser] = useState(() => {
     const storedLocalUser = localStorage.getItem("user");
     return storedLocalUser ? JSON.parse(storedLocalUser) : null;

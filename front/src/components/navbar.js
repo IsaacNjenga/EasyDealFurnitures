@@ -1,9 +1,16 @@
 import React from "react";
-import { Menu, Button, Layout, Typography, Drawer, Tooltip, Badge } from "antd";
-import { Link, Outlet } from "react-router-dom";
+import {
+  Menu,
+  Button,
+  Layout,
+  Typography,
+  Drawer,
+  Tooltip,
+  Badge,
+  Avatar,
+} from "antd";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import FooterComponent from "./footer";
-//import chair from "../assets/icons/office-chair.png";
-import chair1 from "../assets/icons/office-chair1.png";
 import { useUser } from "../context/UserContext";
 import {
   CloseOutlined,
@@ -15,6 +22,8 @@ import {
 import "../assets/css/navbar.css";
 import { useCart } from "../context/CartContext";
 import Cart from "./Cart";
+import AuthModal from "./AuthModal";
+import { useAuth } from "../context/AuthContext";
 
 const { Title, Text } = Typography;
 const { Header, Content, Footer } = Layout;
@@ -44,8 +53,15 @@ const menuItems = [
 ];
 
 function Navbar() {
+  const navigate = useNavigate();
   const { isMobile, scrolled, toggleDrawer, drawerOpen } = useUser();
+  const { userLoggedIn, currentUser, openAuthModal, setOpenAuthModal } =
+    useAuth();
   const { cartItems, cartOpen, toggleCart } = useCart();
+
+  const handleAuth = () => {
+    setOpenAuthModal(true);
+  };
 
   const headerStyle = {
     position: "fixed",
@@ -94,7 +110,7 @@ function Navbar() {
                 }}
               >
                 <img
-                  src={chair1}
+                  src="https://res.cloudinary.com/dinsdfwod/image/upload/v1765199954/office-chair1_xlt5fs.png"
                   alt="logo"
                   style={{
                     width: scrolled ? 55 : isMobile ? 65 : 150,
@@ -209,9 +225,76 @@ function Navbar() {
               <div
                 style={{
                   display: "flex",
-                  gap: 25,
+                  gap: 20,
+                  flexDirection: "row",
+                  alignContent: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
+                <div>
+                  {userLoggedIn && currentUser ? (
+                    <>
+                      <Tooltip
+                        title={
+                          currentUser?.displayName ||
+                          currentUser?.email ||
+                          "User"
+                        }
+                      >
+                        {currentUser?.photoURL ? (
+                          <Avatar
+                            src={currentUser?.photoURL}
+                            size="50"
+                            onClick={() => {
+                              navigate("/user");
+                            }}
+                          />
+                        ) : (
+                          <Avatar
+                            size="50"
+                            onClick={() => {
+                              navigate("/user");
+                            }}
+                          >
+                            {/* Safe access with fallback */}
+                            {currentUser?.displayName?.[0] ||
+                              currentUser?.email?.[0]?.toUpperCase() ||
+                              "U"}
+                          </Avatar>
+                        )}
+                      </Tooltip>
+                    </>
+                  ) : (
+                    <Button
+                      type="primary"
+                      onClick={handleAuth}
+                      style={{
+                        fontFamily: "Alegreya Sans",
+                        fontSize: 22,
+                        fontWeight: 300,
+                        color: "#ffffff",
+                        letterSpacing: 1.5,
+                        background: "linear-gradient(135deg, #bdb890, #a8a378)",
+                        border: "none",
+                        boxShadow: "0 4px 16px rgba(189, 184, 144, 0.3)",
+                        transition: "all 0.3s ease",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = "translateY(-2px)";
+                        e.currentTarget.style.boxShadow =
+                          "0 8px 24px rgba(189, 184, 144, 0.4)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = "translateY(0)";
+                        e.currentTarget.style.boxShadow =
+                          "0 4px 16px rgba(189, 184, 144, 0.3)";
+                      }}
+                    >
+                      Sign In
+                    </Button>
+                  )}
+                </div>
                 <Tooltip title="Search...">
                   <SearchOutlined
                     style={iconStyle}
@@ -226,7 +309,6 @@ function Navbar() {
                 </Tooltip>
                 <Tooltip title="My Cart">
                   <Badge
-                    //dot={cartItems.length > 0 ? true : false}
                     overflowCount={10}
                     count={cartItems.length}
                     offset={[2, 2]}
@@ -358,6 +440,11 @@ function Navbar() {
           <FooterComponent />
         </Footer>
       </Layout>
+      <AuthModal
+        openAuthModal={openAuthModal}
+        setOpenAuthModal={setOpenAuthModal}
+        isMobile={isMobile}
+      />
     </>
   );
 }

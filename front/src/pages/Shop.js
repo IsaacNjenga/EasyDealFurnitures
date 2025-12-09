@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import { Button, Col, Image, Row, Skeleton, Typography } from "antd";
 import { useUser } from "../context/UserContext";
 import "../assets/css/shop.css";
-import ViewItem from "../components/ViewItem";
 import ItemCard from "../components/ItemCard";
 import emptyImg from "../assets/images/Empty.png";
 import useFetchAllProducts from "../hooks/fetchAllProducts";
@@ -27,9 +26,6 @@ const heroStyle = {
 
 function Shop() {
   const { isMobile } = useUser();
-  const [openModal, setOpenModal] = useState(false);
-  const [content, setContent] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [selectedTab, setSelectedTab] = useState("");
   const { products, productsLoading, handleLoadMore } = useFetchAllProducts();
 
@@ -40,13 +36,6 @@ function Shop() {
 
   const tabSelector = (name) => {
     setSelectedTab(name);
-  };
-
-  const viewItem = (content) => {
-    setLoading(true);
-    setContent(content);
-    setOpenModal(true);
-    setTimeout(() => setLoading(false), 100);
   };
 
   return (
@@ -263,11 +252,21 @@ function Shop() {
               </div>
             ) : (
               <div style={{ margin: "0px 10px", padding: "10px 15px" }}>
-                <ItemCard
-                  dataSource={selectedTab === "" ? products : filteredProducts}
-                  isMobile={isMobile}
-                  viewItem={viewItem}
-                />
+                <div style={{ marginTop: 10 }}>
+                  <Row gutter={[32, 32]}>
+                    {selectedTab === ""
+                      ? products.map((c) => (
+                          <Col key={c._id} xs={24} sm={12} md={6}>
+                            <ItemCard dataSource={c} />
+                          </Col>
+                        ))
+                      : filteredProducts.map((c) => (
+                          <Col key={c._id} xs={24} sm={12} md={6}>
+                            <ItemCard dataSource={c} />
+                          </Col>
+                        ))}
+                  </Row>
+                </div>
               </div>
             )}
           </div>
@@ -286,14 +285,6 @@ function Shop() {
           Load More
         </Button>
       </div>
-
-      <ViewItem
-        isMobile={isMobile}
-        setOpenModal={setOpenModal}
-        openModal={openModal}
-        loading={loading}
-        content={content}
-      />
     </div>
   );
 }

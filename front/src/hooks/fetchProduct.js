@@ -2,8 +2,6 @@ import axios from "axios";
 import { useState } from "react";
 import { useNotification } from "../contexts/NotificationContext";
 
-const server_url = process.env.REACT_APP_API_MAIN_URL;
-
 function useFetchProduct() {
   const openNotification = useNotification();
   const [productData, setProductData] = useState({});
@@ -13,7 +11,9 @@ function useFetchProduct() {
     if (!id) return;
     setProductDataLoading(true);
     try {
-      const res = await axios.get(`${server_url}/fetch-product?id=${id}`);
+      const res = await axios.get(
+        `https://easy-deal-admin-server.vercel.app/EasyAdmin/fetch-product?id=${id}`
+      );
       if (res.data.success) {
         setProductData(res.data.product);
       }

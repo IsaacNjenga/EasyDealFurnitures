@@ -25,8 +25,6 @@ const { BaseLayer } = LayersControl;
 
 const { Title, Text, Paragraph } = Typography;
 
-const server_url = process.env.REACT_APP_API_MAIN_URL;
-
 const heroStyle = {
   position: "absolute",
   top: 0,
@@ -149,7 +147,10 @@ function Contact() {
       const values = await form.validateFields();
       //console.log(values);
 
-      const res = await axios.post(`${server_url}/create-mail`, values);
+      const res = await axios.post(
+        `https://easy-deal-admin-server.vercel.app/EasyAdmin/create-mail`,
+        values
+      );
       if (res.data.success) {
         openNotification(
           "success",

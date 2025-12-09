@@ -1,302 +1,323 @@
-import React from "react";
-import { Carousel, Button, Typography, Row, Col, Card, Tooltip } from "antd";
+import React, { useState } from "react";
+import { Carousel, Button, Typography, Card, Tooltip } from "antd";
 import { EyeOutlined, HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import { CartFunctions } from "../utils/CartFunctions";
 import { WishFunctions } from "../utils/WishFunctions";
 import { useNotification } from "../context/NotificationContext";
+import ViewItem from "./ViewItem";
+import { useUser } from "../context/UserContext";
 
 const { Title, Text } = Typography;
 
-function ItemCard({ dataSource, isMobile, viewItem }) {
-  const { addToCart, removeFromCart, isInCart } = CartFunctions();
-  const { addToWish, removeFromWish, isInWish} = WishFunctions();
+function ItemCard({ dataSource }) {
+  const { isMobile } = useUser();
   const openNotification = useNotification();
+  const { addToCart, removeFromCart, isInCart } = CartFunctions();
+  const { addToWish, removeFromWish, isInWish } = WishFunctions();
+  const [openModal, setOpenModal] = useState(false);
+  const [content, setContent] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const viewItem = (content) => {
+    setLoading(true);
+    setContent(content);
+    setOpenModal(true);
+    setTimeout(() => setLoading(false), 100);
+  };
 
   return (
-    <div style={{ margin: 10, padding: 15 }}>
-      <Row gutter={[24, 24]}>
-        {dataSource.map((b) => (
-          <Col key={b._id} xs={24} sm={12} md={6}>
-            <motion.div
-              whileHover="hover"
-              initial="rest"
-              animate="rest"
-              variants={{
-                rest: { scale: 1 },
-                hover: { scale: 1.02 },
-              }}
-              style={{ borderRadius: 0, overflow: "hidden" }}
-            >
-              <Card
-                style={{
-                  borderRadius: 0,
-                  overflow: "hidden",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-                  border: "1px solid #ffffff7e00",
+    <div style={{ margin: 0, padding: 0 }}>
+      {Array.isArray(dataSource)
+        ? dataSource
+        : [dataSource].map((b) => (
+            <div key={b._id}>
+              <motion.div
+                whileHover="hover"
+                initial="rest"
+                animate="rest"
+                variants={{
+                  rest: { scale: 1 },
+                  hover: { scale: 1.02 },
                 }}
-                cover={
-                  <div
-                    style={{
-                      position: "relative",
-                      width: "100%",
-                      height: 320, // Consistent image height
-                      overflow: "hidden",
-                      borderRadius: 0,
-                    }}
-                    className="card-image-container"
-                  >
-                    {/* Carousel */}
-                    <Carousel autoplay autoplaySpeed={4000} dots={false}>
-                      {(Array.isArray(b.img) ? b.img : [b.img]).map(
-                        (img, i) => (
-                          <div key={i}>
-                            <img
-                              src={img}
-                              alt={b._id}
-                              loading="lazy"
-                              className="item-card-img"
-                            />
-                          </div>
-                        )
-                      )}
-                    </Carousel>
-
+                style={{ borderRadius: 0, overflow: "hidden" }}
+              >
+                <Card
+                  style={{
+                    borderRadius: 0,
+                    overflow: "hidden",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+                    border: "1px solid #ffffff7e00",
+                  }}
+                  cover={
                     <div
                       style={{
-                        position: "absolute",
-                        bottom: 0,
-                        left: 0,
-                        height: "100%",
-                        background: "rgba(0,0,0,0.02)",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-between",
-                        padding: "15px",
+                        position: "relative",
+                        width: "100%",
+                        height: 320, // Consistent image height
+                        overflow: "hidden",
+                        borderRadius: 0,
                       }}
+                      className="card-image-container"
                     >
-                      {b.discount > 0 && (
-                        <Button
-                          style={{
-                            background: "#89cdbf",
-                            color: "#fff",
-                            border: "none",
-                            boxShadow: "0 2px 6px rgba(0,0,0,0.25)",
-                            fontFamily: "DM Sans",
-                            borderRadius: 1,
-                          }}
-                        >
-                          -{b.discount}%
-                        </Button>
-                      )}
-                    </div>
+                      {/* Carousel */}
+                      <Carousel autoplay autoplaySpeed={4000} dots={false}>
+                        {(Array.isArray(b.img) ? b.img : [b.img]).map(
+                          (img, i) => (
+                            <div key={i}>
+                              <img
+                                src={img}
+                                alt={b._id}
+                                loading="lazy"
+                                className="item-card-img"
+                              />
+                            </div>
+                          )
+                        )}
+                      </Carousel>
 
-                    {/* Slide-up Overlay */}
-                    <motion.div
-                      variants={{
-                        rest: { y: "100%", opacity: 0 },
-                        hover: { y: "0%", opacity: 1 },
-                      }}
-                      transition={{
-                        duration: 0.45,
-                        ease: [0.25, 0.8, 0.25, 1],
-                      }}
-                      className="overlay-buttons"
-                      style={{
-                        position: "absolute",
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        height: "100%",
-                        background: "rgba(0,0,0,0.02)",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-between",
-                        padding: "15px",
-                      }}
-                    >
-                      {/* Top Right Buttons */}
                       <div
                         style={{
+                          position: "absolute",
+                          bottom: 0,
+                          left: 0,
+                          height: "100%",
+                          background: "rgba(0,0,0,0.02)",
                           display: "flex",
                           flexDirection: "column",
-                          alignItems: "flex-end",
-                          gap: 10,
+                          justifyContent: "space-between",
+                          padding: "15px",
                         }}
                       >
-                        <Tooltip
-                          title={
-                            isInWish(b)
-                              ? "Remove from wishlist"
-                              : "Add to wishlist"
-                          }
-                          placement="right"
-                        >
+                        {b.discount > 0 && (
                           <Button
-                            shape="circle"
-                            onClick={() => {
-                              if (isInWish(b)) {
-                                removeFromWish(b._id);
-                              } else {
-                                addToWish(b);
-                                openNotification(
-                                  "success",
-                                  "An item has been added to your wishlist",
-                                  "Nice!"
-                                );
-                              }
-                            }}
-                            icon={
-                              isInWish(b) ? (
-                                <HeartFilled style={{ color: "red" }} />
-                              ) : (
-                                <HeartOutlined />
-                              )
-                            }
                             style={{
-                              background: "white",
-                              color: "#333",
+                              background: "#89cdbf",
+                              color: "#fff",
                               border: "none",
-                              boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+                              boxShadow: "0 2px 6px rgba(0,0,0,0.25)",
+                              fontFamily: "DM Sans",
+                              borderRadius: 1,
                             }}
-                          />
-                        </Tooltip>
-                        <Tooltip title="View" placement="right">
-                          <Button
-                            shape="circle"
-                            icon={<EyeOutlined />}
-                            onClick={() => viewItem(b)}
-                            style={{
-                              background: "white",
-                              color: "#333",
-                              border: "none",
-                              boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-                            }}
-                          />
-                        </Tooltip>
+                          >
+                            -{b.discount}%
+                          </Button>
+                        )}
                       </div>
 
-                      {/* Bottom Add to Cart Button */}
+                      {/* Slide-up Overlay */}
+                      <motion.div
+                        variants={{
+                          rest: { y: "100%", opacity: 0 },
+                          hover: { y: "0%", opacity: 1 },
+                        }}
+                        transition={{
+                          duration: 0.45,
+                          ease: [0.25, 0.8, 0.25, 1],
+                        }}
+                        className="overlay-buttons"
+                        style={{
+                          position: "absolute",
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          height: "100%",
+                          background: "rgba(0,0,0,0.02)",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
+                          padding: "15px",
+                        }}
+                      >
+                        {/* Top Right Buttons */}
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "flex-end",
+                            gap: 10,
+                          }}
+                        >
+                          <Tooltip
+                            title={
+                              isInWish(b)
+                                ? "Remove from wishlist"
+                                : "Add to wishlist"
+                            }
+                            placement="right"
+                          >
+                            <Button
+                              shape="circle"
+                              onClick={() => {
+                                if (isInWish(b)) {
+                                  removeFromWish(b._id);
+                                } else {
+                                  addToWish(b);
+                                  openNotification(
+                                    "success",
+                                    "An item has been added to your wishlist",
+                                    "Nice!"
+                                  );
+                                }
+                              }}
+                              icon={
+                                isInWish(b) ? (
+                                  <HeartFilled style={{ color: "red" }} />
+                                ) : (
+                                  <HeartOutlined />
+                                )
+                              }
+                              style={{
+                                background: "white",
+                                color: "#333",
+                                border: "none",
+                                boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+                              }}
+                            />
+                          </Tooltip>
+                          <Tooltip title="View" placement="right">
+                            <Button
+                              shape="circle"
+                              icon={<EyeOutlined />}
+                              onClick={() => viewItem(b)}
+                              style={{
+                                background: "white",
+                                color: "#333",
+                                border: "none",
+                                boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+                              }}
+                            />
+                          </Tooltip>
+                        </div>
+
+                        {/* Bottom Add to Cart Button */}
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <motion.div
+                            variants={{
+                              rest: { y: 20, opacity: 0 },
+                              hover: { y: 0, opacity: 1 },
+                            }}
+                            transition={{
+                              duration: 0.3,
+                              ease: "easeOut",
+                            }}
+                          >
+                            <Button
+                              onClick={() => {
+                                if (isInCart(b)) {
+                                  removeFromCart(b._id);
+                                } else {
+                                  addToCart(b);
+                                  openNotification(
+                                    "success",
+                                    "An item has been added to your cart",
+                                    "Success!"
+                                  );
+                                }
+                              }}
+                              type="primary"
+                              style={{
+                                border: "1px solid black",
+                                borderRadius: 6,
+                                fontFamily: "DM Sans",
+                                letterSpacing: 2,
+                                padding: "20px 28px",
+                                fontWeight: "bold",
+                                background: "white",
+                                color: "#333",
+                              }}
+                            >
+                              {isInCart(b) ? "REMOVE FROM CART" : "ADD TO CART"}
+                            </Button>
+                          </motion.div>
+                        </div>
+                      </motion.div>
+                    </div>
+                  }
+                >
+                  <Card.Meta
+                    title={
+                      <Title
+                        level={4}
+                        style={{
+                          marginTop: 10,
+                          marginBottom: 0,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          fontFamily: "DM Sans",
+                        }}
+                      >
+                        {b?.name}
+                      </Title>
+                    }
+                    description={
                       <div
                         style={{
                           display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
+                          justifyContent: "space-between",
                         }}
                       >
-                        <motion.div
-                          variants={{
-                            rest: { y: 20, opacity: 0 },
-                            hover: { y: 0, opacity: 1 },
-                          }}
-                          transition={{
-                            duration: 0.3,
-                            ease: "easeOut",
-                          }}
-                        >
-                          <Button
-                            onClick={() => {
-                              if (isInCart(b)) {
-                                removeFromCart(b._id);
-                              } else {
-                                addToCart(b);
-                                openNotification(
-                                  "success",
-                                  "An item has been added to your cart",
-                                  "Success!"
-                                );
-                              }
-                            }}
-                            type="primary"
-                            style={{
-                              border: "1px solid black",
-                              borderRadius: 6,
-                              fontFamily: "DM Sans",
-                              letterSpacing: 2,
-                              padding: "20px 28px",
-                              fontWeight: "bold",
-                              background: "white",
-                              color: "#333",
-                            }}
-                          >
-                            {isInCart(b) ? "REMOVE FROM CART" : "ADD TO CART"}
-                          </Button>
-                        </motion.div>
-                      </div>
-                    </motion.div>
-                  </div>
-                }
-              >
-                <Card.Meta
-                  title={
-                    <Title
-                      level={4}
-                      style={{
-                        marginTop: 10,
-                        marginBottom: 0,
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        fontFamily: "DM Sans",
-                      }}
-                    >
-                      {b.name}
-                    </Title>
-                  }
-                  description={
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <Text
-                        type="secondary"
-                        style={{
-                          fontSize: 18,
-                          fontFamily: "DM Sans",
-                          color: "#444",
-                        }}
-                      >
-                        KES.{" "}
-                        {b.discount > 0 ? (
-                          <>
-                            <span style={{ textDecoration: "line-through" }}>
-                              {b.price.toLocaleString()}
-                            </span>{" "}
-                            <span>
-                              {(
-                                ((100 - b.discount) * b.price) /
-                                100
-                              ).toLocaleString()}
-                            </span>
-                          </>
-                        ) : (
-                          <span>{b.price.toLocaleString()}</span>
-                        )}
-                      </Text>
-                      {isMobile && (
-                        <Button
-                          onClick={() => viewItem(b)}
+                        <Text
+                          type="secondary"
                           style={{
-                            background: "white",
-                            border: "1px solid #444",
                             fontSize: 18,
                             fontFamily: "DM Sans",
                             color: "#444",
                           }}
                         >
-                          View
-                        </Button>
-                      )}
-                    </div>
-                  }
-                />
-              </Card>
-            </motion.div>
-          </Col>
-        ))}
-      </Row>
+                          KES.{" "}
+                          {b.discount > 0 ? (
+                            <>
+                              <span style={{ textDecoration: "line-through" }}>
+                                {b?.price?.toLocaleString()}
+                              </span>{" "}
+                              <span>
+                                {(
+                                  ((100 - b.discount) * b.price) /
+                                  100
+                                )?.toLocaleString()}
+                              </span>
+                            </>
+                          ) : (
+                            <span>{b?.price?.toLocaleString()}</span>
+                          )}
+                        </Text>
+                        {isMobile && (
+                          <Button
+                            onClick={() => viewItem(b)}
+                            style={{
+                              background: "white",
+                              border: "1px solid #444",
+                              fontSize: 18,
+                              fontFamily: "DM Sans",
+                              color: "#444",
+                            }}
+                          >
+                            View
+                          </Button>
+                        )}
+                      </div>
+                    }
+                  />
+                </Card>
+              </motion.div>
+            </div>
+          ))}
+
+      <ViewItem
+        isMobile={isMobile}
+        setOpenModal={setOpenModal}
+        openModal={openModal}
+        loading={loading}
+        content={content}
+      />
     </div>
   );
 }

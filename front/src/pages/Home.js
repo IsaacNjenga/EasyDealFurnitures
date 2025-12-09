@@ -5,7 +5,6 @@ import { useUser } from "../context/UserContext";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import "../assets/css/home.css";
 import { bestSellersGrid, newArrivalsGrid } from "../assets/data/data";
-import ViewItem from "../components/ViewItem";
 import ItemCard from "../components/ItemCard";
 import { useNavigate } from "react-router-dom";
 
@@ -308,14 +307,7 @@ const Collections = () => {
   );
 };
 
-const BestSellers = ({ setLoading, setContent, setOpenModal, isMobile }) => {
-  const viewItem = (content) => {
-    setLoading(true);
-    setContent(content);
-    setOpenModal(true);
-    setTimeout(() => setLoading(false), 100);
-  };
-
+const BestSellers = () => {
   return (
     <div style={{ margin: "30px 10px", padding: "20px 15px" }}>
       {/* Heading */}
@@ -346,12 +338,14 @@ const BestSellers = ({ setLoading, setContent, setOpenModal, isMobile }) => {
         Our Best Sellers
       </Title>
 
-      <div>
-        <ItemCard
-          dataSource={bestSellersGrid}
-          isMobile={isMobile}
-          viewItem={viewItem}
-        />
+      <div style={{ marginTop: 10 }}>
+        <Row gutter={[32, 32]}>
+          {bestSellersGrid.map((c) => (
+            <Col key={c._id} xs={24} sm={12} md={6}>
+              <ItemCard dataSource={c} />
+            </Col>
+          ))}
+        </Row>
       </div>
     </div>
   );
@@ -458,14 +452,7 @@ const ComfortSection = ({ isMobile, navigate }) => {
   );
 };
 
-const NewArrivals = ({ setLoading, setContent, setOpenModal, isMobile }) => {
-  const viewItem = (content) => {
-    setLoading(true);
-    setContent(content);
-    setOpenModal(true);
-    setTimeout(() => setLoading(false), 100);
-  };
-
+const NewArrivals = () => {
   return (
     <div style={{ margin: "30px 10px", padding: "20px 15px" }}>
       {/* Heading */}
@@ -496,12 +483,14 @@ const NewArrivals = ({ setLoading, setContent, setOpenModal, isMobile }) => {
         Our New Arrivals
       </Title>
 
-      <div>
-        <ItemCard
-          dataSource={newArrivalsGrid}
-          isMobile={isMobile}
-          viewItem={viewItem}
-        />
+      <div style={{ marginTop: 10 }}>
+        <Row gutter={[32, 32]}>
+          {newArrivalsGrid.map((c) => (
+            <Col key={c._id} xs={24} sm={12} md={6}>
+              <ItemCard dataSource={c} />
+            </Col>
+          ))}
+        </Row>
       </div>
     </div>
   );
@@ -587,9 +576,6 @@ export default function Home() {
   const { isMobile, scrolled } = useUser();
   const navigate = useNavigate();
   const [activeSlide, setActiveSlide] = useState(0);
-  const [openModal, setOpenModal] = useState(false);
-  const [content, setContent] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   return (
     <>
@@ -612,7 +598,7 @@ export default function Home() {
               key={index}
               src={img}
               alt={`bg-${index}`}
-              loading='lazy'
+              loading="lazy"
               preview={false}
               width="100%"
               height={isMobile ? 400 : 700}
@@ -646,34 +632,13 @@ export default function Home() {
 
       <Collections isMobile={isMobile} navigate={navigate} />
 
-      <BestSellers
-        isMobile={isMobile}
-        setLoading={setLoading}
-        setContent={setContent}
-        setOpenModal={setOpenModal}
-        navigate={navigate}
-      />
+      <BestSellers />
 
       <ComfortSection isMobile={isMobile} navigate={navigate} />
 
-      <NewArrivals
-        isMobile={isMobile}
-        setLoading={setLoading}
-        setContent={setContent}
-        setOpenModal={setOpenModal}
-        navigate={navigate}
-      />
+      <NewArrivals />
 
       <DiscoverSection isMobile={isMobile} navigate={navigate} />
-
-      {/* view modal */}
-      <ViewItem
-        setOpenModal={setOpenModal}
-        isMobile={isMobile}
-        openModal={openModal}
-        loading={loading}
-        content={content}
-      />
     </>
   );
 }

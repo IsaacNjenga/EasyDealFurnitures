@@ -5,8 +5,6 @@ import { useNotification } from "../context/NotificationContext";
 import axios from "axios";
 import TransactionStatusCard from "../components/StatusCard";
 
-const server_url = process.env.REACT_APP_API_MAIN_URL;
-
 function Callback() {
   const [searchParams] = useSearchParams();
   const tracking_id = searchParams.get("OrderTrackingId");
@@ -36,7 +34,7 @@ function Callback() {
       }
 
       const response = await axios.put(
-        `${server_url}/client-order-update?tracking_id=${tracking_id}`,
+        `https://easy-deal-admin-server.vercel.app/EasyAdmin/client-order-update?tracking_id=${tracking_id}`,
         { updateData: res.data }
       );
 

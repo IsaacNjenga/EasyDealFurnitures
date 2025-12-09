@@ -25,6 +25,8 @@ const { BaseLayer } = LayersControl;
 
 const { Title, Text, Paragraph } = Typography;
 
+const server_url = process.env.REACT_APP_API_MAIN_URL;
+
 const heroStyle = {
   position: "absolute",
   top: 0,
@@ -147,10 +149,7 @@ function Contact() {
       const values = await form.validateFields();
       //console.log(values);
 
-      const res = await axios.post(
-        "https://easy-deal-admin-server.vercel.app/EasyAdmin/create-mail",
-        values
-      );
+      const res = await axios.post(`${server_url}/create-mail`, values);
       if (res.data.success) {
         openNotification(
           "success",
@@ -176,7 +175,7 @@ function Contact() {
       {/* banner */}
       <div style={{ position: "relative", marginBottom: 10 }}>
         <Image
-          src='https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg'
+          src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"
           alt="bgImg"
           width="100%"
           loading="lazy"

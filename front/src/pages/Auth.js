@@ -16,6 +16,7 @@ import { useNotification } from "../context/NotificationContext/index.js";
 import { useAuth } from "../context/AuthContext/index.js";
 
 const { Title, Text } = Typography;
+const server_url = process.env.REACT_APP_API_MAIN_URL;
 
 function Auth() {
   const [form] = Form.useForm();
@@ -50,7 +51,11 @@ function Auth() {
         : { email: values.email, name: values.name, password: values.password };
 
       const res = await axios.post(
-        `${isSignIn ? "client-sign-in" : "client-sign-up"}`,
+        `${
+          isSignIn
+            ? `${server_url}/client-sign-in`
+            : `${server_url}/client-sign-up`
+        }`,
         payload
       );
 
@@ -108,7 +113,9 @@ function Auth() {
       // eslint-disable-next-line no-unused-vars
       const { user, idToken } = await signInWithGoogle();
 
-      const res = await axios.post("firebase-google-login", { idToken });
+      const res = await axios.post(`${server_url}/firebase-google-login`, {
+        idToken,
+      });
 
       if (res.data.success) {
         const token = res.data.token;

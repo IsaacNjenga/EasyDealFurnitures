@@ -26,6 +26,8 @@ import axios from "axios";
 
 const { Title, Text } = Typography;
 
+const server_url = process.env.REACT_APP_API_MAIN_URL;
+
 function Checkout() {
   const navigate = useNavigate();
   const { liveCartItems } = useCart();
@@ -118,7 +120,7 @@ function Checkout() {
       //console.log("checkout Data:", checkoutData);
 
       const response = await axios.post(
-        "https://easy-deal-admin-server.vercel.app/EasyAdmin/create-order",
+        `${server_url}/create-order`,
         checkoutData
       );
       if (response.data.success) {

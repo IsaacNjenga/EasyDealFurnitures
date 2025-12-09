@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { useNotification } from "../../context/NotificationContext";
+import { useNotification } from "../context/NotificationContext";
+
+const server_url = process.env.REACT_APP_API_MAIN_URL;
 
 function useFetchAllProducts() {
   const openNotification = useNotification();
@@ -20,7 +22,7 @@ function useFetchAllProducts() {
       if (refresh) setRefreshing(true);
 
       const res = await axios.get(
-        `https://easy-deal-admin-server.vercel.app/EasyAdmin/fetch-all-products?page=${pageNum}&limit=12`
+        `${server_url}/fetch-all-products?page=${pageNum}&limit=12`
       );
 
       if (res.data.success) {

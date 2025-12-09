@@ -20,7 +20,7 @@ const server_url = process.env.REACT_APP_API_MAIN_URL;
 
 function Auth() {
   const [form] = Form.useForm();
-  const [isSignIn, setIsSignIn] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(true);
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const { isMobile } = useUser();
@@ -66,7 +66,7 @@ function Auth() {
           "success",
           !isSignIn
             ? "Your account has been created successfully. Proceed to login."
-            : "You are now logged in. Welcome to Sekani!",
+            : "You are now logged in. Welcome to EasyDeal Furnitures!",
           "Success"
         );
         form.resetFields();
@@ -123,7 +123,7 @@ function Auth() {
         login(user, token);
         openNotification(
           "success",
-          "You are now logged in. Welcome to Sekani!",
+          "You are now logged in. Welcome to EasyDeal Furnitures!",
           "Success"
         );
       } else
@@ -369,35 +369,39 @@ function Auth() {
               layout="vertical"
               requiredMark={false}
             >
-              {/* name */}
-              <Form.Item
-                label={
-                  <Text
-                    strong
+              {/* name - Sign Up only*/}
+              {!isSignIn && (
+                <Form.Item
+                  label={
+                    <Text
+                      strong
+                      style={{
+                        fontSize: 15,
+                        fontFamily: "Raleway",
+                        color: "#f2f4f8ff",
+                      }}
+                    >
+                      Name
+                    </Text>
+                  }
+                  name="name"
+                  rules={[
+                    { required: true, message: "Please enter your name" },
+                  ]}
+                >
+                  <Input
+                    prefix={<UserOutlined style={{ color: "#bdb890" }} />}
+                    placeholder="John Doe"
+                    size="large"
                     style={{
-                      fontSize: 15,
+                      borderRadius: 12,
                       fontFamily: "Raleway",
-                      color: "#f2f4f8ff",
+                      border: "2px solid #e2e8f0",
+                      height: 48,
                     }}
-                  >
-                    Name
-                  </Text>
-                }
-                name="name"
-                rules={[{ required: true, message: "Please enter your name" }]}
-              >
-                <Input
-                  prefix={<UserOutlined style={{ color: "#bdb890" }} />}
-                  placeholder="John Doe"
-                  size="large"
-                  style={{
-                    borderRadius: 12,
-                    fontFamily: "Raleway",
-                    border: "2px solid #e2e8f0",
-                    height: 48,
-                  }}
-                />
-              </Form.Item>
+                  />
+                </Form.Item>
+              )}
 
               {/* Email */}
               <Form.Item

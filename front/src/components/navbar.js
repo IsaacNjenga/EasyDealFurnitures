@@ -249,6 +249,7 @@ function Navbar() {
                             onClick={() => {
                               navigate("/user");
                             }}
+                            style={{ cursor: "pointer" }}
                           />
                         ) : (
                           <Avatar
@@ -256,6 +257,7 @@ function Navbar() {
                             onClick={() => {
                               navigate("/user");
                             }}
+                            style={{ cursor: "pointer" }}
                           >
                             {/* Safe access with fallback */}
                             {currentUser?.displayName?.[0] ||

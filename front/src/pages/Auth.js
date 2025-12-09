@@ -50,11 +50,7 @@ function Auth() {
         : { email: values.email, name: values.name, password: values.password };
 
       const res = await axios.post(
-        `${
-          isSignIn
-            ? "https://sekani-properties-server.vercel.app/Sekani/sign-in"
-            : "https://sekani-properties-server.vercel.app/Sekani/sign-up"
-        }`,
+        `${isSignIn ? "client-sign-in" : "client-sign-up"}`,
         payload
       );
 
@@ -112,10 +108,7 @@ function Auth() {
       // eslint-disable-next-line no-unused-vars
       const { user, idToken } = await signInWithGoogle();
 
-      const res = await axios.post(
-        "https://sekani-properties-server.vercel.app/Sekani/firebase-google-login",
-        { idToken }
-      );
+      const res = await axios.post("firebase-google-login", { idToken });
 
       if (res.data.success) {
         const token = res.data.token;

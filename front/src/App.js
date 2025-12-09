@@ -16,8 +16,7 @@ import LocationMap from "./pages/LocationMap";
 import ProductDetails from "./pages/ProductDetails";
 import User from "./pages/User";
 
-axios.defaults.baseURL =
-  "https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal";
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 function App() {

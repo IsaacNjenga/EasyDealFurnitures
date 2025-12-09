@@ -5,7 +5,7 @@ import "../assets/css/shop.css";
 import ViewItem from "../components/ViewItem";
 import ItemCard from "../components/ItemCard";
 import emptyImg from "../assets/images/Empty.png";
-import useFetchAllProducts from "../assets/hooks/fetchAllProducts";
+import useFetchAllProducts from "../hooks/fetchAllProducts";
 import { selectableItems } from "../utils/ShopPageFunctions";
 
 const { Title, Text } = Typography;

@@ -270,12 +270,12 @@ function Navbar() {
                       type="primary"
                       onClick={handleAuth}
                       style={{
-                        fontFamily: "Alegreya Sans",
-                        fontSize: 22,
+                        fontFamily: "Raleway",
+                        fontSize: 18,
                         fontWeight: 300,
                         color: "#ffffff",
                         letterSpacing: 1.5,
-                        background: "linear-gradient(135deg, #bdb890, #a8a378)",
+                        background: "#fea349bc",
                         border: "none",
                         boxShadow: "0 4px 16px rgba(189, 184, 144, 0.3)",
                         transition: "all 0.3s ease",
@@ -284,11 +284,13 @@ function Navbar() {
                         e.currentTarget.style.transform = "translateY(-2px)";
                         e.currentTarget.style.boxShadow =
                           "0 8px 24px rgba(189, 184, 144, 0.4)";
+                        e.currentTarget.style.backgroundColor = "#fea549";
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.transform = "translateY(0)";
                         e.currentTarget.style.boxShadow =
                           "0 4px 16px rgba(189, 184, 144, 0.3)";
+                        e.currentTarget.style.backgroundColor = "#fea349bc";
                       }}
                     >
                       Sign In

@@ -29,7 +29,12 @@ import EditReview from "../pages/EditReview";
 
 const { Title, Text, Paragraph } = Typography;
 
-function ReviewsDetails({ isMobile, hasUserReviewed, product }) {
+function ReviewsDetails({
+  isMobile,
+  hasUserReviewed,
+  product,
+  productDataLoading,
+}) {
   const reviews = product?.reviews;
   const { toggleReview, toggleEditReview, openEditReview } = useDrawer();
   const { userLoggedIn, currentUser, setOpenAuthModal } = useAuth();
@@ -38,7 +43,6 @@ function ReviewsDetails({ isMobile, hasUserReviewed, product }) {
   const [sortBy, setSortBy] = useState("latest");
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [editContent, setEditContent] = useState({});
   const openNotification = useNotification();
 
@@ -341,7 +345,7 @@ function ReviewsDetails({ isMobile, hasUserReviewed, product }) {
 
         {/* Reviews List */}
         <Space direction="vertical" size={16} style={{ width: "100%" }}>
-          {loading ? (
+          {productDataLoading ? (
             Array(3)
               .fill(0)
               .map((_, i) => (

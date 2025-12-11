@@ -23,13 +23,7 @@ const { Title, Text } = Typography;
 
 const desc = ["Terrible", "Bad", "Normal", "Good", "Wonderful"];
 
-function CreateReview({
-  content,
-  openReview,
-  toggleReview,
-  isMobile,
-  //TODO: propertiesRefresh,
-}) {
+function CreateReview({ content, openReview, toggleReview, isMobile }) {
   const [form] = Form.useForm();
   const openNotification = useNotification();
   const [loading, setLoading] = useState(false);
@@ -56,7 +50,10 @@ function CreateReview({
         email: currentUser?.email,
       };
 
-      const res = await axios.post("create-review", allValues);
+      const res = await axios.post(
+        "https://easy-deal-admin-server.vercel.app/EasyAdmin/create-review",
+        allValues
+      );
       if (res.data.success) {
         openNotification(
           "success",
@@ -70,11 +67,9 @@ function CreateReview({
           form.resetFields();
           setValue(0);
         }, 2500);
-        //propertiesRefresh();
       }
     } catch (error) {
       console.error(error);
-      //propertiesRefresh();
       openNotification(
         "error",
         "Try again or contact us.",
@@ -82,7 +77,6 @@ function CreateReview({
       );
     } finally {
       setLoading(false);
-      //propertiesRefresh();
     }
   };
 

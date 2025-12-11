@@ -173,7 +173,7 @@ function ProductDetails() {
                         objectFit: "cover",
                       }}
                       preview={{
-                        mask: "Click to zoom",
+                        mask: "Click to view full image",
                       }}
                     />
                   ))}

@@ -184,29 +184,67 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                     </div>
 
                     {/* Price Section */}
-                    <Card
-                      style={{
-                        background:
-                          "linear-gradient(135deg, #ffa449 0%, #ff8c1a 100%)",
-                        border: "none",
-                        borderRadius: 12,
-                      }}
-                      bodyStyle={{ padding: "20px 24px" }}
-                    >
-                      <Space direction="vertical" size={4}>
-                        <Text
+                    <div style={{ position: "sticky", top: 20,  }}>
+                      {/* Discount Badge */}
+                      {content?.discount > 0 && (
+                        <Badge.Ribbon
+                          text={`${content.discount}% OFF`}
+                          color="#ff4d4f"
                           style={{
-                            color: "rgba(255,255,255,0.9)",
-                            fontSize: 14,
+                            fontSize: 16,
+                            fontWeight: 700,
                             fontFamily: "DM Sans",
-                            fontWeight: 500,
+                            zIndex: 1000,
+                            padding: "7px 12px",
                           }}
-                        >
-                          Price
-                        </Text>
-                        <div>
-                          {content?.discount > 0 ? (
-                            <Space size={12} align="center">
+                        />
+                      )}
+                      <Card
+                        style={{
+                          background:
+                            "linear-gradient(135deg, #ffa449 0%, #ff8c1a 100%)",
+                          border: "none",
+                          borderRadius: 12,
+                        }}
+                        bodyStyle={{ padding: "20px 24px" }}
+                      >
+                        <Space direction="vertical" size={4}>
+                          <Text
+                            style={{
+                              color: "rgba(255,255,255,0.9)",
+                              fontSize: 14,
+                              fontFamily: "DM Sans",
+                              fontWeight: 500,
+                            }}
+                          >
+                            Price
+                          </Text>
+                          <div>
+                            {content?.discount > 0 ? (
+                              <Space size={12} align="center">
+                                <Title
+                                  level={2}
+                                  style={{
+                                    color: "#fff",
+                                    margin: 0,
+                                    fontFamily: "DM Sans",
+                                    fontWeight: 700,
+                                  }}
+                                >
+                                  KES {discountedPrice.toLocaleString()}
+                                </Title>
+                                <Text
+                                  delete
+                                  style={{
+                                    color: "rgba(255,255,255,0.7)",
+                                    fontSize: 18,
+                                    fontFamily: "DM Sans",
+                                  }}
+                                >
+                                  KES {content?.price.toLocaleString()}
+                                </Text>
+                              </Space>
+                            ) : (
                               <Title
                                 level={2}
                                 style={{
@@ -216,35 +254,13 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                                   fontWeight: 700,
                                 }}
                               >
-                                KES {discountedPrice.toLocaleString()}
-                              </Title>
-                              <Text
-                                delete
-                                style={{
-                                  color: "rgba(255,255,255,0.7)",
-                                  fontSize: 18,
-                                  fontFamily: "DM Sans",
-                                }}
-                              >
                                 KES {content?.price.toLocaleString()}
-                              </Text>
-                            </Space>
-                          ) : (
-                            <Title
-                              level={2}
-                              style={{
-                                color: "#fff",
-                                margin: 0,
-                                fontFamily: "DM Sans",
-                                fontWeight: 700,
-                              }}
-                            >
-                              KES {content?.price.toLocaleString()}
-                            </Title>
-                          )}
-                        </div>
-                      </Space>
-                    </Card>
+                              </Title>
+                            )}
+                          </div>
+                        </Space>
+                      </Card>
+                    </div>
 
                     {/* Description */}
                     <div>

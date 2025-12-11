@@ -76,6 +76,14 @@ function ProductDetails() {
       ? ((100 - content?.discount) * content?.price) / 100
       : content?.price;
 
+  const averageRating =
+    content?.reviews?.length > 0
+      ? (
+          content?.reviews.reduce((sum, r) => sum + r.rating, 0) /
+          content?.reviews.length
+        ).toFixed(1)
+      : 0;
+
   if (!content) return null;
 
   if (productDataLoading) {
@@ -132,23 +140,8 @@ function ProductDetails() {
           {/* Left Column - Images */}
           <Col xs={24} lg={12}>
             <div style={{ position: "sticky", top: 20 }}>
-              {/* Discount Badge */}
-              {content?.discount > 0 && (
-                <Badge.Ribbon
-                  text={`${content.discount}% OFF`}
-                  color="#ff4d4f"
-                  style={{
-                    fontSize: 16,
-                    fontWeight: 700,
-                    fontFamily: "DM Sans",
-                    zIndex: 1000,
-                    padding: "7px 12px",
-                  }}
-                />
-              )}
-
               {/* Main Image */}
-              <Card
+              {/* <Card
                 style={{
                   borderRadius: 16,
                   overflow: "hidden",
@@ -157,34 +150,47 @@ function ProductDetails() {
                   padding: 0,
                   border: "2px solid #e8e8e8",
                 }}
-                //bodyStyle={{ padding: 0 }}
+              > */}
+              <Carousel
+                autoplay
+                autoplaySpeed={4500}
+                dots
+                arrows
+                style={{
+                  overflow: "hidden",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+                  marginBottom: 16,
+                  padding: 0,
+                  border: "2px solid #e8e8e8",
+                  height: "100%",
+                }}
               >
-                <Carousel autoplay autoplaySpeed={4500} dots arrows>
-                  {(Array.isArray(content?.img)
-                    ? content?.img
-                    : [content?.img]
-                  ).map((img, i) => (
-                    <Image
-                      src={img}
-                      alt={content?.name}
-                      style={{
-                        width: "100%",
-                        height: isMobile ? 350 : 500,
-                        objectFit: "cover",
-                      }}
-                      preview={{
-                        mask: "Click to view full image",
-                      }}
-                    />
-                  ))}
-                </Carousel>
-              </Card>
+                {(Array.isArray(content?.img)
+                  ? content?.img
+                  : [content?.img]
+                ).map((img, i) => (
+                  <Image
+                    src={img}
+                    alt={content?.name}
+                    style={{
+                      width: "100%",
+                      height: isMobile ? 350 : 500,
+                      objectFit: "cover",
+                    }}
+                    preview={{
+                      mask: "View full image",
+                    }}
+                  />
+                ))}
+              </Carousel>
+              {/* </Card> */}
 
               {/* Thumbnail Gallery */}
-              <Row gutter={12}>
-                {content?.img?.map((img, i) => (
-                  <Col key={i} span={8}>
-                    <Card
+              {!isMobile && (
+                <Row gutter={12} centered>
+                  {content?.img?.map((img, i) => (
+                    <Col key={i} span={8}>
+                      {/* <Card
                       hoverable
                       style={{
                         borderRadius: 12,
@@ -193,21 +199,24 @@ function ProductDetails() {
                         cursor: "pointer",
                         padding: 0,
                       }}
-                    >
+                    > */}
                       <Image
                         src={img}
                         alt={`img ${i + 1}`}
                         style={{
                           width: "100%",
-                          height: 120,
+                          height: 150,
                           objectFit: "cover",
                         }}
-                        preview={false}
+                        preview={{
+                          mask: "View full image",
+                        }}
                       />
-                    </Card>
-                  </Col>
-                ))}
-              </Row>
+                      {/* </Card> */}
+                    </Col>
+                  ))}
+                </Row>
+              )}
             </div>
           </Col>
 
@@ -245,26 +254,44 @@ function ProductDetails() {
                 </Title>
 
                 {/* Rating */}
-                <Space align="center" size={12}>
+                <Space align="center" size={12} style={{ marginBottom: 0 }}>
                   <Rate
                     disabled
                     allowHalf
-                    value={content?.rating}
+                    value={averageRating}
                     style={{ color: "#ffa449", fontSize: 18 }}
                   />
                   <Text style={{ fontFamily: "DM Sans", color: "#666" }}>
-                    {content?.rating} ({content?.totalReviews} reviews)
+                    {averageRating}{" "}
+                    {content?.reviews.length === 0
+                      ? "(No reviews yet)"
+                      : `(${content?.reviews?.length} ${
+                          content?.reviews?.length === 1 ? "review" : "reviews"
+                        })`}
                   </Text>
                 </Space>
               </div>
-
-              {/* Price Card */}
+              {/* Price Card */}{" "}
+              {content?.discount > 0 && (
+                <Badge.Ribbon
+                  text={`${content.discount}% OFF`}
+                  color="#ff4d4f"
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 700,
+                    fontFamily: "DM Sans",
+                    zIndex: 1000,
+                    padding: "7px 12px",
+                  }}
+                />
+              )}
               <Card
                 style={{
                   background:
                     "linear-gradient(135deg, #ffa449 0%, #ff8c1a 100%)",
                   border: "none",
                   borderRadius: 16,
+                  marginTop: 0,
                 }}
                 bodyStyle={{ padding: "24px 28px" }}
               >
@@ -289,7 +316,7 @@ function ProductDetails() {
                             margin: 0,
                             fontFamily: "DM Sans",
                             fontWeight: 700,
-                            fontSize: 36,
+                            fontSize: isMobile ? 28 : 36,
                           }}
                         >
                           KES {discountedPrice.toLocaleString()}
@@ -313,7 +340,7 @@ function ProductDetails() {
                           margin: 0,
                           fontFamily: "DM Sans",
                           fontWeight: 700,
-                          fontSize: 36,
+                          fontSize: isMobile ? 28 : 36,
                         }}
                       >
                         KES {content?.price.toLocaleString()}
@@ -322,7 +349,6 @@ function ProductDetails() {
                   </div>
                 </Space>
               </Card>
-
               {/* Availability */}
               <Card
                 style={{
@@ -358,7 +384,6 @@ function ProductDetails() {
                   </Text>
                 </Space>
               </Card>
-
               {/* Description */}
               <div style={{ marginBottom: 0 }}>
                 <Title
@@ -427,7 +452,6 @@ function ProductDetails() {
                   ))}
                 </Space>
               </div>
-
               {/* Specifications */}
               <Card
                 title={
@@ -475,7 +499,6 @@ function ProductDetails() {
                   </div>
                 </Space>
               </Card>
-
               {/* Shipping & Care */}
               <Row gutter={16}>
                 <Col span={12}>
@@ -485,11 +508,10 @@ function ProductDetails() {
                       borderRadius: 12,
                       background: "#f0f9ff",
                       border: "1px solid #bae7ff",
-                      height: "auto",
+                      height: "100%",
                     }}
                     bodyStyle={{
                       padding: 10,
-                      height: "auto",
                       overflow: "auto",
                     }}
                   >
@@ -527,11 +549,10 @@ function ProductDetails() {
                       borderRadius: 12,
                       background: "#fff7e6",
                       border: "1px solid #ffd591",
-                      height: "auto",
+                      height: "100%",
                     }}
                     bodyStyle={{
                       padding: 10,
-                      height: "auto",
                       overflow: "auto",
                     }}
                   >
@@ -563,7 +584,6 @@ function ProductDetails() {
                   </Card>
                 </Col>
               </Row>
-
               {/* Tags */}
               <div>
                 <TagsOutlined
@@ -586,7 +606,6 @@ function ProductDetails() {
                   </Tag>
                 ))}
               </div>
-
               {/* Action Buttons */}
               <Space
                 direction={isMobile ? "vertical" : "horizontal"}
@@ -664,7 +683,6 @@ function ProductDetails() {
                   {isInWish(content) ? "SAVED" : "SAVE TO WISHLIST"}
                 </Button>
               </Space>
-
               {/* Additional Info */}
               {(content?.freeShipping || content?.discount > 0) && (
                 <Space size={12}>

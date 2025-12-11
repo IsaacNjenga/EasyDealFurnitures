@@ -85,7 +85,7 @@ function ReviewsDetails({
 
     try {
       const res = await axios.delete(
-        `delete-review?id=${reviewId}&email=${currentUser.email}`
+        `https://easy-deal-admin-server.vercel.app/EasyAdmin/delete-review?id=${reviewId}&email=${currentUser.email}`
       );
       if (res.data.success) {
         openNotification("success", "Your review has been deleted", "Success!");

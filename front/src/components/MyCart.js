@@ -7,7 +7,6 @@ const { Title, Text } = Typography;
 function MyCart({ cartData }) {
   const productsLoading = false;
 
-  console.log(cartData);
 
   if (productsLoading) {
     return (

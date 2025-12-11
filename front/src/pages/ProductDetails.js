@@ -38,6 +38,7 @@ import { useNotification } from "../context/NotificationContext";
 import { useUser } from "../context/UserContext";
 import { useDrawer } from "../context/DrawerContext";
 import { formatDistanceToNowStrict } from "date-fns";
+import CreateReview from "./CreateReview";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -822,7 +823,7 @@ function ProductDetails() {
                           fontSize: 64,
                           fontFamily: "Raleway",
                           background:
-                            "linear-gradient(135deg, #bdb890, #a8a378)",
+                            "linear-gradient(135deg, #ffa449, #ffa449)",
                           WebkitBackgroundClip: "text",
                           WebkitTextFillColor: "transparent",
                           backgroundClip: "text",
@@ -830,7 +831,7 @@ function ProductDetails() {
                       >
                         {averageRating}
                       </Title>
-                      <Text style={{ fontSize: 24, color: "#64748b" }}>/5</Text>
+                      <Text style={{ fontSize: 24, color: "#ffa449" }}>/5</Text>
                     </div>
                     <Rate
                       disabled
@@ -894,7 +895,7 @@ function ProductDetails() {
                               }%`,
                               height: "100%",
                               background:
-                                "linear-gradient(90deg, #bdb890, #a8a378)",
+                                "linear-gradient(90deg, #ffa449, #ffa449)",
                               transition: "width 0.3s ease",
                             }}
                           />
@@ -903,7 +904,7 @@ function ProductDetails() {
                           style={{
                             minWidth: 40,
                             fontFamily: "Raleway",
-                            color: "#64748b",
+                            color: "#333",
                             textAlign: "right",
                           }}
                         >
@@ -992,7 +993,7 @@ function ProductDetails() {
                 type="primary"
                 onClick={toggleReview}
                 style={{
-                  background: "linear-gradient(135deg, #bdb890, #a8a378)",
+                  background: "linear-gradient(135deg, #ffa449, #ffa449)",
                   border: "none",
                   borderRadius: 10,
                   fontFamily: "Raleway",
@@ -1076,8 +1077,7 @@ function ProductDetails() {
                         <Avatar
                           size={isMobile ? 48 : 56}
                           style={{
-                            background:
-                              "linear-gradient(135deg, #bdb890, #a8a378)",
+                            background:'#ffa449',
                             fontSize: 24,
                             fontWeight: 600,
                           }}
@@ -1149,6 +1149,13 @@ function ProductDetails() {
           </div>
         </div>
       </div>
+
+      <CreateReview
+        openReview={openReview}
+        content={content}
+        toggleReview={toggleReview}
+        isMobile={isMobile}
+      />
     </div>
   );
 }

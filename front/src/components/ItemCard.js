@@ -92,7 +92,7 @@ function ItemCard({ dataSource }) {
                         {b.discount > 0 && (
                           <Button
                             style={{
-                              background: "#89cdbf",
+                              background: "#ff4d4f",
                               color: "#fff",
                               border: "none",
                               boxShadow: "0 2px 6px rgba(0,0,0,0.25)",
@@ -100,7 +100,7 @@ function ItemCard({ dataSource }) {
                               borderRadius: 1,
                             }}
                           >
-                            -{b.discount}%
+                            {b.discount}% OFF
                           </Button>
                         )}
                       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Form,
   Input,
@@ -22,19 +22,26 @@ import { useAuth } from "../context/AuthContext";
 const { Title, Text } = Typography;
 
 const desc = ["Terrible", "Bad", "Normal", "Good", "Wonderful"];
-
-function CreateReview({
+function EditReview({
   content,
-  openReview,
-  toggleReview,
+  toggleEditReview,
+  openEditReview,
   isMobile,
-  //TODO: propertiesRefresh,
+  //propertiesRefresh,
 }) {
-  const [form] = Form.useForm();
   const openNotification = useNotification();
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState(0);
   const { currentUser } = useAuth();
+  const [form] = Form.useForm();
+  const reviewId = content?.reviews?._id;
+
+  useEffect(() => {
+    if (content) {
+      form.setFieldsValue({ ...content.reviews });
+      setValue(content?.reviews?.rating);
+    }
+  }, [content, form]);
 
   const handleSubmit = async () => {
     if (value === 0) {
@@ -51,12 +58,14 @@ function CreateReview({
       const allValues = {
         ...values,
         rating: value,
-        productId: content?._id,
+        propertyId: content?._id,
         name: currentUser?.displayName,
         email: currentUser?.email,
       };
 
-      const res = await axios.post("create-review", allValues);
+      console.log(allValues);
+
+      const res = await axios.put(`update-review?id=${reviewId}`, allValues);
       if (res.data.success) {
         openNotification(
           "success",
@@ -64,9 +73,8 @@ function CreateReview({
           "Thank you!"
         );
 
-        // Close drawer after successful submission
         setTimeout(() => {
-          toggleReview();
+          toggleEditReview();
           form.resetFields();
           setValue(0);
         }, 2500);
@@ -77,7 +85,7 @@ function CreateReview({
       //propertiesRefresh();
       openNotification(
         "error",
-        "Try again or contact us.",
+        "Please try again or contact us.",
         "Something went wrong..."
       );
     } finally {
@@ -88,8 +96,8 @@ function CreateReview({
 
   return (
     <Drawer
-      open={openReview}
-      onClose={toggleReview}
+      open={openEditReview}
+      onClose={toggleEditReview}
       width={isMobile ? "100%" : 700}
       placement="right"
       closeIcon={null}
@@ -116,7 +124,7 @@ function CreateReview({
         <Button
           type="text"
           icon={<CloseOutlined />}
-          onClick={toggleReview}
+          onClick={toggleEditReview}
           style={{
             position: "absolute",
             top: 16,
@@ -145,7 +153,7 @@ function CreateReview({
               textShadow: "0 2px 4px rgba(0,0,0,0.1)",
             }}
           >
-            Write a Review
+            Edit Your Review
           </Title>
           <Text
             style={{
@@ -380,12 +388,12 @@ function CreateReview({
                   boxShadow: "0 4px 16px rgba(189, 184, 144, 0.4)",
                 }}
               >
-                {loading ? "Submitting..." : "Submit Review"}
+                {loading ? "Updating..." : "Update Review"}
               </Button>
               <Button
                 size="large"
                 block
-                onClick={toggleReview}
+                onClick={toggleEditReview}
                 style={{
                   borderRadius: 12,
                   height: 50,
@@ -405,4 +413,4 @@ function CreateReview({
   );
 }
 
-export default CreateReview;
+export default EditReview;

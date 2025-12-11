@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Typography,
@@ -14,6 +14,7 @@ import {
   Badge,
   Carousel,
   Divider,
+  Spin,
 } from "antd";
 import {
   TruckOutlined,
@@ -36,69 +37,70 @@ import { useDrawer } from "../context/DrawerContext";
 import CreateReview from "./CreateReview";
 import ReviewsDetails from "../components/ReviewsDetails";
 import { useAuth } from "../context/AuthContext";
+import useFetchProduct from "../hooks/fetchProduct";
 
 const { Title, Text, Paragraph } = Typography;
 
-const content = {
-  _id: 4,
-  name: "Minimalist Coffee Table",
-  price: 10000,
-  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-  colour: ["black", "white"],
-  type: "coffee table",
-  img: ["https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg"],
-  freeShipping: true,
-  discount: 10,
-  available: true,
-  stockCount: 12,
-  material: "Solid wood frame, memory foam headboard",
-  dimensions: "210cm x 160cm x 100cm",
-  rating: 4.7,
-  totalReviews: 126,
-  shippingInformation: [
-    "Ships within 1-2 business days",
-    "Free shipping on all orders",
-    "30-day return policy",
-  ],
-  careGuide: [
-    "Use a slightly damp, soft, lint-free cloth for regular dust removal.",
-    " Always clean in the direction of the grain.",
-  ],
-  tags: ["bedroom", "ergonomic", "modern", "furniture"],
-  category: "Living Room Furniture",
-  reviews: [
-    {
-      name: "Susan K",
-      email: "susan@email.com",
-      rating: 4.5,
-      review:
-        "Great place to live with excellent amenities and friendly neighbors. The location is perfect for families.",
-      title: "Amazing Property",
-      createdAt: "2025-01-01T00:00:00.000Z",
-      updatedAt: "2025-01-01T00:00:00.000Z",
-    },
-    {
-      name: "John N",
-      email: "john@email.com",
-      rating: 4.5,
-      review:
-        "Great place to stay. Very peaceful and secure neighborhood with easy access to shopping centers.",
-      title: "Highly Recommended",
-      createdAt: "2024-12-15T00:00:00.000Z",
-      updatedAt: "2024-12-15T00:00:00.000Z",
-    },
-    {
-      name: "Jane N",
-      email: "jane@email.com",
-      rating: 3.5,
-      review:
-        "Good property overall but could use some updates in the kitchen area.",
-      title: "Good but needs improvements",
-      createdAt: "2024-11-20T00:00:00.000Z",
-      updatedAt: "2024-11-20T00:00:00.000Z",
-    },
-  ],
-};
+// const content = {
+//   _id: 4,
+//   name: "Minimalist Coffee Table",
+//   price: 10000,
+//   description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+//   colour: ["black", "white"],
+//   type: "coffee table",
+//   img: ["https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg"],
+//   freeShipping: true,
+//   discount: 10,
+//   available: true,
+//   stockCount: 12,
+//   material: "Solid wood frame, memory foam headboard",
+//   dimensions: "210cm x 160cm x 100cm",
+//   rating: 4.7,
+//   totalReviews: 126,
+//   shippingInformation: [
+//     "Ships within 1-2 business days",
+//     "Free shipping on all orders",
+//     "30-day return policy",
+//   ],
+//   careGuide: [
+//     "Use a slightly damp, soft, lint-free cloth for regular dust removal.",
+//     " Always clean in the direction of the grain.",
+//   ],
+//   tags: ["bedroom", "ergonomic", "modern", "furniture"],
+//   category: "Living Room Furniture",
+//   reviews: [
+//     {
+//       name: "Susan K",
+//       email: "susan@email.com",
+//       rating: 4.5,
+//       review:
+//         "Great place to live with excellent amenities and friendly neighbors. The location is perfect for families.",
+//       title: "Amazing Property",
+//       createdAt: "2025-01-01T00:00:00.000Z",
+//       updatedAt: "2025-01-01T00:00:00.000Z",
+//     },
+//     {
+//       name: "John N",
+//       email: "john@email.com",
+//       rating: 4.5,
+//       review:
+//         "Great place to stay. Very peaceful and secure neighborhood with easy access to shopping centers.",
+//       title: "Highly Recommended",
+//       createdAt: "2024-12-15T00:00:00.000Z",
+//       updatedAt: "2024-12-15T00:00:00.000Z",
+//     },
+//     {
+//       name: "Jane N",
+//       email: "jane@email.com",
+//       rating: 3.5,
+//       review:
+//         "Good property overall but could use some updates in the kitchen area.",
+//       title: "Good but needs improvements",
+//       createdAt: "2024-11-20T00:00:00.000Z",
+//       updatedAt: "2024-11-20T00:00:00.000Z",
+//     },
+//   ],
+// };
 
 function ProductDetails() {
   const [searchParams] = useSearchParams();
@@ -106,17 +108,28 @@ function ProductDetails() {
   const { addToWish, removeFromWish, isInWish } = WishFunctions();
   const openNotification = useNotification();
   const navigate = useNavigate();
-  const { isMobile } = useUser();
-  //eslint-disable-next-line
+  const { isMobile } = useUser();  
+  const { productData, productDataLoading, fetchProduct } = useFetchProduct();  
   const id = searchParams.get("id");
-  //eslint-disable-next-line
   const { toggleReview, openReview } = useDrawer();
   const { currentUser } = useAuth();
+
+  useEffect(() => {
+    if (id) {
+      fetchProduct(id);
+    }
+  //eslint-disable-next-line
+  }, [id]);
+
+  const content = useMemo(() => {
+    return productData?.[0] || null;
+  }, [productData]);
 
   // Calculate derived values with memoization
   const hasUserReviewed = useMemo(() => {
     if (!content?.reviews || !currentUser?.email) return false;
     return content.reviews.some((r) => r.email === currentUser.email);
+  //eslint-disable-next-line
   }, [currentUser?.email]);
 
   const discountedPrice =
@@ -125,6 +138,10 @@ function ProductDetails() {
       : content?.price;
 
   if (!content) return null;
+
+  if (productDataLoading) {
+    return <Spin fullscreen size="large" tip="loading" />;
+  }
 
   return (
     <div
@@ -767,8 +784,6 @@ function ProductDetails() {
         isMobile={isMobile}
         //pass refresh
       />
-
-      
     </div>
   );
 }

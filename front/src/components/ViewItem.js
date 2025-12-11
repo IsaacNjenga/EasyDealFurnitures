@@ -46,7 +46,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
           centered
           onCancel={() => setOpenModal(false)}
           confirmLoading={loading}
-          width={isMobile ? "95vw" : "85vw"}
+          width={isMobile ? "100vw" : "85vw"}
           style={{
             top: 0,
           }}

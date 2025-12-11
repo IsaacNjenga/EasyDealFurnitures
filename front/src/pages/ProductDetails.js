@@ -141,65 +141,46 @@ function ProductDetails() {
           <Col xs={24} lg={12}>
             <div style={{ position: "sticky", top: 20 }}>
               {/* Main Image */}
-              {/* <Card
-                style={{
-                  borderRadius: 16,
-                  overflow: "hidden",
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
-                  marginBottom: 16,
-                  padding: 0,
-                  border: "2px solid #e8e8e8",
-                }}
-              > */}
               <Carousel
                 autoplay
-                autoplaySpeed={4500}
-                dots
-                arrows
+                autoplaySpeed={4000}
                 style={{
                   overflow: "hidden",
                   boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
                   marginBottom: 16,
                   padding: 0,
-                  border: "2px solid #e8e8e8",
-                  height: "100%",
                 }}
               >
-                {(Array.isArray(content?.img)
-                  ? content?.img
-                  : [content?.img]
-                ).map((img, i) => (
-                  <Image
-                    src={img}
-                    alt={content?.name}
-                    style={{
-                      width: "100%",
-                      height: isMobile ? 350 : 500,
-                      objectFit: "cover",
-                    }}
-                    preview={{
-                      mask: "View full image",
-                    }}
-                  />
+                {content.img.map((img, i) => (
+                  <div key={i}>
+                    <div
+                      style={{
+                        height: 570,
+                        background: `url(${img}) center/cover`,
+                        position: "relative",
+                      }}
+                    >
+                      <div
+                        style={{
+                          position: "absolute",
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          height: "50%",
+                          background:
+                            "linear-gradient(to top, #ffa4495e ,transparent)",
+                        }}
+                      />
+                    </div>
+                  </div>
                 ))}
               </Carousel>
-              {/* </Card> */}
 
               {/* Thumbnail Gallery */}
               {!isMobile && (
                 <Row gutter={12} centered>
                   {content?.img?.map((img, i) => (
                     <Col key={i} span={8}>
-                      {/* <Card
-                      hoverable
-                      style={{
-                        borderRadius: 12,
-                        overflow: "hidden",
-                        border: "2px solid #e8e8e8",
-                        cursor: "pointer",
-                        padding: 0,
-                      }}
-                    > */}
                       <Image
                         src={img}
                         alt={`img ${i + 1}`}
@@ -212,7 +193,6 @@ function ProductDetails() {
                           mask: "View full image",
                         }}
                       />
-                      {/* </Card> */}
                     </Col>
                   ))}
                 </Row>
@@ -224,7 +204,7 @@ function ProductDetails() {
           <Col xs={24} lg={12}>
             <Space direction="vertical" size={24} style={{ width: "100%" }}>
               {/* Product Header */}
-              <div>
+              <div style={{ marginBottom: 0 }}>
                 <Tag
                   color="orange"
                   style={{
@@ -271,44 +251,71 @@ function ProductDetails() {
                   </Text>
                 </Space>
               </div>
+
               {/* Price Card */}{" "}
-              {content?.discount > 0 && (
-                <Badge.Ribbon
-                  text={`${content.discount}% OFF`}
-                  color="#ff4d4f"
-                  style={{
-                    fontSize: 16,
-                    fontWeight: 700,
-                    fontFamily: "DM Sans",
-                    zIndex: 1000,
-                    padding: "7px 12px",
-                  }}
-                />
-              )}
-              <Card
-                style={{
-                  background:
-                    "linear-gradient(135deg, #ffa449 0%, #ff8c1a 100%)",
-                  border: "none",
-                  borderRadius: 16,
-                  marginTop: 0,
-                }}
-                bodyStyle={{ padding: "24px 28px" }}
-              >
-                <Space direction="vertical" size={8}>
-                  <Text
+              <div style={{ position: "sticky", top: 20 }}>
+                {content?.discount > 0 && (
+                  <Badge.Ribbon
+                    text={`${content.discount}% OFF`}
+                    color="#ff4d4f"
                     style={{
-                      color: "rgba(255,255,255,0.9)",
-                      fontSize: 14,
+                      fontSize: 16,
+                      fontWeight: 700,
                       fontFamily: "DM Sans",
-                      fontWeight: 500,
+                      zIndex: 1000,
+                      padding: "7px 12px",
+                      marginTop: 0,
                     }}
-                  >
-                    Price
-                  </Text>
-                  <div>
-                    {content?.discount > 0 ? (
-                      <Space size={16} align="baseline">
+                  />
+                )}
+                <Card
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #ffa449 0%, #ff8c1a 100%)",
+                    border: "none",
+                    borderRadius: 16,
+                    marginTop: 0,
+                  }}
+                  bodyStyle={{ padding: "24px 28px" }}
+                >
+                  <Space direction="vertical" size={8}>
+                    <Text
+                      style={{
+                        color: "rgba(255,255,255,0.9)",
+                        fontSize: 14,
+                        fontFamily: "DM Sans",
+                        fontWeight: 500,
+                      }}
+                    >
+                      Price
+                    </Text>
+                    <div>
+                      {content?.discount > 0 ? (
+                        <Space size={16} align="baseline">
+                          <Title
+                            level={2}
+                            style={{
+                              color: "#fff",
+                              margin: 0,
+                              fontFamily: "DM Sans",
+                              fontWeight: 700,
+                              fontSize: isMobile ? 28 : 36,
+                            }}
+                          >
+                            KES {discountedPrice.toLocaleString()}
+                          </Title>
+                          <Text
+                            delete
+                            style={{
+                              color: "rgba(255,255,255,0.7)",
+                              fontSize: 20,
+                              fontFamily: "DM Sans",
+                            }}
+                          >
+                            KES {content?.price.toLocaleString()}
+                          </Text>
+                        </Space>
+                      ) : (
                         <Title
                           level={2}
                           style={{
@@ -319,36 +326,14 @@ function ProductDetails() {
                             fontSize: isMobile ? 28 : 36,
                           }}
                         >
-                          KES {discountedPrice.toLocaleString()}
-                        </Title>
-                        <Text
-                          delete
-                          style={{
-                            color: "rgba(255,255,255,0.7)",
-                            fontSize: 20,
-                            fontFamily: "DM Sans",
-                          }}
-                        >
                           KES {content?.price.toLocaleString()}
-                        </Text>
-                      </Space>
-                    ) : (
-                      <Title
-                        level={2}
-                        style={{
-                          color: "#fff",
-                          margin: 0,
-                          fontFamily: "DM Sans",
-                          fontWeight: 700,
-                          fontSize: isMobile ? 28 : 36,
-                        }}
-                      >
-                        KES {content?.price.toLocaleString()}
-                      </Title>
-                    )}
-                  </div>
-                </Space>
-              </Card>
+                        </Title>
+                      )}
+                    </div>
+                  </Space>
+                </Card>
+              </div>
+
               {/* Availability */}
               <Card
                 style={{

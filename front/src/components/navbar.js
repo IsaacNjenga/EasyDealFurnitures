@@ -338,6 +338,7 @@ function Navbar() {
             )}
           </div>
         </Header>
+
         {/* menu drawer */}
         <Drawer
           placement="right"
@@ -392,6 +393,21 @@ function Navbar() {
                     MY CART
                   </Text>
                 </Badge>
+              </div>
+            </Menu.Item>
+            <Menu.Item>
+              <div>
+                <Text
+                  style={{
+                    color: "#fff",
+                    textDecoration: "none",
+                    fontFamily: "DM Sans",
+                    textShadow: " 2px 2px 2px rgba(0, 0, 0, 0.3)",
+                  }}
+                  onClick={() => navigate("/user")}
+                >
+                  MY ACCOUNT
+                </Text>
               </div>
             </Menu.Item>
           </Menu>

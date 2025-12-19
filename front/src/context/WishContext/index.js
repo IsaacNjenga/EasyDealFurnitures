@@ -14,7 +14,6 @@ export function WishProvider({ children }) {
   const { currentUser } = useAuth();
   const { products } = useFetchAllProducts();
   const [wishList, setWishList] = useState([]);
-  const [liveWishItems, setLiveWishItems] = useState([]);
 
   useEffect(() => {
     if (currentUser?.email) {
@@ -29,19 +28,12 @@ export function WishProvider({ children }) {
     }
   }, [client]);
 
-  const getLiveWishItems = () => {
-    const wishListItems = wishList
-      .map((item) => {
-        const product = products?.find((p) => p._id === item._id);
-        return product ? { ...product } : null;
-      })
-      .filter(Boolean);
-    setLiveWishItems(wishListItems);
-  };
-
-  useEffect(() => {
-    getLiveWishItems();
-  }, [currentUser]);
+  const liveWishItems = wishList
+    .map((item) => {
+      const product = products?.find((p) => p._id === item._id);
+      return product ? { ...product } : null;
+    })
+    .filter(Boolean);
 
   const value = { wishList, setWishList, liveWishItems };
 

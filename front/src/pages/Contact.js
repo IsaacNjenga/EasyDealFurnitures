@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Col, Form, Image, Input, Row, Typography } from "antd";
+import { Button, Col, Form,  Input, Row, Typography } from "antd";
 import { useUser } from "../context/UserContext";
 import {
   ClockCircleOutlined,
@@ -175,21 +175,22 @@ function Contact() {
     <div>
       {/* banner */}
       <div style={{ position: "relative", marginBottom: 10 }}>
-        <Image
-          src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"
+        <img
+          //"https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"
+          // src={contactBg}
           alt="bgImg"
+          src="https://images.unsplash.com/photo-1700168333952-3d44a3f427af?w=900"
           width="100%"
           loading="lazy"
-          height={isMobile ? 350 : 500}
-          preview={false}
+          height={isMobile ? 350 : 600}
           style={{
-            objectFit: isMobile ? "contain" : "cover",
+            objectFit: "cover",
             maxWidth: "100%",
           }}
         />
         <div style={heroStyle}>
           <Title style={{ fontFamily: "DM Sans", color: "#fff" }}>
-            Contact
+            Contact Us
           </Title>
         </div>
       </div>

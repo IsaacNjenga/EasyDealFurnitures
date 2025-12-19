@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   Image,
@@ -11,7 +11,8 @@ import {
   Statistic,
   Button,
   Popconfirm,
-  //Spin,
+  Spin,
+  Result,
 } from "antd";
 import {
   MailOutlined,
@@ -23,11 +24,11 @@ import {
 import MyFavourites from "../components/MyFavourites";
 import MyReviews from "../components/MyReviews";
 import MyCart from "../components/MyCart";
-// import AuthModal from "../components/AuthModal";
-// import useFetchClient from "../hooks/fetchClient";
-// import { format } from "date-fns";
+import AuthModal from "../components/AuthModal";
+import useFetchClient from "../hooks/fetchClient";
+import { format } from "date-fns";
 import { useUser } from "../context/UserContext";
-// import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 const { Title, Text } = Typography;
 
@@ -69,263 +70,129 @@ function User() {
   const { isMobile } = useUser();
   const [activeTabKey, setActiveTabKey] = useState("favourites");
   const [open, setOpen] = useState(false);
-  const [favouritesData, setFavouritesData] = useState([]);
-  const [reviewsData, setReviewsData] = useState([]);
-  const [cartData, setCartData] = useState([]);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  // const { client, clientLoading, fetchClient } = useFetchClient();
-  // const { userLoggedIn, openAuthModal, setOpenAuthModal, currentUser, logout } =
-  //   useAuth();
+
+  const {
+    client,
+    clientFavourites,
+    clientReviews,
+    clientCart,
+    clientLoading,
+    clientError,
+    fetchClient,
+    resetClient,
+  } = useFetchClient();
+
+  const { userLoggedIn, openAuthModal, setOpenAuthModal, currentUser, logout } =
+    useAuth();
 
   // Effect to handle authentication and fetching
-  // useEffect(() => {
-  //   if (!userLoggedIn || !currentUser) {
-  //     setOpenAuthModal(true);
-  //     return;
-  //   }
-
-  //   if (currentUser?.email) {
-  //     fetchClient(currentUser?.email);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [currentUser, userLoggedIn]);
-
-  const user = {
-    avatar:
-      "https://plus.unsplash.com/premium_photo-1705091981908-a785a48510b6?w=900",
-    name: "John Doe",
-    email: "john.doe@email.com",
-    memberSince: "December 2001",
-    stats: {
-      favourites: 2,
-      reviews: 1,
-      cart: 1,
-    },
-    favourites: [
-      {
-        _id: "690c6069d54e8ed27d568209",
-        name: "Lounge Sofa",
-        description:
-          "Minimalist design with premium upholstery for a modern living space.",
-        price: 64000,
-        img: [
-          "https://res.cloudinary.com/dinsdfwod/image/upload/v1762418705/bt5ao3ow7xetgh6ilyxr.jpg",
-          "https://res.cloudinary.com/dinsdfwod/image/upload/v1762418705/zdl2eymjnajjgpiynbmv.jpg",
-        ],
-        colour: ["Purple", "yellow"],
-        type: "Bed",
-        category: "Living Room Furniture",
-        freeShipping: true,
-        available: true,
-        stockCount: 19,
-        shippingInformation: ["Ships within 1 day"],
-        careGuide: [
-          "Vacuum fabric regularly. Avoid direct sunlight to preserve color vibrancy.",
-        ],
-        tags: ["sofa", "lounge", "living"],
-        discount: 10,
-        createdAt: {
-          $date: "2025-11-06T08:46:35.210Z",
-        },
-        updatedAt: {
-          $date: "2025-11-06T08:46:35.210Z",
-        },
-        __v: 0,
-      },
-      {
-        _id: "690c6069d54e8ed27d568210",
-        name: "Lounge Sofa",
-        description:
-          "Minimalist design with premium upholstery for a modern living space.",
-        price: 64000,
-        img: [
-          "https://res.cloudinary.com/dinsdfwod/image/upload/v1762418705/bt5ao3ow7xetgh6ilyxr.jpg",
-          "https://res.cloudinary.com/dinsdfwod/image/upload/v1762418705/zdl2eymjnajjgpiynbmv.jpg",
-        ],
-        colour: ["Purple", "yellow"],
-        type: "Bed",
-        category: "Living Room Furniture",
-        freeShipping: true,
-        available: true,
-        stockCount: 19,
-        shippingInformation: ["Ships within 1 day"],
-        careGuide: [
-          "Vacuum fabric regularly. Avoid direct sunlight to preserve color vibrancy.",
-        ],
-        tags: ["sofa", "lounge", "living"],
-        discount: 10,
-        createdAt: {
-          $date: "2025-11-06T08:46:35.210Z",
-        },
-        updatedAt: {
-          $date: "2025-11-06T08:46:35.210Z",
-        },
-        __v: 0,
-      },
-    ],
-    cart: [
-      {
-        _id: "690c6069d54e8ed27d568209",
-        name: "Lounge Sofa",
-        description:
-          "Minimalist design with premium upholstery for a modern living space.",
-        price: 64000,
-        img: [
-          "https://res.cloudinary.com/dinsdfwod/image/upload/v1762418705/bt5ao3ow7xetgh6ilyxr.jpg",
-          "https://res.cloudinary.com/dinsdfwod/image/upload/v1762418705/zdl2eymjnajjgpiynbmv.jpg",
-        ],
-        colour: ["Purple", "yellow"],
-        type: "Bed",
-        category: "Living Room Furniture",
-        freeShipping: true,
-        available: true,
-        stockCount: 19,
-        shippingInformation: ["Ships within 1 day"],
-        careGuide: [
-          "Vacuum fabric regularly. Avoid direct sunlight to preserve color vibrancy.",
-        ],
-        tags: ["sofa", "lounge", "living"],
-        discount: 10,
-        createdAt: {
-          $date: "2025-11-06T08:46:35.210Z",
-        },
-        updatedAt: {
-          $date: "2025-11-06T08:46:35.210Z",
-        },
-        __v: 0,
-      },
-    ],
-    reviews: [
-      {
-        _id: "691b355ef9cf0b7168c606db",
-        name: "Isaac N",
-        email: "isaac@email.com",
-        rating: 4.5,
-        review: "Very nice piece of equipment",
-        productId: {
-          _id: "690c6069d54e8ed27d568209",
-          name: "Lounge Sofa",
-          description:
-            "Minimalist design with premium upholstery for a modern living space.",
-          price: 64000,
-          img: [
-            "https://res.cloudinary.com/dinsdfwod/image/upload/v1762418705/bt5ao3ow7xetgh6ilyxr.jpg",
-            "https://res.cloudinary.com/dinsdfwod/image/upload/v1762418705/zdl2eymjnajjgpiynbmv.jpg",
-          ],
-          colour: ["Purple", "yellow"],
-          type: "Bed",
-          category: "Living Room Furniture",
-          freeShipping: true,
-          available: true,
-          stockCount: 19,
-          shippingInformation: ["Ships within 1 day"],
-          careGuide: [
-            "Vacuum fabric regularly. Avoid direct sunlight to preserve color vibrancy.",
-          ],
-          tags: ["sofa", "lounge", "living"],
-          discount: 10,
-
-          reviews: [
-            {
-              _id: "691b355ef9cf0b7168c606db",
-              name: "Isaac N",
-              email: "isaac@email.com",
-              rating: 4.5,
-              review: "Very nice piece of property",
-              propertyId: "6912e3ffaf42a9dfb7c24e81",
-              createdAt: "2025-11-17T14:46:54.290Z",
-              updatedAt: "2025-11-17T14:46:54.290Z",
-              __v: 0,
-              title: "Nice place",
-            },
-            {
-              _id: "691b145794ff1f7f77ad4a39",
-              name: "Isaac Njenga",
-              rating: 5,
-              review: "I loved it so much I want to buy another!",
-              propertyId: "6912e3ffaf42a9dfb7c24e81",
-              createdAt: "2025-11-17T12:25:59.560Z",
-              updatedAt: "2025-11-17T12:25:59.560Z",
-              __v: 0,
-              email: "ayzzoh20@gmail.com",
-              title: "The best",
-            },
-          ],
-          analytics: [
-            {
-              _id: "69258648d5acc9951d48fa97",
-              propertyId: "6912e3ffaf42a9dfb7c24e81",
-              __v: 0,
-              clicks: 4,
-              createdAt: "2025-11-25T10:34:48.554Z",
-              updatedAt: "2025-11-26T12:02:00.112Z",
-              views: 0,
-              likes: 0,
-            },
-          ],
-        },
-        createdAt: "2025-11-17T14:46:54.290Z",
-        updatedAt: "2025-11-17T14:46:54.290Z",
-        title: "Nice place",
-      },
-    ],
-  };
-
-  // Effect to update local state when client data is loaded
-  // useEffect(() => {
-  //   if (client) {
-  //     setFavouritesData(client.favourites || []);
-  //     setReviewsData(client.reviews || []);
-  //     setCartData(client.cart || []);
-  //   }
-  // }, [client]);
-
   useEffect(() => {
-    if (user) {
-      setFavouritesData(user.favourites || []);
-      setReviewsData(user.reviews || []);
-      setCartData(user.cart || []);
+    if (!userLoggedIn || !currentUser) {
+      setOpenAuthModal(true);
+      resetClient(); // Clear any existing client data
+      return;
     }
-    //eslint-disable-next-line
-  }, []);
+
+    const email = currentUser?.email;
+    if (email && !client) {
+      // Only fetch if we don't have client data yet
+      fetchClient(email);
+    }
+  }, [
+    currentUser,
+    userLoggedIn,
+    client,
+    fetchClient,
+    resetClient,
+    setOpenAuthModal,
+  ]);
 
   const onTabChange = (key) => {
     setActiveTabKey(key);
   };
 
-  // if (!userLoggedIn || !currentUser) {
-  //   return (
-  //     <AuthModal
-  //       openAuthModal={openAuthModal}
-  //       setOpenAuthModal={setOpenAuthModal}
-  //       isMobile={isMobile}
-  //     />
-  //   );
-  // }
+  const handleLogout = async () => {
+    setConfirmLoading(true);
+    try {
+      await logout();
+      resetClient();
+      setOpen(false);
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      setConfirmLoading(false);
+    }
+  };
 
-  // Loading state
-  // if (clientLoading) {
-  //   return <Spin size="large" fullscreen tip="Loading..." />;
-  // }
+  // Show auth modal if not logged in
+  if (!userLoggedIn || !currentUser) {
+    return (
+      <AuthModal
+        openAuthModal={openAuthModal}
+        setOpenAuthModal={setOpenAuthModal}
+        isMobile={isMobile}
+      />
+    );
+  }
 
-  // const user = {
-  //   avatar: client?.avatar,
-  //   name: client?.name || currentUser?.displayName || currentUser?.email,
-  //   email: client?.email || currentUser?.email,
-  //   memberSince: client?.createdAt
-  //     ? format(new Date(client.createdAt), "MMMM yyyy")
-  //     : format(new Date(), "MMMM yyyy"),
-  //   stats: {
-  //     favourites: client?.stats?.favourites || 0,
-  //     reviews: client?.stats?.reviews || 0,
-  //     viewings: client?.stats?.viewings || 0,
-  //   },
-  // };
+  // Show loading state
+  if (clientLoading) {
+    return <Spin size="large" fullscreen tip="Loading your profile..." />;
+  }
+
+  // Show error state
+  if (clientError && !client) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Result
+          status="error"
+          title="Failed to Load Profile"
+          subTitle={clientError}
+          extra={
+            <Button
+              type="primary"
+              onClick={() => fetchClient(currentUser?.email)}
+            >
+              Try Again
+            </Button>
+          }
+        />
+      </div>
+    );
+  }
+
+  const user = {
+    avatar: client?.avatar,
+    name:
+      client?.name ||
+      currentUser?.displayName ||
+      currentUser?.email?.split("@")[0] ||
+      "User",
+    email: client?.email || currentUser?.email,
+    memberSince: client?.createdAt
+      ? format(new Date(client.createdAt), "MMMM yyyy")
+      : format(new Date(), "MMMM yyyy"),
+    stats: {
+      favourites: clientFavourites?.length || 0,
+      reviews: clientReviews?.length || 0,
+      cart: clientCart?.length || 0,
+    },
+  };
+
+  console.log(client)
 
   const contentListNoTitle = {
-    favourites: <MyFavourites favouritesData={favouritesData} />,
-    reviews: <MyReviews reviewsData={reviewsData} />,
-    cart: <MyCart cartData={cartData} />,
+    favourites: <MyFavourites favouritesData={clientFavourites} />,
+    reviews: <MyReviews reviewsData={clientReviews} />,
+    cart: <MyCart cartData={clientCart} />,
   };
 
   return (
@@ -341,7 +208,7 @@ function User() {
         <div
           style={{
             position: "relative",
-            height: 500,
+            height: isMobile ? 450 : 500,
             overflow: "hidden",
           }}
         >
@@ -421,19 +288,13 @@ function User() {
               color: "#fff",
             }}
           >
-            {/* {currentUser?.photoURL ? (
-              <Avatar src={currentUser?.photoURL} size={isMobile ? 90 : 100} />
+            {currentUser?.photoURL ? (
+              <Avatar src={currentUser.photoURL} size={isMobile ? 90 : 100} />
             ) : (
               <Avatar size={isMobile ? 90 : 100}>
-                {currentUser?.displayName[0]}
+                {user.name?.[0]?.toUpperCase() || "U"}
               </Avatar>
-            )} */}
-            <Avatar
-              src={
-                "https://plus.unsplash.com/premium_photo-1705091981908-a785a48510b6?w=900"
-              }
-              size={isMobile ? 90 : 100}
-            />
+            )}
 
             <Title
               level={1}
@@ -654,16 +515,7 @@ function User() {
             title="Logout"
             description="Are you sure you want to logout?"
             open={open}
-            onConfirm={() => {
-              setConfirmLoading(true);
-
-              setTimeout(() => {
-                //logout();
-                console.log("logout");
-                setOpen(false);
-                setConfirmLoading(false);
-              }, 1000);
-            }}
+            onConfirm={handleLogout}
             okButtonProps={{ loading: confirmLoading }}
             onCancel={() => setOpen(false)}
           >
@@ -672,12 +524,12 @@ function User() {
             </Button>
           </Popconfirm>
         </div>
-      </div>{" "}
-      {/* <AuthModal
+      </div>
+      <AuthModal
         openAuthModal={openAuthModal}
         setOpenAuthModal={setOpenAuthModal}
         isMobile={isMobile}
-      /> */}
+      />
     </>
   );
 }

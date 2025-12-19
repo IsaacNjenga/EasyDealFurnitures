@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Carousel, Image, Button, Typography, Row, Col } from "antd";
+import { Carousel, Button, Typography, Row, Col } from "antd";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUser } from "../context/UserContext";
 import { ArrowRightOutlined } from "@ant-design/icons";
@@ -7,22 +7,30 @@ import "../assets/css/home.css";
 import { bestSellersGrid, newArrivalsGrid } from "../assets/data/data";
 import ItemCard from "../components/ItemCard";
 import { useNavigate } from "react-router-dom";
+import bg1 from "../assets/images/home-bg1.jpeg";
+import bg2 from "../assets/images/home-bg2.jpeg";
+import deskPic from "../assets/images/deskimg.jpeg";
+import classic from "../assets/images/classic.jpeg";
+import outdoor from "../assets/images/outdoor.jpeg";
+import officeChair from "../assets/images/officechair.jpeg";
+//import tv from "../assets/images/tv.jpeg";
 
 const { Title, Text } = Typography;
 
-const bgImgs = [
-  "https://images.pexels.com/photos/2635038/pexels-photo-2635038.jpeg",
-  "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg",
-];
+// const bgImgs = [
+//   "https://images.pexels.com/photos/2635038/pexels-photo-2635038.jpeg",
+//   "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg",
+// ];
+const bgImgs = [bg1, bg2];
 
-const officeImage =
-  "https://images.pexels.com/photos/416320/pexels-photo-416320.jpeg";
-const deskImg =
-  "https://images.pexels.com/photos/1957477/pexels-photo-1957477.jpeg";
-const tableImg =
-  "https://images.pexels.com/photos/667838/pexels-photo-667838.jpeg";
-const chairImg =
-  "https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg";
+const officeImage = officeChair;
+//"https://images.pexels.com/photos/416320/pexels-photo-416320.jpeg";
+const deskImg = deskPic;
+//"https://images.pexels.com/photos/1957477/pexels-photo-1957477.jpeg";
+const tableImg = outdoor;
+//"https://images.pexels.com/photos/667838/pexels-photo-667838.jpeg";
+const chairImg = classic;
+//"https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg";
 
 const collectionGrid = [
   { key: 1, img: officeImage, text: "Modern Living" },
@@ -504,7 +512,7 @@ const DiscoverSection = ({ isMobile, navigate }) => {
         padding: 0,
         marginBottom: 0,
         background:
-          'url("https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg") center center no-repeat fixed',
+          'url("https://plus.unsplash.com/premium_photo-1683141392308-aaa39d916686?w=900") center center no-repeat fixed',
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         height: 500,
@@ -594,19 +602,29 @@ export default function Home() {
           beforeChange={(from, to) => setActiveSlide(to)}
         >
           {bgImgs.map((img, index) => (
-            <Image
+            <div
               key={index}
-              src={img}
-              alt={`bg-${index}`}
-              loading="lazy"
-              preview={false}
-              width="100%"
-              height={isMobile ? 400 : 700}
               style={{
-                objectFit: "cover",
-                filter: "brightness(70%)",
+                height: isMobile ? 400 : 650,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
-            />
+            >
+              <img
+                //key={index}
+                src={img}
+                alt={`bg-${index}`}
+                loading="lazy"
+                style={{
+                  objectFit: "cover",
+                  filter: "brightness(80%)",
+                  display: "block",
+                  width: "100%",
+                  height: isMobile ? 400 : 650,
+                }}
+              />
+            </div>
           ))}
         </Carousel>
 

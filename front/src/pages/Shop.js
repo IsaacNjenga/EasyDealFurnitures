@@ -5,24 +5,9 @@ import "../assets/css/shop.css";
 import ItemCard from "../components/ItemCard";
 import emptyImg from "../assets/images/Empty.png";
 import useFetchAllProducts from "../hooks/fetchAllProducts";
-import { selectableItems } from "../utils/ShopPageFunctions";
+import { BannerDiv, selectableItems } from "../utils/ShopPageFunctions";
 
 const { Title, Text } = Typography;
-
-const heroStyle = {
-  position: "absolute",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-  background: "rgba(0,0,0,0.2)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  flexDirection: "column",
-  color: "#fff",
-  padding: "10px 20px",
-};
 
 function Shop() {
   const { isMobile } = useUser();
@@ -41,24 +26,9 @@ function Shop() {
   return (
     <div>
       {/* banner */}
+
       <div style={{ position: "relative", marginBottom: 10 }}>
-        <Image
-          src="https://images.pexels.com/photos/416320/pexels-photo-416320.jpeg"
-          alt="bgImg"
-          width="100%"
-          loading="lazy"
-          height={isMobile ? 350 : 500}
-          preview={false}
-          style={{
-            objectFit: isMobile ? "contain" : "cover",
-            maxWidth: "100%",
-          }}
-        />
-        <div style={heroStyle}>
-          <Title style={{ fontFamily: "DM Sans", color: "#fff" }}>
-            Products
-          </Title>
-        </div>
+        <BannerDiv isMobile={isMobile} />
       </div>
 
       {/* selectableItems */}

@@ -37,16 +37,17 @@ const iconStyle = {
 
 const menuItems = [
   { key: 1, label: "HOME", path: "/" },
-  {
-    key: 2,
-    label: "SHOP",
-    path: "/shop",
-    children: [
-      { key: "2-1", label: "All Products", path: "/shop" },
-      { key: "2-2", label: "On Sale", path: "/shop/sale" },
-      { key: "2-3", label: "New Arrivals", path: "/shop/new" },
-    ],
-  },
+  { key: 2, label: "SHOP", path: "/shop" },
+  // {
+  //   key: 2,
+  //   label: "SHOP",
+  //   path: "/shop",
+  //   children: [
+  //     { key: "2-1", label: "All Products", path: "/shop" },
+  //     { key: "2-2", label: "On Sale", path: "/shop/sale" },
+  //     { key: "2-3", label: "New Arrivals", path: "/shop/new" },
+  //   ],
+  // },
   { key: 3, label: "CONTACT", path: "/contact" },
   { key: 4, label: "FAQ's", path: "/faq" },
   { key: 5, label: "MY WISHLIST", path: "/wishlist" },
@@ -81,6 +82,7 @@ function Navbar() {
       : "0 0 0 rgba(0,0,0,0)",
     height: "auto",
   };
+
   return (
     <>
       <Layout style={{ minHeight: "100vh" }}>
@@ -184,10 +186,10 @@ function Navbar() {
                       <Link
                         to={path}
                         style={{
-                          fontSize: 20,
-                          fontWeight: 300,
+                          fontSize: scrolled ? 16 : 20,
+                          fontWeight: 400,
                           color: "#fff",
-                          letterSpacing: 1.3,
+                          letterSpacing: scrolled ? 1 : 1.3,
                           fontFamily: "DM Sans",
                           transition: "all 0.2s ease-in-out",
                         }}

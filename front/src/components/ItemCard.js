@@ -7,6 +7,7 @@ import { WishFunctions } from "../utils/WishFunctions";
 import { useNotification } from "../context/NotificationContext";
 import ViewItem from "./ViewItem";
 import { useUser } from "../context/UserContext";
+import axios from "axios";
 
 const { Title, Text } = Typography;
 
@@ -15,6 +16,7 @@ function ItemCard({ dataSource }) {
   const openNotification = useNotification();
   const { addToCart, removeFromCart, isInCart } = CartFunctions();
   const { addToWish, removeFromWish, isInWish } = WishFunctions();
+  //const { userLoggedIn, setOpenAuthModal } = useAuth();
   const [openModal, setOpenModal] = useState(false);
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -153,11 +155,6 @@ function ItemCard({ dataSource }) {
                                   removeFromWish(b._id);
                                 } else {
                                   addToWish(b);
-                                  openNotification(
-                                    "success",
-                                    "An item has been added to your wishlist",
-                                    "Nice!"
-                                  );
                                 }
                               }}
                               icon={
@@ -179,7 +176,15 @@ function ItemCard({ dataSource }) {
                             <Button
                               shape="circle"
                               icon={<EyeOutlined />}
-                              onClick={() => viewItem(b)}
+                              onClick={() => {
+                                viewItem(b);
+                                const url = `https://easy-deal-admin-server.vercel.app/EasyAdmin/analytics/views/${b._id}`;
+                                if (navigator.sendBeacon) {
+                                  navigator.sendBeacon(url);
+                                } else {
+                                  axios.post(url);
+                                }
+                              }}
                               style={{
                                 background: "white",
                                 color: "#333",
@@ -291,7 +296,15 @@ function ItemCard({ dataSource }) {
                         </Text>
                         {isMobile && (
                           <Button
-                            onClick={() => viewItem(b)}
+                            onClick={() => {
+                              viewItem(b);
+                              const url = `https://easy-deal-admin-server.vercel.app/EasyAdmin/analytics/views/${b._id}`;
+                              if (navigator.sendBeacon) {
+                                navigator.sendBeacon(url);
+                              } else {
+                                axios.post(url);
+                              }
+                            }}
                             style={{
                               background: "white",
                               border: "1px solid #444",

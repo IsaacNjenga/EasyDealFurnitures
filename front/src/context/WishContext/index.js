@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { shopProducts } from "../../assets/data/data";
+import useFetchClient from "../../hooks/fetchClient";
+import useFetchAllProducts from "../../hooks/fetchAllProducts";
+import { useAuth } from "../AuthContext";
 
 export const WishContext = createContext();
 
@@ -8,24 +10,32 @@ export function useWish() {
 }
 
 export function WishProvider({ children }) {
-  const [wishItems, setWishItems] = useState(() => {
-    const storedWish = localStorage.getItem("wishlist");
-    return storedWish ? JSON.parse(storedWish) : [];
-  });
+  const { client, fetchClient } = useFetchClient();
+  const { currentUser } = useAuth();
+  const { products } = useFetchAllProducts();
+  const [wishList, setWishList] = useState([]);
 
   useEffect(() => {
-    localStorage.setItem("wishlist", JSON.stringify(wishItems));
-  }, [wishItems]);
+    if (currentUser?.email) {
+      fetchClient(currentUser?.email);
+    }
+    //eslint-disable-next-line
+  }, [currentUser]);
 
-  // compute merged items
-  const liveWishItems = wishItems
+  useEffect(() => {
+    if (client) {
+      setWishList(client.favourites || []);
+    }
+  }, [client]);
+
+  const liveWishItems = wishList
     .map((item) => {
-      const product = shopProducts.find((p) => p._id === item._id);
+      const product = products?.find((p) => p._id === item._id);
       return product ? { ...product } : null;
     })
-    .filter(Boolean); //remove non existent items
+    .filter(Boolean);
 
-  const value = { wishItems, setWishItems, liveWishItems };
+  const value = { wishList, setWishList, liveWishItems };
 
   return <WishContext.Provider value={value}>{children}</WishContext.Provider>;
 }

@@ -24,6 +24,8 @@ import { useCart } from "../context/CartContext";
 import Cart from "./Cart";
 import AuthModal from "./AuthModal";
 import { useAuth } from "../context/AuthContext";
+import { useSearch } from "../context/SearchContext";
+import SearchModal from "./SearchModal";
 
 const { Title, Text } = Typography;
 const { Header, Content, Footer } = Layout;
@@ -59,6 +61,7 @@ function Navbar() {
   const { userLoggedIn, currentUser, openAuthModal, setOpenAuthModal } =
     useAuth();
   const { cartItems, cartOpen, toggleCart } = useCart();
+  const { setSearchOpen } = useSearch();
 
   const handleAuth = () => {
     setOpenAuthModal(true);
@@ -307,7 +310,7 @@ function Navbar() {
                 <Tooltip title="Search...">
                   <SearchOutlined
                     style={iconStyle}
-                    onClick={toggleDrawer}
+                    onClick={() => setSearchOpen(true)}
                     onMouseEnter={(e) =>
                       (e.currentTarget.style.transform = "scale(1.05)")
                     }
@@ -470,6 +473,7 @@ function Navbar() {
         setOpenAuthModal={setOpenAuthModal}
         isMobile={isMobile}
       />
+      <SearchModal />
     </>
   );
 }

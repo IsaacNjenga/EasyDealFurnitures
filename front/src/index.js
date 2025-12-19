@@ -10,6 +10,7 @@ import { CartProvider } from "./context/CartContext";
 import { WishProvider } from "./context/WishContext";
 import { DrawerProvider } from "./context/DrawerContext";
 import AuthProvider from "./context/AuthContext";
+import { SearchProvider } from "./context/SearchContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -19,11 +20,13 @@ root.render(
         <AuthProvider>
           <CartProvider>
             <DrawerProvider>
-              <WishProvider>
-                <NotificationProvider>
-                  <App />
-                </NotificationProvider>
-              </WishProvider>
+              <SearchProvider>
+                <WishProvider>
+                  <NotificationProvider>
+                    <App />
+                  </NotificationProvider>
+                </WishProvider>
+              </SearchProvider>
             </DrawerProvider>
           </CartProvider>
         </AuthProvider>

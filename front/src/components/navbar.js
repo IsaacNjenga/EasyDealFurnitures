@@ -73,7 +73,7 @@ function Navbar() {
     left: 0,
     zIndex: 1000,
     width: "100%",
-    padding: "0 40px",
+    padding: "0 50px",
     display: "flex",
     alignItems: "center",
     transition: "all 0.4s ease",
@@ -96,7 +96,7 @@ function Navbar() {
               alignItems: "center",
               justifyContent: "space-between",
               width: "100%",
-              gap: isMobile ? 5 : 20,
+              gap: isMobile ? 0 : 20,
             }}
           >
             {/* logo and title */}
@@ -119,8 +119,8 @@ function Navbar() {
                   src="https://res.cloudinary.com/dinsdfwod/image/upload/v1765199954/office-chair1_xlt5fs.png"
                   alt="logo"
                   style={{
-                    width: scrolled ? 55 : isMobile ? 65 : 150,
-                    height: scrolled ? 55 : isMobile ? 65 : 150,
+                    width: scrolled ? 50 : isMobile ? 60 : 150,
+                    height: scrolled ? 50 : isMobile ? 60 : 150,
                     borderRadius: "50%",
                     objectFit: "cover",
                     transition: "all 0.3s ease",
@@ -162,9 +162,19 @@ function Navbar() {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    marginLeft: "auto",
+                    marginLeft: -15,
+                    gap: 10,
                   }}
                 >
+                  <Button
+                    type="text"
+                    icon={
+                      <SearchOutlined
+                        style={{ color: "#ecdedeff", fontSize: 20 }}
+                      />
+                    }
+                    onClick={() => setSearchOpen(true)}
+                  />{" "}
                   <Button
                     type="text"
                     icon={

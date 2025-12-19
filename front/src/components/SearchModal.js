@@ -91,7 +91,7 @@ function SearchModal() {
                     top: "50%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
-                    width: "50%",
+                    width: isMobile ? "100%" : "50%",
                   }}
                 >
                   <Search
@@ -104,7 +104,7 @@ function SearchModal() {
                     allowClear
                     style={{
                       width: "100%",
-                      maxWidth: isMobile ? 350 : 600,
+                      maxWidth: isMobile ? 400 : 600,
                     }}
                   />
                 </div>

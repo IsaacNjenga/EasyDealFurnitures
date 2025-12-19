@@ -29,8 +29,6 @@ function useFetchClient() {
       if (res.data?.success) {
         const data = res.data?.clientDetails;
 
-        console.log(data);
-
         setClient(data);
         setClientFavourites(data?.favourites || []);
         setClientReviews(data?.reviews || []);

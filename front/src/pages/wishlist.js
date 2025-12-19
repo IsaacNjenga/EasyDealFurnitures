@@ -1,11 +1,9 @@
-import React, { useState } from "react";
-import { Image, Typography } from "antd";
+import { Col, Image, Row, Typography } from "antd";
 import { useUser } from "../context/UserContext";
 import emptyImg from "../assets/images/Empty-Wish.png";
 import { Link } from "react-router-dom";
 import { useWish } from "../context/WishContext";
 import ItemCard from "../components/ItemCard";
-import ViewItem from "../components/ViewItem";
 
 const { Title, Text } = Typography;
 
@@ -27,16 +25,6 @@ const heroStyle = {
 function Wishlist() {
   const { isMobile } = useUser();
   const { liveWishItems } = useWish();
-  const [openModal, setOpenModal] = useState(false);
-  const [content, setContent] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  const viewItem = (content) => {
-    setLoading(true);
-    setContent(content);
-    setOpenModal(true);
-    setTimeout(() => setLoading(false), 100);
-  };
 
   return (
     <div>
@@ -126,22 +114,16 @@ function Wishlist() {
           </div>
         ) : (
           <div style={{ margin: "10px 10px", padding: "10px 15px" }}>
-            <ItemCard
-              dataSource={liveWishItems}
-              isMobile={isMobile}
-              viewItem={viewItem}
-            />
+            <Row gutter={[32, 32]}>
+              {liveWishItems.map((c) => (
+                <Col key={c._id} xs={24} sm={12} md={6}>
+                  <ItemCard dataSource={c} />
+                </Col>
+              ))}
+            </Row>
           </div>
         )}
       </div>
-
-      <ViewItem
-        isMobile={isMobile}
-        setOpenModal={setOpenModal}
-        openModal={openModal}
-        loading={loading}
-        content={content}
-      />
     </div>
   );
 }

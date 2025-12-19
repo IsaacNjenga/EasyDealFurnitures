@@ -13,6 +13,17 @@ const { Title, Text, Paragraph } = Typography;
 const ReviewUI = ({ review, item }) => {
   const { isMobile } = useUser();
 
+  // Safely parse the date
+  const getTimeAgo = (dateString) => {
+    try {
+      const date = new Date(dateString);
+      return formatDistanceToNow(date);
+    } catch (error) {
+      console.error("Date parsing error:", error);
+      return "Unknown";
+    }
+  };
+
   return (
     <div style={{ padding: "8px 0" }}>
       <Card
@@ -45,24 +56,24 @@ const ReviewUI = ({ review, item }) => {
                 fontWeight: 600,
               }}
             >
-              {review.name[0]}
+              {review?.name?.[0]?.toUpperCase() || "U"}
             </Avatar>
             <div>
               <Text
                 strong
                 style={{ fontSize: 16, display: "block", marginBottom: 4 }}
               >
-                {review.name}
+                {review?.name || "Anonymous"}
               </Text>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <Rate
                   disabled
                   allowHalf
-                  value={review.rating}
+                  value={review?.rating || 0}
                   style={{ fontSize: 16 }}
                 />
                 <Text strong style={{ color: "#faad14", fontSize: 16 }}>
-                  {review.rating}
+                  {review?.rating || 0}
                 </Text>
               </div>
             </div>
@@ -77,7 +88,7 @@ const ReviewUI = ({ review, item }) => {
                 padding: "4px 12px",
               }}
             >
-              {formatDistanceToNow(review.createdAt)} ago
+              {getTimeAgo(review?.createdAt)} ago
             </Tag>
           </div>
         </div>
@@ -95,24 +106,24 @@ const ReviewUI = ({ review, item }) => {
             border: "1px solid #f0f0f0",
           }}
         >
-          "{review.review}"
+          "{review?.review || "No review text"}"
         </Paragraph>
       </Card>
 
-      <div style={{ margin: "auto", width: isMobile ? "100%" : "50%" }}>
-        <ItemCard dataSource={item} />
-      </div>
+      {item && (
+        <div style={{ margin: "auto", width: isMobile ? "100%" : "30%" }}>
+          <ItemCard dataSource={item} />
+        </div>
+      )}
     </div>
   );
 };
 
 function MyReviews({ reviewsData }) {
-  const clientReviews = reviewsData;
-
-  console.log(clientReviews);
+  const clientReviews = reviewsData || [];
 
   const items = clientReviews?.map((review) => ({
-    key: review._id,
+    key: review?._id || Math.random().toString(),
     label: (
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <StarFilled style={{ color: "#faad14", fontSize: 18 }} />
@@ -121,15 +132,15 @@ function MyReviews({ reviewsData }) {
             strong
             style={{ fontSize: 15, display: "block", fontFamily: "Raleway" }}
           >
-            {review.title}
+            {review?.title || "Review"}
           </Text>
           <Text style={{ fontSize: 13, color: "#8c8c8c" }}>
-            {review.productId?.name} • {review.productId?.type}
+            {review?.productId[0]?.name || "Product"} • {review?.productId[0]?.type.toUpperCase() || "TYPE"}
           </Text>
         </div>
       </div>
     ),
-    children: <ReviewUI review={review} item={review.productId} />,
+    children: <ReviewUI review={review} item={review?.productId} />,
   }));
 
   return (
@@ -140,16 +151,16 @@ function MyReviews({ reviewsData }) {
           <StarFilled style={{ color: "gold", marginLeft: 8 }} />
         </Title>
         <Text style={{ color: "#64748b", fontSize: 15 }}>
-          View all your property reviews and ratings
+          View all your product reviews and ratings
         </Text>
       </div>
 
-      {clientReviews?.length === 0 ? (
-        <Empty description="Seems like your reviews list is empty. Be sure to review some properties." />
+      {clientReviews.length === 0 ? (
+        <Empty description="Seems like your reviews list is empty. Be sure to review some products." />
       ) : (
         <Collapse
           bordered={false}
-          defaultActiveKey={[clientReviews[0]?._id]}
+          defaultActiveKey={clientReviews[0]?._id ? [clientReviews[0]._id] : []}
           expandIcon={({ isActive }) => (
             <CaretRightOutlined
               rotate={isActive ? 90 : 0}

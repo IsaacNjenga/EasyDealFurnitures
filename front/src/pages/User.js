@@ -190,13 +190,13 @@ function User() {
     },
   };
 
-  console.log(client);
 
   const contentListNoTitle = {
     favourites: <MyFavourites favouritesData={clientFavourites} />,
     reviews: <MyReviews reviewsData={clientReviews} />,
     cart: <MyCart cartData={clientCart} />,
   };
+
 
   return (
     <>

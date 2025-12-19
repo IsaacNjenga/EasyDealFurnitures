@@ -109,6 +109,8 @@ const ReviewUI = ({ review, item }) => {
 function MyReviews({ reviewsData }) {
   const clientReviews = reviewsData;
 
+  console.log(reviewsData);
+
   const items = clientReviews?.map((review) => ({
     key: review._id,
     label: (

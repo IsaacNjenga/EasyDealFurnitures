@@ -7,6 +7,7 @@ function useFetchClient() {
   const [clientFavourites, setClientFavourites] = useState([]);
   const [clientReviews, setClientReviews] = useState([]);
   const [clientCart, setClientCart] = useState([]);
+  const [refreshKey, setRefreshKey] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const openNotification = useNotification();
@@ -32,6 +33,8 @@ function useFetchClient() {
 
         if (res.data?.success && res.data?.client) {
           const data = res.data?.client[0];
+
+          console.log(data);
 
           setClient(data);
           setClientFavourites(data?.favourites || []);
@@ -80,6 +83,8 @@ function useFetchClient() {
     clientError: error,
     fetchClient,
     resetClient,
+    refreshKey,
+    clientRefresh: () => setRefreshKey((prev) => prev + 1),
   };
 }
 

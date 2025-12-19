@@ -81,6 +81,8 @@ function User() {
     clientError,
     fetchClient,
     resetClient,
+    refreshKey,
+    clientRefresh,
   } = useFetchClient();
 
   const { userLoggedIn, openAuthModal, setOpenAuthModal, currentUser, logout } =
@@ -106,6 +108,7 @@ function User() {
     fetchClient,
     resetClient,
     setOpenAuthModal,
+    refreshKey,
   ]);
 
   const onTabChange = (key) => {
@@ -187,7 +190,7 @@ function User() {
     },
   };
 
-  console.log(client)
+  console.log(client);
 
   const contentListNoTitle = {
     favourites: <MyFavourites favouritesData={clientFavourites} />,
@@ -522,7 +525,10 @@ function User() {
             <Button type="primary" danger onClick={() => setOpen(true)}>
               Logout
             </Button>
-          </Popconfirm>
+          </Popconfirm>{" "}
+          <Button type="primary" onClick={() => clientRefresh()}>
+            Refresh
+          </Button>
         </div>
       </div>
       <AuthModal

@@ -93,13 +93,14 @@ function Navbar() {
               alignItems: "center",
               justifyContent: "space-between",
               width: "100%",
-              gap: 20,
+              gap: isMobile ? 5 : 20,
             }}
           >
+            {/* logo and title */}
             <div
               style={{
                 display: "flex",
-                gap: 10,
+                gap: isMobile ? 5 : 10,
                 alignContent: "center",
                 alignItems: "center",
               }}
@@ -123,7 +124,7 @@ function Navbar() {
                     cursor: "pointer",
                     marginTop: 5,
                     marginBottom: 0,
-                    marginRight: 5,
+                    marginRight: isMobile ? 3 : 5,
                     boxShadow: "0 4px 16px rgba(254, 165, 73, 0.4)",
                   }}
                   onMouseEnter={(e) =>
@@ -147,6 +148,7 @@ function Navbar() {
                 </Title>
               </Link>
             </div>
+            {/* menu and burger */}
             <div
               style={{
                 width: isMobile ? 0 : "60%",
@@ -223,6 +225,7 @@ function Navbar() {
                 />
               )}
             </div>
+            {/* account and cart */}
             {!isMobile && (
               <div
                 style={{

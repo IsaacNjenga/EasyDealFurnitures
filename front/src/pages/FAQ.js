@@ -60,11 +60,11 @@ function FAQ() {
       {/* banner */}
       <div style={{ position: "relative", marginBottom: 10 }}>
         <Image
-          src="https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg"
+          src="https://plus.unsplash.com/premium_photo-1661963965541-adda6e4c6a1e?w=900"
           loading="lazy"
           alt="bgImg"
           width="100%"
-          height={isMobile ? 350 : 500}
+          height={isMobile ? 350 : 600}
           preview={false}
           style={{
             objectFit: isMobile ? "contain" : "cover",

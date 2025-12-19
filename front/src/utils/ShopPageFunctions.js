@@ -110,7 +110,7 @@ export const BannerDiv = ({ isMobile }) => {
     <div
       style={{
         position: "relative",
-        height: isMobile ? 300 : 500,
+        height: isMobile ? 300 : 600,
         overflow: "hidden",
         width: "100%",
       }}
@@ -175,7 +175,7 @@ export const BannerDiv = ({ isMobile }) => {
                 alt="_img"
                 style={{
                   width: "100%",
-                  height: 500,
+                  height: 600,
                   objectFit: "contain",
                   display: "block",
                 }}

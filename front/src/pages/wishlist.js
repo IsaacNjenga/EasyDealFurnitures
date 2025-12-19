@@ -31,11 +31,13 @@ function Wishlist() {
       {/* banner */}
       <div style={{ position: "relative", marginBottom: 10 }}>
         <Image
-          src="https://images.pexels.com/photos/245240/pexels-photo-245240.jpeg"
+          src={
+            "https://images.unsplash.com/photo-1738659227425-3a2c27f2983b?w=900"
+          }
           alt="bgImg"
           width="100%"
           loading="lazy"
-          height={isMobile ? 350 : 500}
+          height={isMobile ? 350 : 600}
           preview={false}
           style={{
             objectFit: isMobile ? "contain" : "cover",

@@ -109,7 +109,7 @@ const ReviewUI = ({ review, item }) => {
 function MyReviews({ reviewsData }) {
   const clientReviews = reviewsData;
 
-  console.log(reviewsData);
+  console.log(clientReviews);
 
   const items = clientReviews?.map((review) => ({
     key: review._id,

@@ -12,59 +12,52 @@ function useFetchClient() {
   const [error, setError] = useState(null);
   const openNotification = useNotification();
 
-  const fetchClient = useCallback(
-    async (email) => {
-      if (!email) {
-        console.warn("No email provided to fetchClient");
-        return;
+  const fetchClient = async (email) => {
+    if (!email) {
+      console.warn("No email provided to fetchClient");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await axios.get(
+        `https://easy-deal-admin-server.vercel.app/EasyAdmin/fetch-client?email=${email}`
+      );
+
+      if (res.data?.success) {
+        const data = res.data?.clientDetails;
+
+        console.log(data);
+
+        setClient(data);
+        setClientFavourites(data?.favourites || []);
+        setClientReviews(data?.reviews || []);
+        setClientCart(data?.cart || []);
+      } else {
+        throw new Error("Invalid response format");
       }
+    } catch (error) {
+      console.error("Error fetching client details:", error);
 
-      setLoading(true);
-      setError(null);
+      const errorMessage =
+        error.response?.data?.error ||
+        error.message ||
+        "An unexpected error occurred. Please try again later.";
 
-      try {
-        const res = await axios.get(
-          `https://easy-deal-admin-server.vercel.app/EasyAdmin/fetch-client`,
-          {
-            params: { email },
-            timeout: 10000, // 10 second timeout
-          }
-        );
+      setError(errorMessage);
+      openNotification("warning", errorMessage, "Error");
 
-        if (res.data?.success && res.data?.client) {
-          const data = res.data?.client[0];
-
-          console.log(data);
-
-          setClient(data);
-          setClientFavourites(data?.favourites || []);
-          setClientReviews(data?.reviews || []);
-          setClientCart(data?.cart || []);
-        } else {
-          throw new Error("Invalid response format");
-        }
-      } catch (error) {
-        console.error("Error fetching client details:", error);
-
-        const errorMessage =
-          error.response?.data?.error ||
-          error.message ||
-          "An unexpected error occurred. Please try again later.";
-
-        setError(errorMessage);
-        openNotification("warning", errorMessage, "Error");
-
-        // Reset state on error
-        setClient(null);
-        setClientFavourites([]);
-        setClientReviews([]);
-        setClientCart([]);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [openNotification]
-  );
+      // Reset state on error
+      setClient(null);
+      setClientFavourites([]);
+      setClientReviews([]);
+      setClientCart([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const resetClient = useCallback(() => {
     setClient(null);

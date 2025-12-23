@@ -63,7 +63,7 @@ function EditReview({
         email: currentUser?.email,
       };
 
-      console.log(allValues);
+      //console.log(allValues);
 
       const res = await axios.put(
         `https://easy-deal-admin-server.vercel.app/EasyAdmin/update-review?id=${reviewId}`,

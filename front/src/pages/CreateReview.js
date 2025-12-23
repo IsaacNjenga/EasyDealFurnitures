@@ -50,6 +50,7 @@ function CreateReview({ content, openReview, toggleReview, isMobile }) {
         email: currentUser?.email,
       };
 
+
       const res = await axios.post(
         "https://easy-deal-admin-server.vercel.app/EasyAdmin/create-review",
         allValues

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Menu,
   Button,
@@ -8,6 +7,7 @@ import {
   Tooltip,
   Badge,
   Avatar,
+  ConfigProvider,
 } from "antd";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import FooterComponent from "./footer";
@@ -186,56 +186,70 @@ function Navbar() {
                   />
                 </div>
               ) : (
-                <Menu
-                  theme="dark"
-                  mode="horizontal"
-                  style={{
-                    flex: 1,
-                    justifyContent: "flex-start",
-                    background: "transparent",
-                    borderBottom: "none",
+                <ConfigProvider
+                  theme={{
+                    components: {
+                      Menu: {
+                        itemColor: "#fea549", // Default text color
+                        itemHoverColor: "#fea549", // Color when hovering
+                        itemSelectedColor: "#fea549", // Color when selected
+                        horizontalItemSelectedColor: "#fea549", // Underline color
+                        itemBg: "transparent", // Background color
+                      },
+                    },
                   }}
-                  items={menuItems.map(({ key, label, path, children }) => ({
-                    key,
-                    label: (
-                      <Link
-                        to={path}
-                        style={{
-                          fontSize: scrolled ? 16 : 20,
-                          fontWeight: 400,
-                          color: "#fff",
-                          letterSpacing: scrolled ? 1 : 1.3,
-                          fontFamily: "DM Sans",
-                          transition: "all 0.2s ease-in-out",
-                        }}
-                      >
-                        {label}{" "}
-                        {children && (
-                          <DownOutlined
-                            style={{ fontSize: 12, marginLeft: 5 }}
-                          />
-                        )}
-                      </Link>
-                    ),
-                    children: children
-                      ? children.map((child) => ({
-                          key: child.key,
-                          label: (
-                            <Link
-                              to={child.path}
-                              style={{
-                                fontSize: 16,
-                                fontFamily: "DM Sans",
-                                color: "#333",
-                              }}
-                            >
-                              {child.label}
-                            </Link>
-                          ),
-                        }))
-                      : undefined,
-                  }))}
-                />
+                >
+                  <Menu
+                    theme="light"
+                    mode="horizontal"
+                    style={{
+                      flex: 1,
+                      justifyContent: "flex-start",
+                      background: "transparent",
+                      borderBottom: "none",
+                    }}
+                    items={menuItems.map(({ key, label, path, children }) => ({
+                      key,
+                      label: (
+                        <Link
+                          to={path}
+                          style={{
+                            fontSize: scrolled ? 16 : 20,
+                            fontWeight: 400,
+                            color: "#fff",
+                            letterSpacing: scrolled ? 1 : 1.3,
+                            fontFamily: "DM Sans",
+                            transition: "all 0.2s ease-in-out",
+                          }}
+                        >
+                          {label}{" "}
+                          {children && (
+                            <DownOutlined
+                              style={{ fontSize: 12, marginLeft: 5 }}
+                            />
+                          )}
+                        </Link>
+                      ),
+                      children: children
+                        ? children.map((child) => ({
+                            key: child.key,
+                            label: (
+                              <Link
+                                to={child.path}
+                                style={{
+                                  fontSize: 16,
+                                  fontFamily: "DM Sans",
+                                  color: "#333",
+                                }}
+                              >
+                                {child.label}
+                              </Link>
+                            ),
+                          }))
+                        : undefined,
+                    }))}
+                  />
+                </ConfigProvider>
               )}
             </div>
             {/* account and cart */}

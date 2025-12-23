@@ -122,7 +122,7 @@ function User() {
     setConfirmLoading(true);
     try {
       await logout();
-      resetClient();
+      //resetClient();
       setOpen(false);
       navigate("/");
     } catch (error) {

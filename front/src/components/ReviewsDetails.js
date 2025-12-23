@@ -113,7 +113,7 @@ function ReviewsDetails({
             boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
             border: "none",
           }}
-          bodyStyle={{ padding: isMobile ? 24 : 32 }}
+          styles={{ body: { padding: isMobile ? 24 : 32 } }}
         >
           <Row gutter={[24, 24]} align="middle">
             <Col
@@ -382,7 +382,7 @@ function ReviewsDetails({
           ) : (
             reviews.map((review, idx) => (
               <Card
-                key={idx}
+                key={idx}hoverable
                 style={{
                   borderRadius: 16,
                   boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
@@ -390,8 +390,8 @@ function ReviewsDetails({
                   transition: "all 0.3s ease",
                   background: "#fff",
                 }}
-                bodyStyle={{ padding: isMobile ? 20 : 28 }}
-                hoverable
+                styles={{ body: { padding: isMobile ? 20 : 28 } }}
+                
               >
                 {/* Review Header */}
                 <div

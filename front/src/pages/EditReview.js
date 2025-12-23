@@ -180,7 +180,8 @@ function EditReview({
             border: "1px solid #e2e8f0",
             background: "#fff",
           }}
-          bodyStyle={{ padding: isMobile ? 16 : 20 }}
+          
+          styles={{body:{padding: isMobile ? 16 : 20}}}
         >
           <div
             style={{

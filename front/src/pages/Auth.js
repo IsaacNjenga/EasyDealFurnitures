@@ -198,8 +198,10 @@ function Auth() {
           position: "relative",
           zIndex: 1,
         }}
-        bodyStyle={{
-          padding: isMobile ? "32px 26px" : "20px 40px",
+        styles={{
+          body: {
+            padding: isMobile ? "32px 26px" : "20px 40px",
+          },
         }}
       >
         {/* Logo */}

@@ -206,7 +206,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                           border: "none",
                           borderRadius: 12,
                         }}
-                        bodyStyle={{ padding: "20px 24px" }}
+                        styles={{body:{padding: "20px 24px"}}}
                       >
                         <Space direction="vertical" size={4}>
                           <Text

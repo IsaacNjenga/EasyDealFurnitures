@@ -35,7 +35,7 @@ const ReviewUI = ({ review, item }) => {
           boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
           backgroundFilter: "blur(4px)",
         }}
-        bodyStyle={{ padding: 20 }}
+        styles={{ body: { padding: 20 } }}
       >
         <div
           style={{
@@ -135,7 +135,8 @@ function MyReviews({ reviewsData }) {
             {review?.title || "Review"}
           </Text>
           <Text style={{ fontSize: 13, color: "#8c8c8c" }}>
-            {review?.productId[0]?.name || "Product"} • {review?.productId[0]?.type.toUpperCase() || "TYPE"}
+            {review?.productId[0]?.name || "Product"} •{" "}
+            {review?.productId[0]?.type.toUpperCase() || "TYPE"}
           </Text>
         </div>
       </div>

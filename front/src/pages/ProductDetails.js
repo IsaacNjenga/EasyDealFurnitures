@@ -251,7 +251,6 @@ function ProductDetails() {
                   </Text>
                 </Space>
               </div>
-
               {/* Price Card */}{" "}
               <div style={{ position: "sticky", top: 20 }}>
                 {content?.discount > 0 && (
@@ -276,7 +275,7 @@ function ProductDetails() {
                     borderRadius: 16,
                     marginTop: 0,
                   }}
-                  bodyStyle={{ padding: "24px 28px" }}
+                  styles={{ body: { padding: "24px 28px" } }}
                 >
                   <Space direction="vertical" size={8}>
                     <Text
@@ -333,7 +332,6 @@ function ProductDetails() {
                   </Space>
                 </Card>
               </div>
-
               {/* Availability */}
               <Card
                 style={{
@@ -343,7 +341,7 @@ function ProductDetails() {
                     : "2px solid #ff4d4f",
                   background: content?.available ? "#f6ffed" : "#fff1f0",
                 }}
-                bodyStyle={{ padding: "16px 20px" }}
+                styles={{ body: { padding: "16px 20px" } }}
               >
                 <Space align="center">
                   {content?.available ? (
@@ -495,9 +493,11 @@ function ProductDetails() {
                       border: "1px solid #bae7ff",
                       height: "100%",
                     }}
-                    bodyStyle={{
-                      padding: 10,
-                      overflow: "auto",
+                    styles={{
+                      body: {
+                        padding: 10,
+                        overflow: "auto",
+                      },
                     }}
                   >
                     <Space direction="vertical" size={8}>
@@ -536,10 +536,13 @@ function ProductDetails() {
                       border: "1px solid #ffd591",
                       height: "100%",
                     }}
-                    bodyStyle={{
-                      padding: 10,
-                      overflow: "auto",
+                                        styles={{
+                      body: {
+                        padding: 10,
+                        overflow: "auto",
+                      },
                     }}
+
                   >
                     <Space direction="vertical" size={8}>
                       <InfoCircleOutlined

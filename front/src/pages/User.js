@@ -29,6 +29,7 @@ import useFetchClient from "../hooks/fetchClient";
 import { format } from "date-fns";
 import { useUser } from "../context/UserContext";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const { Title, Text } = Typography;
 
@@ -68,6 +69,7 @@ const tabListNoTitle = [
 
 function User() {
   const { isMobile } = useUser();
+  const navigate = useNavigate();
   const [activeTabKey, setActiveTabKey] = useState("favourites");
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -82,6 +84,7 @@ function User() {
     fetchClient,
     resetClient,
     refreshKey,
+    //eslint-disable-next-line
     clientRefresh,
   } = useFetchClient();
 
@@ -121,6 +124,7 @@ function User() {
       await logout();
       resetClient();
       setOpen(false);
+      navigate("/");
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
@@ -190,13 +194,11 @@ function User() {
     },
   };
 
-
   const contentListNoTitle = {
     favourites: <MyFavourites favouritesData={clientFavourites} />,
     reviews: <MyReviews reviewsData={clientReviews} />,
     cart: <MyCart cartData={clientCart} />,
   };
-
 
   return (
     <>
@@ -362,7 +364,9 @@ function User() {
                 border: "none",
                 background: "white",
               }}
-              bodyStyle={{ padding: isMobile ? "20px 16px" : "16px 36px" }}
+              styles={{
+                body: { padding: isMobile ? "20px 16px" : "16px 36px" },
+              }}
             >
               <Row gutter={[32, 16]} style={{ textAlign: "center" }}>
                 <Col xs={8} sm={8}>
@@ -433,7 +437,9 @@ function User() {
               border: "none",
               background: "whitesmoke",
             }}
-            bodyStyle={{ padding: 0 }}
+            styles={{
+              body: { padding: 0 },
+            }}
             tabList={tabListNoTitle}
             activeTabKey={activeTabKey}
             onTabChange={onTabChange}
@@ -460,7 +466,9 @@ function User() {
               border: "1px solid #e8e8f5",
               boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
             }}
-            bodyStyle={{ padding: isMobile ? 20 : 24 }}
+            styles={{
+              body: { padding: isMobile ? 20 : 24 },
+            }}
           >
             <div
               style={{
@@ -526,9 +534,9 @@ function User() {
               Logout
             </Button>
           </Popconfirm>{" "}
-          <Button type="primary" onClick={() => clientRefresh()}>
+          {/* <Button type="primary" onClick={() => clientRefresh()}>
             Refresh
-          </Button>
+          </Button> */}
         </div>
       </div>
       <AuthModal

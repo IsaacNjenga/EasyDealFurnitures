@@ -89,7 +89,7 @@ function Auth() {
         openNotification(
           "error",
           res.data.message,
-          "Something went wrong. Please try again or contact us for assistance"
+          "Something went wrong. Please refresh the page and try again or contact us for assistance"
         );
       }
     } catch (error) {
@@ -98,7 +98,7 @@ function Auth() {
       openNotification(
         "error",
         errorMessage,
-        "Something went wrong. Please try again or contact us for assistance"
+        "Something went wrong. Please refresh the page and try again or contact us for assistance"
       );
     } finally {
       setLoading(false);

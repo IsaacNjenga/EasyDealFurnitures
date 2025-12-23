@@ -47,6 +47,7 @@ function AuthProvider({ children }) {
   async function logout() {
     await signOut(auth);
     setCurrentUser(null);
+    setToken(null);
     setUserLoggedIn(false);
     localStorage.removeItem("user");
     localStorage.removeItem("token");

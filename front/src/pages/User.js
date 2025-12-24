@@ -30,6 +30,7 @@ import { format } from "date-fns";
 import { useUser } from "../context/UserContext";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import MyHistory from "../components/MyHistory";
 
 const { Title, Text } = Typography;
 
@@ -62,6 +63,14 @@ const tabListNoTitle = [
     label: (
       <Space>
         <span style={titleStyle}>My Cart</span>
+      </Space>
+    ),
+  },
+  {
+    key: "history",
+    label: (
+      <Space>
+        <span style={titleStyle}>My History</span>
       </Space>
     ),
   },
@@ -198,6 +207,7 @@ function User() {
     favourites: <MyFavourites favouritesData={clientFavourites} />,
     reviews: <MyReviews reviewsData={clientReviews} />,
     cart: <MyCart cartData={clientCart} />,
+    history: <MyHistory />,
   };
 
   return (

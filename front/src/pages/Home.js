@@ -550,7 +550,7 @@ const DiscoverSection = ({ isMobile, navigate }) => {
             fontSize: 20,
           }}
         >
-          Maximise your space with verstaile, sleek furniture. Built to last,
+          Maximise your space with versatile, sleek furniture. Built to last,
           styled to impress
         </Text>
         <div>

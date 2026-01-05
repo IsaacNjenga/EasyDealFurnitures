@@ -18,8 +18,6 @@ import {
 } from "antd";
 import {
   TruckOutlined,
-  CheckCircleOutlined,
-  CloseCircleOutlined,
   InfoCircleOutlined,
   TagsOutlined,
   StarOutlined,
@@ -38,6 +36,7 @@ import CreateReview from "./CreateReview";
 import ReviewsDetails from "../components/ReviewsDetails";
 import { useAuth } from "../context/AuthContext";
 import useFetchProduct from "../hooks/fetchProduct";
+import { format } from "date-fns";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -329,44 +328,27 @@ function ProductDetails() {
                         </Title>
                       )}
                     </div>
+                    {content?.discount > 0 && (
+                      <div>
+                        <Text
+                          type="secondary"
+                          style={{
+                            color: "#fff",
+                            fontSize: isMobile ? 12 : 16,
+                            fontFamily: "DM Sans",
+                          }}
+                        >
+                          Offer valid until{" "}
+                          {format(
+                            new Date(content?.offerEndDate),
+                            "do MMM, yyyy"
+                          )}
+                        </Text>
+                      </div>
+                    )}
                   </Space>
                 </Card>
               </div>
-              {/* Availability */}
-              <Card
-                style={{
-                  borderRadius: 12,
-                  border: content?.available
-                    ? "2px solid #52c41a"
-                    : "2px solid #ff4d4f",
-                  background: content?.available ? "#f6ffed" : "#fff1f0",
-                }}
-                styles={{ body: { padding: "16px 20px" } }}
-              >
-                <Space align="center">
-                  {content?.available ? (
-                    <CheckCircleOutlined
-                      style={{ color: "#52c41a", fontSize: 20 }}
-                    />
-                  ) : (
-                    <CloseCircleOutlined
-                      style={{ color: "#ff4d4f", fontSize: 20 }}
-                    />
-                  )}
-                  <Text
-                    strong
-                    style={{
-                      fontFamily: "DM Sans",
-                      color: content?.available ? "#52c41a" : "#ff4d4f",
-                      fontSize: 16,
-                    }}
-                  >
-                    {content?.available
-                      ? `In Stock — ${content?.stockCount} available`
-                      : "Out of Stock"}
-                  </Text>
-                </Space>
-              </Card>
               {/* Description */}
               <div style={{ marginBottom: 0 }}>
                 <Title
@@ -461,7 +443,7 @@ function ProductDetails() {
                     </Text>
                     <br />
                     <Text style={{ fontFamily: "DM Sans", fontSize: 15 }}>
-                      {content?.material}
+                      {content?.material || "N/A"}
                     </Text>
                   </div>
                   <div>
@@ -477,7 +459,7 @@ function ProductDetails() {
                     </Text>
                     <br />
                     <Text style={{ fontFamily: "DM Sans", fontSize: 15 }}>
-                      {content?.dimensions}
+                      {content?.dimensions || "N/A"}
                     </Text>
                   </div>
                 </Space>
@@ -536,13 +518,12 @@ function ProductDetails() {
                       border: "1px solid #ffd591",
                       height: "100%",
                     }}
-                                        styles={{
+                    styles={{
                       body: {
                         padding: 10,
                         overflow: "auto",
                       },
                     }}
-
                   >
                     <Space direction="vertical" size={8}>
                       <InfoCircleOutlined

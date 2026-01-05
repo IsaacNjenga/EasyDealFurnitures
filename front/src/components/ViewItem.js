@@ -23,6 +23,7 @@ import { useNotification } from "../context/NotificationContext";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { format } from "date-fns";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -184,7 +185,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                     </div>
 
                     {/* Price Section */}
-                    <div style={{ position: "sticky", top: 20,  }}>
+                    <div style={{ position: "sticky", top: 20 }}>
                       {/* Discount Badge */}
                       {content?.discount > 0 && (
                         <Badge.Ribbon
@@ -206,7 +207,7 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                           border: "none",
                           borderRadius: 12,
                         }}
-                        styles={{body:{padding: "20px 24px"}}}
+                        styles={{ body: { padding: "20px 24px" } }}
                       >
                         <Space direction="vertical" size={4}>
                           <Text
@@ -258,6 +259,24 @@ function ViewItem({ loading, openModal, setOpenModal, content, isMobile }) {
                               </Title>
                             )}
                           </div>
+                          {content?.discount > 0 && (
+                            <div>
+                              <Text
+                                type="secondary"
+                                style={{
+                                  color: "#fff",
+                                  fontSize: 12,
+                                  fontFamily: "DM Sans",
+                                }}
+                              >
+                                Offer valid until{" "}
+                                {format(
+                                  new Date(content?.offerEndDate),
+                                  "do MMM, yyyy"
+                                )}
+                              </Text>
+                            </div>
+                          )}
                         </Space>
                       </Card>
                     </div>

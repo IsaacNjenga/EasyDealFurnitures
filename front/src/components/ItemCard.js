@@ -77,6 +77,7 @@ function ItemCard({ dataSource }) {
                         <div key={i}>
                           <img
                             src={img}
+                            loading='lazy'
                             alt={b?.name || "Product"}
                             loading="lazy"
                             className="item-card-img"

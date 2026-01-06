@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
-import { useNotification } from "../context/NotificationContext";
-
+import { useNotification } from "../contexts/NotificationContext";
 
 function useFetchAllProducts() {
   const openNotification = useNotification();
@@ -12,62 +11,88 @@ function useFetchAllProducts() {
   const [productsLoading, setProductsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  // Use ref to track abort controller
+  const abortControllerRef = useRef(null);
 
-  const fetchProducts = useCallback(async (pageNum = 1, refresh = false) => {
-    if (pageNum === 1 || refresh) {
+  const fetchProducts = useCallback(
+    async (pageNum = 1, refresh = false) => {
+      // Cancel previous request if still pending
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+
+      // Create new abort controller
+      abortControllerRef.current = new AbortController();
+
       setProductsLoading(true);
-    }
 
-    try {
-      if (refresh) setRefreshing(true);
-
-      const res = await axios.get(
-        `https://easy-deal-admin-server.vercel.app/EasyAdmin/fetch-all-products?page=${pageNum}&limit=12`
-      );
-
-      if (res.data.success) {
-        const newProducts = res.data.products;
-
-        if (refresh || pageNum === 1) {
-          setProducts(newProducts);
-        } else {
-          // Simple append for pagination - dedupe by _id
-          setProducts((prev) => {
-            const existingIds = new Set(prev.map((p) => p._id));
-            const uniqueNew = newProducts.filter(
-              (p) => !existingIds.has(p._id)
-            );
-            return [...prev, ...uniqueNew];
-          });
+      try {
+        if (refresh) {
+          setRefreshing(true);
+          setProducts([]); // Clear products immediately for better UX
         }
 
-        setHasMore(pageNum < res.data.totalPages);
-        setPage(pageNum);
-        setErrorMessage(null);
-      } else {
-        const errorMsg =
-          res.data.message || "Failed to fetch products. Try again";
-        setErrorMessage(errorMsg);
-        openNotification("error", errorMsg, "Something went wrong...");
+        const res = await axios.get(
+          `https://easy-deal-admin-server.vercel.app/EasyAdmin/fetch-all-products?page=${pageNum}&limit=12`
+        );
+
+        if (res.data.success) {
+          setProducts((prev) => {
+            if (refresh || pageNum === 1) {
+              return res.data.products;
+            }
+
+            // Simple deduplication using Set
+            const existingIds = new Set(prev.map((p) => p._id));
+            const newProducts = res.data.products.filter(
+              (p) => !existingIds.has(p._id)
+            );
+
+            return [...prev, ...newProducts];
+          });
+
+          setHasMore(pageNum < res.data.totalPages);
+          setPage(pageNum);
+          setErrorMessage(null);
+        } else {
+          setErrorMessage(res.data.message || "Failed to fetch Products.");
+          openNotification("warning", res.data.message, "Error");
+        }
+      } catch (error) {
+        // Don't show error for cancelled requests
+        if (axios.isCancel(error)) {
+          console.log("Request cancelled:", error.message);
+          return;
+        }
+
+        console.error("Error fetching Products:", error);
+        const message =
+          error.response?.data?.message ||
+          "An unexpected error occurred. Please try again later.";
+        setErrorMessage(message);
+        openNotification("warning", message, "Error");
+      } finally {
+        setRefreshing(false);
+        setProductsLoading(false);
       }
-    } catch (error) {
-      console.error("Error fetching Products:", error);
-      setErrorMessage("An unexpected error occurred. Please try again later.");
-      openNotification("warning", errorMessage, "Error");
-    } finally {
-      setRefreshing(false);
-      setProductsLoading(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    },
+    [openNotification]
+  );
 
   useEffect(() => {
-    fetchProducts(1);
+    fetchProducts(1, false);
+
+    // Cleanup: cancel any pending requests on unmount
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
   }, [fetchProducts]);
 
-  const handleLoadMore = useCallback(async () => {
+  const handleLoadMore = useCallback(() => {
     if (hasMore && !productsLoading && !refreshing) {
-      await fetchProducts(page + 1);
+      fetchProducts(page + 1, false);
     }
   }, [hasMore, productsLoading, refreshing, page, fetchProducts]);
 
@@ -81,6 +106,7 @@ function useFetchAllProducts() {
     errorMessage,
     productsRefresh,
     handleLoadMore,
+    hasMore,
   };
 }
 

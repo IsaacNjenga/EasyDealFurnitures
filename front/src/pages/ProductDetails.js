@@ -439,9 +439,8 @@ function ProductDetails() {
                         fontSize: 13,
                       }}
                     >
-                      MATERIAL
-                    </Text>
-                    <br />
+                      MATERIAL:
+                    </Text>{" "}
                     <Text style={{ fontFamily: "DM Sans", fontSize: 15 }}>
                       {content?.material || "N/A"}
                     </Text>
@@ -455,9 +454,8 @@ function ProductDetails() {
                         fontSize: 13,
                       }}
                     >
-                      DIMENSIONS
-                    </Text>
-                    <br />
+                      DIMENSIONS:
+                    </Text>{" "}
                     <Text style={{ fontFamily: "DM Sans", fontSize: 15 }}>
                       {content?.dimensions || "N/A"}
                     </Text>

@@ -1,5 +1,4 @@
 import { Input, Modal, Typography, Row, Col, Empty, Spin } from "antd";
-import React from "react";
 import { useUser } from "../context/UserContext";
 import { useSearch } from "../context/SearchContext";
 import { CloseOutlined } from "@ant-design/icons";

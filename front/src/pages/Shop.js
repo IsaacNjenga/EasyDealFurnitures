@@ -251,7 +251,7 @@ function Shop() {
           justifyContent: "center",
         }}
       >
-        <Button type="primary" onClick={handleLoadMore}>
+        <Button type="primary" onClick={handleLoadMore} loading={productsLoading}>
           Load More
         </Button>
       </div>

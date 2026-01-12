@@ -11,7 +11,7 @@ const cancellation_url = process.env.CANCELLATION_URL;
 const submitOrder = async (req, res) => {
   const { amount, phone_number, email, first_name, last_name } = req.body;
 
-  console.log("body", req.body);
+  //console.log("body", req.body);
 
   try {
     const token = req.token;
@@ -46,8 +46,6 @@ const submitOrder = async (req, res) => {
       },
     };
 
-    //console.log("Order Details:", orderDetails);
-
     const response = await axios.post(submission_url, orderDetails, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -56,7 +54,6 @@ const submitOrder = async (req, res) => {
     });
 
     const { redirect_url, order_tracking_id } = response.data;
-    //console.log("full response:", response.data);
 
     res.status(200).json({
       redirectUrl: redirect_url,
@@ -75,9 +72,6 @@ const submitOrder = async (req, res) => {
 const transactionStatus = async (req, res) => {
   const { orderTrackingId } = req.query;
 
-  //console.log("Query Parameters:", req.query);
-  //console.log("orderTrackingId", orderTrackingId);
-
   const token = req.token;
   const fullUrl = `${transaction_url}${orderTrackingId}`;
 
@@ -90,7 +84,7 @@ const transactionStatus = async (req, res) => {
       },
     });
 
-   // console.log("Transaction Status Response:", response.data);
+    console.log("Transaction Status Response:", response.data);
 
     res.status(200).json(response.data);
     console.log(response.data);

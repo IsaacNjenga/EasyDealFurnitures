@@ -1,5 +1,5 @@
-import { Button, Result } from "antd";
-import { useState } from "react";
+import { Button, Result, Spin } from "antd";
+import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useNotification } from "../context/NotificationContext";
 import axios from "axios";
@@ -16,11 +16,10 @@ function Callback() {
     setLoading(true);
     try {
       const res = await axios.get(
-        `https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/transaction-status?orderTrackingId=${tracking_id}`
+        //`https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/transaction-status?orderTrackingId=${tracking_id}`
+        `https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/transaction-status?orderTrackingId=${"2e715d79-0c34-487e-85f3-dadc0daea688"}`
       );
       setTransactionStatusData(res.data);
-
-      console.log("Transaction Status Data:", res.data);
 
       const isSuccess =
         res.data?.payment_status_description?.toLowerCase() === "completed" ||
@@ -59,6 +58,11 @@ function Callback() {
     }
   };
 
+  useEffect(() => {
+    getTransactionStatus();
+    //eslint-disable-next-line
+  }, []);
+
   return (
     <div
       style={{
@@ -73,29 +77,28 @@ function Callback() {
           subTitle="Your order has been successfully processed. We will be in touch with you shortly to confirm delivery details."
           extra={
             <>
-              <Button
-                type="primary"
-                onClick={getTransactionStatus}
-                loading={loading}
-                style={{
-                  background: "green",
-                  borderColor: "green",
-                }}
-              >
-                {loading ? "Loading..." : "View Transaction Status"}
-              </Button>
               <Button type="primary">
                 <Link to="/">Go Back Home</Link>
               </Button>
             </>
           }
         />
-        {transactionStatusData && (
+      </div>
+
+      {loading ? (
+        <div>
+          <Spin
+            size="large"
+            style={{ display: "block", margin: "40px auto" }}
+          />
+        </div>
+      ) : (
+        <div style={{ marginBottom: 20 }}>
           <TransactionStatusCard
             transactionStatusData={transactionStatusData}
           />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

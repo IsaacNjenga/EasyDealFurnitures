@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { shopProducts } from "../../assets/data/data";
+import useFetchProducts from "../../hooks/fetchProducts";
 
 const CartContext = createContext();
 
@@ -8,6 +8,7 @@ export function useCart() {
 }
 export const CartProvider = ({ children }) => {
   const [cartOpen, setCartOpen] = useState(false);
+  const { allProducts, allProductsLoading } = useFetchProducts();
   const [cartItems, setCartItems] = useState(() => {
     //load from localstorage on first render
     const storedCart = localStorage.getItem("cart");
@@ -21,12 +22,15 @@ export const CartProvider = ({ children }) => {
   }, [cartItems]);
 
   // compute merged items
-  const liveCartItems = cartItems
-    .map((item) => {
-      const product = shopProducts.find((p) => p._id === item._id);
-      return product ? { ...product, quantity: item.quantity } : null;
-    })
-    .filter(Boolean); //remove non existent items
+
+  const liveCartItems = allProductsLoading
+    ? []
+    : cartItems
+        .map((item) => {
+          const product = allProducts.find((p) => p._id === item._id);
+          return product ? { ...product, quantity: item.quantity } : null;
+        })
+        .filter(Boolean); //remove non existent items
 
   const value = {
     cartOpen,

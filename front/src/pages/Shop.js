@@ -212,6 +212,7 @@ function Shop() {
                   preview={false}
                   width={350}
                   height={350}
+                  loading='lazy'
                   style={{
                     margin: "0 auto",
                     width: "100%",

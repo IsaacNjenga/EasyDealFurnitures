@@ -16,8 +16,7 @@ function Callback() {
     setLoading(true);
     try {
       const res = await axios.get(
-        //`https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/transaction-status?orderTrackingId=${tracking_id}`
-        `https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/transaction-status?orderTrackingId=${"2e715d79-0c34-487e-85f3-dadc0daea688"}`
+        `https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/transaction-status?orderTrackingId=${tracking_id}`
       );
       setTransactionStatusData(res.data);
 

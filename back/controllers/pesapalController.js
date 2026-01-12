@@ -90,6 +90,8 @@ const transactionStatus = async (req, res) => {
       },
     });
 
+   // console.log("Transaction Status Response:", response.data);
+
     res.status(200).json(response.data);
     console.log(response.data);
   } catch (error) {

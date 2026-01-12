@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
-import { useNotification } from "../contexts/NotificationContext";
+import { useNotification } from "../context/NotificationContext";
 
 function useFetchAllProducts() {
   const openNotification = useNotification();

@@ -31,7 +31,7 @@ function ItemCard({ dataSource }) {
   const items = Array.isArray(dataSource) ? dataSource : [dataSource];
 
   // Filter out null/undefined items
-  const validItems = items.filter(item => item != null);
+  const validItems = items.filter((item) => item != null);
 
   if (validItems.length === 0) {
     return null; // or return an Empty component
@@ -72,14 +72,13 @@ function ItemCard({ dataSource }) {
                   {/* Carousel */}
                   <Carousel autoplay autoplaySpeed={4000} dots={false}>
                     {(Array.isArray(b?.img) ? b.img : [b?.img])
-                      .filter(img => img) // Filter out null/undefined images
+                      .filter((img) => img) // Filter out null/undefined images
                       .map((img, i) => (
                         <div key={i}>
                           <img
                             src={img}
-                            loading='lazy'
-                            alt={b?.name || "Product"}
                             loading="lazy"
+                            alt={b?.name || "Product"}
                             className="item-card-img"
                           />
                         </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNotification } from "../contexts/NotificationContext";
+import { useNotification } from "../context/NotificationContext";
 
 function useFetchProducts() {
   const openNotification = useNotification();
@@ -24,7 +24,7 @@ function useFetchProducts() {
       }
     } catch (error) {
       console.error("Error fetching Products:", error);
-      setErrorMessage("An unexpected error occurred. Please try again later.");
+      setErrorMessage("An error occurred when fetching products. Please try again later.");
       openNotification("warning", errorMessage, "Error");
     } finally {
       setAllProductsLoading(false);

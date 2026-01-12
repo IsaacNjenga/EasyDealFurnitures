@@ -90,7 +90,7 @@ function Checkout() {
         last_name: formData.last_name,
       };
 
-      const res = await axios.post("initiate-payment", paymentDetails);
+      const res = await axios.post("https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/initiate-payment", paymentDetails);
       const { redirectUrl, orderTrackingId } = res.data;
 
       const checkoutData = {

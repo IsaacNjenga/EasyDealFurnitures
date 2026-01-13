@@ -68,8 +68,8 @@ function SearchModal() {
             <div
               style={{
                 position: "relative",
-                minHeight: isMobile ? "100vh" : "90vh",
-                maxHeight: isMobile ? "100vh" : "95vh",
+                minHeight: isMobile ? "100vh" : "100vh",
+                maxHeight: isMobile ? "100vh" : "100vh",
                 overflow: "auto",
               }}
             >
@@ -79,14 +79,14 @@ function SearchModal() {
                   position: "sticky",
                   top: 0,
                   zIndex: 10,
-                  minHeight: 200,
+                  minHeight: 180,
                   background: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${"https://images.unsplash.com/photo-1572521165329-b197f9ea3da6?w=900"}) no-repeat center center/cover`,
                 }}
               >
                 <div
                   style={{
                     position: "absolute",
-                    padding: 28,
+                    padding: 20,
                     top: "50%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
@@ -110,7 +110,7 @@ function SearchModal() {
               </div>
 
               {/* Results Section */}
-              <div style={{ padding: "10px 32px", minHeight: 500 }}>
+              <div style={{ padding: "16px 32px", minHeight: 600 }}>
                 {/* Search term display */}
                 {searchTerm && (
                   <div
@@ -122,7 +122,7 @@ function SearchModal() {
                     }}
                   >
                     <Title
-                      level={4}
+                      level={5}
                       style={{
                         fontFamily: "Raleway",
                         color: "#fff",
@@ -180,9 +180,9 @@ function SearchModal() {
                 {/* Results Grid */}
                 {!loading && results.length > 0 && (
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.1 }}
                   >
                     <Row gutter={[16, 16]}>
                       {results.map((product) => (
@@ -195,11 +195,11 @@ function SearchModal() {
                           xl={6}
                         >
                           <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
+                            initial={{ opacity: 0, scale: 0.4 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.2 }}
+                            transition={{ duration: 0.1 }}
                           >
-                            <ItemCard dataSource={product} />
+                            <ItemCard dataSource={product} height="250" />
                           </motion.div>
                         </Col>
                       ))}

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Button, Col, Image, Row, Skeleton, Typography } from "antd";
 import { useUser } from "../context/UserContext";
 import "../assets/css/shop.css";
@@ -18,6 +18,12 @@ function Shop() {
     if (selectedTab === "") return products;
     return products.filter((p) => p.category === selectedTab);
   }, [selectedTab, products]);
+
+  const visibleProducts = selectedTab === "" ? products : filteredProducts;
+
+  const memoizedProducts = useMemo(() => {
+    return visibleProducts;
+  }, [visibleProducts]);
 
   const tabSelector = (name) => {
     setSelectedTab(name);
@@ -212,7 +218,7 @@ function Shop() {
                   preview={false}
                   width={350}
                   height={350}
-                  loading='lazy'
+                  loading="lazy"
                   style={{
                     margin: "0 auto",
                     width: "100%",
@@ -225,17 +231,13 @@ function Shop() {
               <div style={{ margin: "0px 10px", padding: "10px 15px" }}>
                 <div style={{ marginTop: 10 }}>
                   <Row gutter={[32, 32]}>
-                    {selectedTab === ""
-                      ? products.map((c) => (
-                          <Col key={c._id} xs={24} sm={12} md={6}>
-                            <ItemCard dataSource={c} />
-                          </Col>
-                        ))
-                      : filteredProducts.map((c) => (
-                          <Col key={c._id} xs={24} sm={12} md={6}>
-                            <ItemCard dataSource={c} />
-                          </Col>
-                        ))}
+                    {memoizedProducts.map((c) => {
+                      return (
+                        <Col key={c._id} xs={24} sm={12} md={6}>
+                          <ItemCard dataSource={c} />
+                        </Col>
+                      );
+                    })}
                   </Row>
                 </div>
               </div>
@@ -252,7 +254,11 @@ function Shop() {
           justifyContent: "center",
         }}
       >
-        <Button type="primary" onClick={handleLoadMore} loading={productsLoading}>
+        <Button
+          type="primary"
+          onClick={handleLoadMore}
+          loading={productsLoading}
+        >
           Load More
         </Button>
       </div>

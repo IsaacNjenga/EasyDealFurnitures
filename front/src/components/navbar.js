@@ -7,6 +7,7 @@ import {
   Tooltip,
   Badge,
   Avatar,
+  FloatButton,
 } from "antd";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import FooterComponent from "./footer";
@@ -15,6 +16,7 @@ import {
   CloseOutlined,
   DownOutlined,
   MenuOutlined,
+  MessageOutlined,
   SearchOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
@@ -24,7 +26,9 @@ import Cart from "./Cart";
 import AuthModal from "./AuthModal";
 import { useAuth } from "../context/AuthContext";
 import { useSearch } from "../context/SearchContext";
+import { useChat } from "../context/ChatContext";
 import SearchModal from "./SearchModal";
+import CustomerChat from "./CustomerChat";
 
 const { Title, Text } = Typography;
 const { Header, Content, Footer } = Layout;
@@ -60,6 +64,7 @@ function Navbar() {
   const { userLoggedIn, currentUser, openAuthModal, setOpenAuthModal } =
     useAuth();
   const { cartItems, cartOpen, toggleCart } = useCart();
+  const { openChat, toggleChatDrawer } = useChat();
   const { setSearchOpen } = useSearch();
 
   const handleAuth = () => {
@@ -87,6 +92,23 @@ function Navbar() {
 
   return (
     <>
+      <FloatButton
+        description=""
+        tooltip={"Chat with us"}
+        type="primary"
+        icon={<MessageOutlined />}
+        onClick={toggleChatDrawer}
+        badge={{ dot: true }}
+        style={{
+          backgroundColor: "#fea549",
+          left: "auto",
+          bottom: 24,
+          right: 24,
+          fontSize: "14px",
+          position: "fixed",
+          zIndex: 1000,
+        }}
+      />
       <Layout style={{ minHeight: "100vh" }}>
         <Header style={headerStyle}>
           <div
@@ -459,6 +481,24 @@ function Navbar() {
           }
         >
           <Cart />
+        </Drawer>
+
+        {/* chat drawer */}
+        <Drawer
+          placement="right"
+          width={isMobile ? 300 : 400}
+          onClose={toggleChatDrawer}
+          open={openChat}
+          style={{ backgroundColor: "#ffa44a" }}
+          closeIcon={
+            <CloseOutlined
+              style={{
+                color: "#333",
+              }}
+            />
+          }
+        >
+          <CustomerChat />
         </Drawer>
         <Content
           style={{

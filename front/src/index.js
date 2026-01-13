@@ -12,6 +12,7 @@ import { DrawerProvider } from "./context/DrawerContext";
 import AuthProvider from "./context/AuthContext";
 import { SearchProvider } from "./context/SearchContext";
 import { ConfigProvider } from "antd";
+import { ChatProvider } from "./context/ChatContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -24,25 +25,26 @@ root.render(
               <SearchProvider>
                 <WishProvider>
                   <NotificationProvider>
-                    <ConfigProvider
-                      theme={{
-                        components: {
-                          Menu: {
-                            itemColor: "#fea549", // Default text color
-                            itemHoverColor: "#fea549", // Color when hovering
-                            itemSelectedColor: "#fea549", // Color when selected
-                            horizontalItemSelectedColor: "#fea549", // Underline color
-                            itemBg: "transparent", // Background color
+                    <ChatProvider>
+                      <ConfigProvider
+                        theme={{
+                          components: {
+                            Menu: {
+                              itemColor: "#fea549", // Default text color
+                              itemHoverColor: "#fea549", // Color when hovering
+                              itemSelectedColor: "#fea549", // Color when selected
+                              horizontalItemSelectedColor: "#fea549", // Underline color
+                              itemBg: "transparent", // Background color
+                            },
+                            Card: {
+                              colorPrimary: "#fea549",
+                            },
                           },
-                          Card: {
-                            colorPrimary:'#fea549'
-                            
-                          },
-                        },
-                      }}
-                    >
-                      <App />
-                    </ConfigProvider>
+                        }}
+                      >
+                        <App />
+                      </ConfigProvider>
+                    </ChatProvider>
                   </NotificationProvider>
                 </WishProvider>
               </SearchProvider>

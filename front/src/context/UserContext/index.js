@@ -11,6 +11,7 @@ export function UserProvider({ children }) {
   const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [detailsDrawer, setDetailsDrawer] = useState(false);
+  const [guestId, setGuestId] = useState(null);
   const [userLocation, setUserLocation] = useState(() => {
     //load from localstorage on first render
     const storedLocation = localStorage.getItem("userLocation");
@@ -47,6 +48,21 @@ export function UserProvider({ children }) {
     localStorage.setItem("userLocation", JSON.stringify(userLocation));
   }, [userLocation]);
 
+  const getGuestId = () => {
+    let guestId = localStorage.getItem("guestId");
+
+    if (!guestId) {
+      guestId = `guest_${crypto.randomUUID()}`;
+      localStorage.setItem("guestId", guestId);
+    }
+
+    return guestId;
+  };
+
+  useEffect(() => {
+    setGuestId(getGuestId());
+  }, []);
+
   const value = {
     isMobile,
     scrolled,
@@ -56,6 +72,7 @@ export function UserProvider({ children }) {
     detailsDrawer,
     userLocation,
     setUserLocation,
+    guestId,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

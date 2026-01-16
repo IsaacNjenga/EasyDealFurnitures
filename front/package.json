@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.27.5",
     "axios": "^1.12.2",
+    "chat": "^4.3.0",
     "date-fns": "^4.1.0",
     "firebase": "^12.6.0",
     "framer-motion": "^12.23.24",
@@ -23,6 +24,8 @@
     "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.9.4",
     "react-scripts": "5.0.1",
+    "stream": "^0.0.3",
+    "stream-chat-react": "^13.13.3",
     "universal-cookie": "^8.0.1",
     "web-vitals": "^2.1.4"
   },

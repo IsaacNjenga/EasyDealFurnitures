@@ -26,7 +26,7 @@ export function ChatProvider({ children }) {
     setStreamLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:3001/EasyDeal/guest-token",
+        "https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/guest-token",
         { guestId }
       );
 

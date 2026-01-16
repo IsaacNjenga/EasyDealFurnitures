@@ -1,12 +1,12 @@
 .chat-layout {
   display: flex;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   overflow: hidden;
 }
 
 .chat-main {
   flex: 1;
-  height: 90vh;
+  height: 100%;
   background: #121212;
 }

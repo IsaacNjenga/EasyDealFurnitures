@@ -1,5 +1,6 @@
 import { StreamChat } from "stream-chat";
 import dotenv from "dotenv";
+import randomName from "node-random-name";
 
 dotenv.config();
 
@@ -16,9 +17,11 @@ const guestToken = async (req, res) => {
   try {
     const token = serverClient.createToken(guestId);
 
+    const name = randomName({ first: true });
+
     res.status(200).json({
       success: "true",
-      user: { id: guestId, name: "EasyDeal Visitor", role: "guest" },
+      user: { id: guestId, name: name, role: "guest" },
       token,
     });
   } catch (error) {

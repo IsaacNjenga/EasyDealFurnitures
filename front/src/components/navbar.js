@@ -7,7 +7,6 @@ import {
   Tooltip,
   Badge,
   Avatar,
-  FloatButton,
 } from "antd";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import FooterComponent from "./footer";
@@ -64,7 +63,7 @@ function Navbar() {
   const { userLoggedIn, currentUser, openAuthModal, setOpenAuthModal } =
     useAuth();
   const { cartItems, cartOpen, toggleCart } = useCart();
-  const { openChat, toggleChatDrawer } = useChat();
+  const { openChat, toggleChatDrawer, streamLoading } = useChat();
   const { setSearchOpen } = useSearch();
 
   const handleAuth = () => {
@@ -92,23 +91,6 @@ function Navbar() {
 
   return (
     <>
-      <FloatButton
-        description=""
-        tooltip={"Chat with us"}
-        type="primary"
-        icon={<MessageOutlined />}
-        onClick={toggleChatDrawer}
-        badge={{ dot: true }}
-        style={{
-          backgroundColor: "#fea549",
-          left: "auto",
-          bottom: 24,
-          right: 24,
-          fontSize: "14px",
-          position: "fixed",
-          zIndex: 1000,
-        }}
-      />
       <Layout style={{ minHeight: "100vh" }}>
         <Header style={headerStyle}>
           <div
@@ -484,12 +466,12 @@ function Navbar() {
         </Drawer>
 
         {/* chat drawer */}
-        <Drawer
+        {/* <Drawer
           placement="right"
-          width={isMobile ? 300 : 400}
+          width={isMobile ? 600 : 400}
           onClose={toggleChatDrawer}
           open={openChat}
-          style={{ backgroundColor: "#ffa44a" }}
+          style={{ backgroundColor: "#ffa44a", margin: 0, padding: 0 }}
           closeIcon={
             <CloseOutlined
               style={{
@@ -500,6 +482,7 @@ function Navbar() {
         >
           <CustomerChat />
         </Drawer>
+         */}
         <Content
           style={{
             margin: 0,
@@ -523,6 +506,40 @@ function Navbar() {
         isMobile={isMobile}
       />
       <SearchModal />
+      {openChat && <CustomerChat />}
+
+      <div
+        style={{
+          position: "fixed",
+          bottom: "24px",
+          right: "24px",
+          width: "auto",
+          height: "auto",
+          maxHeight: "calc(100vh - 100px)",
+          backgroundColor: "#fff",
+          borderRadius: "50%",
+          boxShadow: "0 8px 24px rgba(0, 0, 0, 0.15)",
+          zIndex: 1000,
+          display: openChat ? "none" : "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
+      >
+        <Tooltip title="Chat with us">
+          <Button
+            shape="circle"
+            size="large"
+            loading={streamLoading}
+            type="primary"
+            icon={<MessageOutlined style={{ fontSize: 20 }} />}
+            onClick={toggleChatDrawer}
+            style={{
+              backgroundColor: "#fea549",
+              color: "#fff",
+            }}
+          />
+        </Tooltip>
+      </div>
     </>
   );
 }

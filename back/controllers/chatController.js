@@ -41,9 +41,14 @@ const adminStatus = async (req, res) => {
         user.shadow_banned === false &&
         user.id !== "isaac49",
     );
-    return res
-      .status(200)
-      .json({ success: true, admin: availableAdmins ? availableAdmins : null });
+    return res.status(200).json({
+      success: true,
+      admin: availableAdmins?.map((a) => ({
+        id: a.id,
+        username: a.username,
+        online: a.online,
+      })),
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Failed to get admin status" });

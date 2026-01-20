@@ -51,14 +51,15 @@ export function ChatProvider({ children }) {
   };
 
   useEffect(() => {
-    isAdminOnline();
-  }, [isOnline]);
+    const interval = setInterval(isAdminOnline, 15000);
+    return () => clearInterval(interval);
+  }, []);
 
   const connect = async () => {
     setStreamLoading(true);
     const username = faker.internet.username();
 
-    console.log(isOnline, activeAdminId);
+    console.log(activeAdminName ? activeAdminName : "aii");
 
     try {
       const res = await axios.post(
@@ -78,11 +79,9 @@ export function ChatProvider({ children }) {
             "messaging",
             `support-${guestId}`,
             {
-              members: [
-                { user_id: guestId, code_name: username },
-                { user_id: activeAdminId, code_name: activeAdminName },
-                { user_id: "ai-support-bot", code_name: "bot" },
-              ],
+              members: [guestId, activeAdminId, "ai-support-bot"].filter(
+                Boolean,
+              ),
             },
           );
           await supportChannel.watch();

@@ -49,7 +49,7 @@ const queryAdmin = async (req, res) => {
   }
 };
 
-//the last message sent by the client should be fetched and fed to AI for reasoning
+
 const AIReply = async (req, res) => {
   const { channelId } = req.body;
   try {

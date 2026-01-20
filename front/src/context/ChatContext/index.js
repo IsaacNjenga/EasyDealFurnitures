@@ -75,6 +75,7 @@ export function ChatProvider({ children }) {
         await client.connectUser(user, token);
 
         if (isOnline) {
+          console.log(activeAdminName);
           const supportChannel = client.channel(
             "messaging",
             `support-${guestId}`,

@@ -5,7 +5,7 @@ import {
 } from "../controllers/pesapalController.js";
 import { accessToken } from "../middleware/accessToken.js";
 import {
-  AIReply,
+  adminStatus,
   guestToken,
   queryAdmin,
 } from "../controllers/chatController.js";
@@ -19,6 +19,6 @@ router.get("/transaction-status", accessToken, transactionStatus);
 //chat endpoint
 router.post("/guest-token", guestToken);
 router.get("/query-admin", queryAdmin);
-router.post("/ai-response", AIReply);
+router.get('/admin-status', adminStatus);
 
 export { router as Router };

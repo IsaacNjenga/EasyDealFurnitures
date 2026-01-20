@@ -17,6 +17,9 @@ export function ChatProvider({ children }) {
   const { guestId } = useUser();
   const [openChat, setOpenChat] = useState(false);
   const [channel, setChannel] = useState(null);
+  const [isOnline, setIsOnline] = useState(false);
+  const [activeAdminId, setActiveAdminId] = useState(null);
+  const [activeAdminName, setActiveAdminName] = useState(null);
   const [streamLoading, setStreamLoading] = useState(false);
   const openNotification = useNotification();
 
@@ -25,10 +28,38 @@ export function ChatProvider({ children }) {
     [],
   );
 
+  const isAdminOnline = async () => {
+    try {
+      const res = await axios.get(
+        // "http://localhost:3001/EasyDeal/admin-status",
+        "https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/admin-status",
+      );
+
+      if (res.status.success) {
+        const status = res.data.admin[0].online;
+        if (status) {
+          setIsOnline(true);
+          setActiveAdminId(res.data.admin[0].id);
+          setActiveAdminName(res.data.admin[0].username);
+        } else {
+          setIsOnline(false);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    isAdminOnline();
+  }, [isOnline]);
+
   const connect = async () => {
     setStreamLoading(true);
-
     const username = faker.internet.username();
+
+    console.log(isOnline, activeAdminId);
+
     try {
       const res = await axios.post(
         // "http://localhost:3001/EasyDeal/guest-token",
@@ -42,44 +73,32 @@ export function ChatProvider({ children }) {
 
         await client.connectUser(user, token);
 
-        const adminResponse = await axios.get(
-          // "http://localhost:3001/EasyDeal/query-admin",
-          "https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/query-admin",
-        );
-
-        let adminId = "";
-        // let adminName = "";
-
-        if (adminResponse.data.success) {
-          const availableAdmin = adminResponse.data.availableAdmins;
-
-          if (availableAdmin) {
-            adminId = availableAdmin.id;
-            // adminName = availableAdmin.username;
-          } else {
-            // adminId = "696f199eb247621aac568d09";
-            // const aiResponse = await axios.post(
-            //   // "http://localhost:3001/EasyDeal/ai-response",
-            //   "https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/ai-response",
-            //   { channelId: `support-${guestId}` },
-            // );
-          }
+        if (isOnline) {
+          const supportChannel = client.channel(
+            "messaging",
+            `support-${guestId}`,
+            {
+              members: [
+                { user_id: guestId, code_name: username },
+                { user_id: activeAdminId, code_name: activeAdminName },
+                { user_id: "ai-support-bot", code_name: "bot" },
+              ],
+            },
+          );
+          await supportChannel.watch();
+          setChannel(supportChannel);
+        } else {
+          //introduce AI here
+          console.log("Not Online");
         }
-
-        const supportChannel = client.channel(
-          "messaging",
-          `support-${guestId}`,
-          {
-            members: [guestId, "ai-support-bot", adminId],
-          },
-        );
-
-        await supportChannel.watch();
-        setChannel(supportChannel);
       }
     } catch (error) {
       console.error("Chat connection failed:", error);
-      openNotification("error", "Chat connection failed", "Error");
+      openNotification(
+        "error",
+        "Chat connection failed. Kindly try again later",
+        "Error",
+      );
     } finally {
       setStreamLoading(false);
     }

@@ -28,9 +28,34 @@ const guestToken = async (req, res) => {
   }
 };
 
-const queryAdmin = async (req, res) => {
+const adminStatus = async (req, res) => {
   try {
     const serverClient = StreamChat.getInstance(api_key, api_secret);
+    const admin = await serverClient.queryUsers({
+      role: "admin",
+    });
+    const availableAdmins = admin.users.filter(
+      (user) =>
+        user.online === true &&
+        user.banned === false &&
+        user.shadow_banned === false &&
+        user.id !== "isaac49",
+    );
+    return res
+      .status(200)
+      .json({ success: true, admin: availableAdmins ? availableAdmins : null });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Failed to get admin status" });
+  }
+};
+
+const queryAdmin = async (req, res) => {
+  const { channelId } = req.body;
+  try {
+    const serverClient = StreamChat.getInstance(api_key, api_secret);
+    const channel = chatClient.channel("messaging", channelId);
+
     const admin = await serverClient.queryUsers({
       role: "admin",
     });
@@ -42,58 +67,47 @@ const queryAdmin = async (req, res) => {
         user.shadow_banned === false,
     );
 
-    return res.status(200).json({ success: true, admin: availableAdmins[0] });
+    if (!availableAdmins) {
+      await channel.query({
+        messages: { limit: 1 },
+      });
+
+      const messages = channel.state.messages;
+
+      if (!messages.length) {
+        return res.status(200).json({ message: "No messages found" });
+      }
+
+      const lastMessage = messages[0];
+
+      if (!lastMessage) {
+        return res.status(200).json({ message: "No messages found" });
+      }
+
+      if (lastMessage.user.role === "admin") {
+        return res.sendStatus(200);
+      }
+
+      // If an admin has spoken recently, do NOT reply
+      const recentAdminMessage = messages.some((m) => m.user.role === "admin");
+
+      if (recentAdminMessage) return;
+
+      const aiReply = await AIResponse(lastMessage.text);
+      await channel.sendMessage(channelId, {
+        text: aiReply,
+        user_id: "ai-support-bot",
+      });
+    } else {
+      return res.status(200).json({
+        success: true,
+        admin: availableAdmins,
+      });
+    }
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error on fetching users" });
   }
 };
 
-
-const AIReply = async (req, res) => {
-  const { channelId } = req.body;
-  try {
-    const chatClient = StreamChat.getInstance(api_key, api_secret);
-    const channel = chatClient.channel("messaging", channelId);
-
-    // Query ONLY the last message
-    await channel.query({
-      messages: { limit: 1 },
-    });
-
-    const messages = channel.state.messages;
-
-    if (!messages.length) {
-      return res.status(200).json({ message: "No messages found" });
-    }
-
-    const lastMessage = messages[0];
-
-    if (!lastMessage) {
-      return res.status(200).json({ message: "No messages found" });
-    }
-
-    if (lastMessage.user.role === "admin") {
-      return res.sendStatus(200);
-    }
-
-    // If an admin has spoken recently, do NOT reply
-    const recentAdminMessage = messages.some((m) => m.user.role === "admin");
-
-    if (recentAdminMessage) return;
-
-    const aiReply = await AIResponse(lastMessage.text);
-
-    await channel.sendMessage(channelId, {
-      text: aiReply,
-      user_id: "ai-support-bot",
-    });
-
-    res.sendStatus(200);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error on AI response" });
-  }
-};
-
-export { guestToken, queryAdmin, AIReply };
+export { guestToken, queryAdmin, adminStatus };

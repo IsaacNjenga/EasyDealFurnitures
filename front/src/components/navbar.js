@@ -63,7 +63,7 @@ function Navbar() {
   const { userLoggedIn, currentUser, openAuthModal, setOpenAuthModal } =
     useAuth();
   const { cartItems, cartOpen, toggleCart } = useCart();
-  const { openChat, toggleChatDrawer, streamLoading } = useChat();
+  const { openChat, toggleChatDrawer, streamLoading, channel } = useChat();
   const { setSearchOpen } = useSearch();
 
   const handleAuth = () => {
@@ -520,7 +520,7 @@ function Navbar() {
           borderRadius: "50%",
           boxShadow: "0 8px 24px rgba(0, 0, 0, 0.15)",
           zIndex: 1000,
-          display: !streamLoading && openChat ? "none" : "flex",
+          display: !streamLoading && openChat && channel ? "none" : "flex",
           flexDirection: "column",
           overflow: "hidden",
         }}

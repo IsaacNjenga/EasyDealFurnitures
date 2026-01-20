@@ -4,7 +4,7 @@ import {
   transactionStatus,
 } from "../controllers/pesapalController.js";
 import { accessToken } from "../middleware/accessToken.js";
-import { guestToken } from "../controllers/chatController.js";
+import { guestToken, queryAdmin } from "../controllers/chatController.js";
 
 const router = express.Router();
 
@@ -14,5 +14,6 @@ router.get("/transaction-status", accessToken, transactionStatus);
 
 //chat endpoint
 router.post("/guest-token", guestToken);
+router.get("/query-admin", queryAdmin);
 
 export { router as Router };

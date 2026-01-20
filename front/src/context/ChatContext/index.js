@@ -20,7 +20,7 @@ export function ChatProvider({ children }) {
 
   const client = useMemo(
     () => StreamChat.getInstance(process.env.REACT_APP_STREAM_API_KEY),
-    []
+    [],
   );
 
   const connect = async () => {
@@ -31,7 +31,7 @@ export function ChatProvider({ children }) {
       const res = await axios.post(
         // "http://localhost:3001/EasyDeal/guest-token",
         "https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/guest-token",
-        { guestId: guestId, username: username }
+        { guestId: guestId, username: username },
       );
 
       if (res.data.success) {
@@ -40,13 +40,35 @@ export function ChatProvider({ children }) {
 
         await client.connectUser(user, token);
 
+        const adminResponse = await axios.get(
+          // "http://localhost:3001/EasyDeal/query-admin",
+          "https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/query-admin",
+        );
+
+        let adminId = "";
+
+        if (adminResponse.data.success) {
+          const availableAdmin = adminResponse.data.admin.find(
+            (admin) =>
+              admin.online === true &&
+              admin.banned === false &&
+              admin.shadow_banned === false,
+          );
+
+          if (availableAdmin) {
+            adminId = availableAdmin.id;
+          } else {
+            adminId = "696f199eb247621aac568d09"; //hardcoded for now
+            // This is where the AI chatbot will come in
+          }
+        }
+
         const supportChannel = client.channel(
           "messaging",
           `support-${guestId}`,
           {
-            members: [guestId, "6969f37d3eb7dc0e0453231c"],
-            //type: "support",
-          }
+            members: [guestId, adminId],
+          },
         );
 
         await supportChannel.watch();

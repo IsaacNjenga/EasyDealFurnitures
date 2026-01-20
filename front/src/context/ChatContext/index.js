@@ -5,6 +5,7 @@ import { useUser } from "../UserContext";
 import { useEffect } from "react";
 import { useMemo } from "react";
 import { faker } from "@faker-js/faker";
+import { useNotification } from "../NotificationContext";
 
 const ChatContext = createContext();
 
@@ -17,6 +18,7 @@ export function ChatProvider({ children }) {
   const [openChat, setOpenChat] = useState(false);
   const [channel, setChannel] = useState(null);
   const [streamLoading, setStreamLoading] = useState(false);
+  const openNotification = useNotification();
 
   const client = useMemo(
     () => StreamChat.getInstance(process.env.REACT_APP_STREAM_API_KEY),
@@ -46,20 +48,21 @@ export function ChatProvider({ children }) {
         );
 
         let adminId = "";
+        // let adminName = "";
 
         if (adminResponse.data.success) {
-          const availableAdmin = adminResponse.data.admin.find(
-            (admin) =>
-              admin.online === true &&
-              admin.banned === false &&
-              admin.shadow_banned === false,
-          );
+          const availableAdmin = adminResponse.data.availableAdmins;
 
           if (availableAdmin) {
             adminId = availableAdmin.id;
+            // adminName = availableAdmin.username;
           } else {
-            adminId = "696f199eb247621aac568d09"; //hardcoded for now
-            // This is where the AI chatbot will come in
+            // adminId = "696f199eb247621aac568d09";
+            // const aiResponse = await axios.post(
+            //   // "http://localhost:3001/EasyDeal/ai-response",
+            //   "https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/ai-response",
+            //   { channelId: `support-${guestId}` },
+            // );
           }
         }
 
@@ -67,7 +70,7 @@ export function ChatProvider({ children }) {
           "messaging",
           `support-${guestId}`,
           {
-            members: [guestId, adminId],
+            members: [guestId, "ai-support-bot", adminId],
           },
         );
 
@@ -76,6 +79,7 @@ export function ChatProvider({ children }) {
       }
     } catch (error) {
       console.error("Chat connection failed:", error);
+      openNotification("error", "Chat connection failed", "Error");
     } finally {
       setStreamLoading(false);
     }

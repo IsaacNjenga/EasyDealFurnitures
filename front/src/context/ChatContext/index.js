@@ -29,8 +29,8 @@ export function ChatProvider({ children }) {
     const username = faker.internet.username();
     try {
       const res = await axios.post(
-        "http://localhost:3001/EasyDeal/guest-token",
-        //"https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/guest-token",
+        // "http://localhost:3001/EasyDeal/guest-token",
+        "https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/guest-token",
         { guestId: guestId, username: username }
       );
 

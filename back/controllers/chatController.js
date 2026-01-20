@@ -1,6 +1,5 @@
 import { StreamChat } from "stream-chat";
 import dotenv from "dotenv";
-import randomName from "node-random-name";
 
 dotenv.config();
 
@@ -10,18 +9,16 @@ const api_secret = process.env.STREAM_API_SECRET;
 const serverClient = StreamChat.getInstance(api_key, api_secret);
 
 const guestToken = async (req, res) => {
-  const { guestId } = req.body;
+  const { guestId, username } = req.body;
   if (!guestId) {
     return res.status(400).json({ message: "Guest ID is required" });
   }
   try {
     const token = serverClient.createToken(guestId);
 
-    const name = randomName({ first: true });
-
     res.status(200).json({
       success: "true",
-      user: { id: guestId, name: name, role: "guest" },
+      user: { id: guestId, name: username, role: "guest" },
       token,
     });
   } catch (error) {

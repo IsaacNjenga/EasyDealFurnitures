@@ -4,6 +4,7 @@ import axios from "axios";
 import { useUser } from "../UserContext";
 import { useEffect } from "react";
 import { useMemo } from "react";
+import { faker } from "@faker-js/faker";
 
 const ChatContext = createContext();
 
@@ -24,10 +25,13 @@ export function ChatProvider({ children }) {
 
   const connect = async () => {
     setStreamLoading(true);
+
+    const username = faker.internet.username();
     try {
       const res = await axios.post(
-        "https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/guest-token",
-        { guestId }
+        "http://localhost:3001/EasyDeal/guest-token",
+        //"https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/guest-token",
+        { guestId: guestId, username: username }
       );
 
       if (res.data.success) {

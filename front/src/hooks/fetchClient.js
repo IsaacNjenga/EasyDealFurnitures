@@ -45,7 +45,7 @@ function useFetchClient() {
         "An unexpected error occurred. Please try again later.";
 
       setError(errorMessage);
-      openNotification("warning", errorMessage, "Error");
+      openNotification("warning", "Error fetching client", "Error");
 
       // Reset state on error
       setClient(null);

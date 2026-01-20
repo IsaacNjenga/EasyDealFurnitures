@@ -35,7 +35,7 @@ export function ChatProvider({ children }) {
         "https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/admin-status",
       );
 
-      if (res.status.success) {
+      if (res.status.success && res.data.admin.length > 0) {
         const status = res.data.admin[0].online;
         console.log("id", res.data.admin[0].id);
         console.log("status", status);
@@ -45,6 +45,8 @@ export function ChatProvider({ children }) {
           setActiveAdminName(res.data.admin[0].username);
         } else {
           setIsOnline(false);
+          setActiveAdminId(null);
+          setActiveAdminName(null);
         }
       }
     } catch (error) {
@@ -73,6 +75,7 @@ export function ChatProvider({ children }) {
         const token = res.data.token;
 
         await client.connectUser(user, token);
+        console.log(client);
 
         if (isOnline) {
           console.log(activeAdminName);

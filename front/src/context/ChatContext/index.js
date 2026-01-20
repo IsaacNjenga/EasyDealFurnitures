@@ -37,7 +37,9 @@ export function ChatProvider({ children }) {
 
       if (res.status.success) {
         const status = res.data.admin[0].online;
-        if (status) {
+        console.log("id", res.data.admin[0].id);
+        console.log("status", status);
+        if (status === true) {
           setIsOnline(true);
           setActiveAdminId(res.data.admin[0].id);
           setActiveAdminName(res.data.admin[0].username);
@@ -58,8 +60,6 @@ export function ChatProvider({ children }) {
   const connect = async () => {
     setStreamLoading(true);
     const username = faker.internet.username();
-
-    console.log(activeAdminName ? activeAdminName : "aii");
 
     try {
       const res = await axios.post(
@@ -88,7 +88,8 @@ export function ChatProvider({ children }) {
           setChannel(supportChannel);
         } else {
           //introduce AI here
-          console.log("Not Online");
+
+          openNotification("warning", "AI Takeover", "Error");
         }
       }
     } catch (error) {

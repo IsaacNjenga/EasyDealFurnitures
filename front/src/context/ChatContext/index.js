@@ -32,7 +32,7 @@ export function ChatProvider({ children }) {
       );
 
       if (res.data.success && res.data.admin.length > 0) {
-        return res.data.admin[0]; 
+        return res.data.admin[0];
       }
 
       return null;
@@ -53,7 +53,6 @@ export function ChatProvider({ children }) {
         { guestId: guestId, username: username },
       );
 
-      console.log(res.data);
       if (res.data.success) {
         const user = res.data.user;
         const token = res.data.token;
@@ -62,7 +61,9 @@ export function ChatProvider({ children }) {
 
         const admin = await fetchAdminStatus();
 
-        const members = [guestId, admin.id, "ai-support-bot"];
+        const members = admin
+          ? [guestId, admin.id, "ai-support-bot"]
+          : [guestId, "ai-support-bot"];
 
         const supportChannel = client.channel(
           "messaging",

@@ -536,7 +536,7 @@ function Navbar() {
               toggleChatDrawer();
             }}
             style={{
-              backgroundColor: "#161514",
+              backgroundColor: "#fea549",
               color: "#fff",
             }}
           />

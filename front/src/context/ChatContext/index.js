@@ -35,7 +35,7 @@ export function ChatProvider({ children }) {
         "https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/admin-status",
       );
       console.log(res.data);
-      if (res.status.success && res.data.admin.length > 0) {
+      if (res.status.success ) {
         const status = res.data.admin[0].online;
         console.log("id", res.data.admin[0].id);
         console.log("status", status);

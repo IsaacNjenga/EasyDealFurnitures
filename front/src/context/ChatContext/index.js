@@ -34,7 +34,7 @@ export function ChatProvider({ children }) {
         // "http://localhost:3001/EasyDeal/admin-status",
         "https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/admin-status",
       );
-
+      console.log(res.data);
       if (res.status.success && res.data.admin.length > 0) {
         const status = res.data.admin[0].online;
         console.log("id", res.data.admin[0].id);
@@ -70,6 +70,7 @@ export function ChatProvider({ children }) {
         { guestId: guestId, username: username },
       );
 
+      console.log(res.data);
       if (res.data.success) {
         const user = res.data.user;
         const token = res.data.token;
@@ -134,6 +135,7 @@ export function ChatProvider({ children }) {
     client,
     channel,
     setChannel,
+    isAdminOnline,
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

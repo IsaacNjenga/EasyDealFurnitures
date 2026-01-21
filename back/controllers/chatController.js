@@ -11,6 +11,7 @@ const serverClient = StreamChat.getInstance(api_key, api_secret);
 
 const guestToken = async (req, res) => {
   const { guestId, username } = req.body;
+
   if (!guestId) {
     return res.status(400).json({ message: "Guest ID is required" });
   }
@@ -41,6 +42,7 @@ const adminStatus = async (req, res) => {
         user.shadow_banned === false &&
         user.id !== "isaac49",
     );
+    // console.log(availableAdmins);
     return res.status(200).json({
       success: true,
       admin: availableAdmins?.map((a) => ({

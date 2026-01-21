@@ -63,7 +63,8 @@ function Navbar() {
   const { userLoggedIn, currentUser, openAuthModal, setOpenAuthModal } =
     useAuth();
   const { cartItems, cartOpen, toggleCart } = useCart();
-  const { openChat, toggleChatDrawer, streamLoading, channel } = useChat();
+  const { openChat, toggleChatDrawer, streamLoading, channel, isAdminOnline } =
+    useChat();
   const { setSearchOpen } = useSearch();
 
   const handleAuth = () => {
@@ -532,9 +533,12 @@ function Navbar() {
             loading={streamLoading}
             type="primary"
             icon={<MessageOutlined style={{ fontSize: 20 }} />}
-            onClick={toggleChatDrawer}
+            onClick={() => {
+              toggleChatDrawer();
+              isAdminOnline();
+            }}
             style={{
-              backgroundColor: "#fea549",
+              backgroundColor: "#161514",
               color: "#fff",
             }}
           />

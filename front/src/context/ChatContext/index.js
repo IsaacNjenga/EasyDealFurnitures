@@ -4,7 +4,6 @@ import axios from "axios";
 import { useUser } from "../UserContext";
 import { useEffect } from "react";
 import { useMemo } from "react";
-import { faker } from "@faker-js/faker";
 import { useNotification } from "../NotificationContext";
 
 const ChatContext = createContext();
@@ -14,7 +13,7 @@ export const useChat = () => {
 };
 
 export function ChatProvider({ children }) {
-  const { guestId } = useUser();
+  const { guestId, username } = useUser();
   const [openChat, setOpenChat] = useState(false);
   const [channel, setChannel] = useState(null);
   const [streamLoading, setStreamLoading] = useState(false);
@@ -44,7 +43,6 @@ export function ChatProvider({ children }) {
 
   const connect = async () => {
     setStreamLoading(true);
-    const username = faker.internet.username();
 
     try {
       const res = await axios.post(

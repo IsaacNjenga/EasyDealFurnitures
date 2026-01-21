@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-
+import { faker } from "@faker-js/faker";
 const UserContext = createContext();
 
 export function useUser() {
@@ -12,6 +12,7 @@ export function UserProvider({ children }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [detailsDrawer, setDetailsDrawer] = useState(false);
   const [guestId, setGuestId] = useState(null);
+  const [username, setUsername] = useState(null);
   const [userLocation, setUserLocation] = useState(() => {
     //load from localstorage on first render
     const storedLocation = localStorage.getItem("userLocation");
@@ -59,8 +60,20 @@ export function UserProvider({ children }) {
     return guestId;
   };
 
+  const getGuestUsername = () => {
+    let username = localStorage.getItem("username");
+
+    if (!username) {
+      username = faker.internet.username();
+      localStorage.setItem("username", username);
+    }
+
+    return username;
+  };
+
   useEffect(() => {
     setGuestId(getGuestId());
+    setUsername(getGuestUsername());
   }, []);
 
   const value = {
@@ -73,6 +86,7 @@ export function UserProvider({ children }) {
     userLocation,
     setUserLocation,
     guestId,
+    username,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

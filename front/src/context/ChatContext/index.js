@@ -17,9 +17,6 @@ export function ChatProvider({ children }) {
   const { guestId } = useUser();
   const [openChat, setOpenChat] = useState(false);
   const [channel, setChannel] = useState(null);
-  const [isOnline, setIsOnline] = useState(false);
-  const [activeAdminId, setActiveAdminId] = useState(null);
-  const [activeAdminName, setActiveAdminName] = useState(null);
   const [streamLoading, setStreamLoading] = useState(false);
   const openNotification = useNotification();
 
@@ -28,36 +25,22 @@ export function ChatProvider({ children }) {
     [],
   );
 
-  const isAdminOnline = async () => {
+  const fetchAdminStatus = async () => {
     try {
       const res = await axios.get(
-        // "http://localhost:3001/EasyDeal/admin-status",
         "https://easy-deal-furnitures-dbdd.vercel.app/EasyDeal/admin-status",
       );
-      console.log(res.data);
-      if (res.status.success ) {
-        const status = res.data.admin[0].online;
-        console.log("id", res.data.admin[0].id);
-        console.log("status", status);
-        if (status === true) {
-          setIsOnline(true);
-          setActiveAdminId(res.data.admin[0].id);
-          setActiveAdminName(res.data.admin[0].username);
-        } else {
-          setIsOnline(false);
-          setActiveAdminId(null);
-          setActiveAdminName(null);
-        }
+
+      if (res.data.success && res.data.admin.length > 0) {
+        return res.data.admin[0]; 
       }
-    } catch (error) {
-      console.error(error);
+
+      return null;
+    } catch (err) {
+      console.error(err);
+      return null;
     }
   };
-
-  useEffect(() => {
-    const interval = setInterval(isAdminOnline, 15000);
-    return () => clearInterval(interval);
-  }, []);
 
   const connect = async () => {
     setStreamLoading(true);
@@ -76,25 +59,22 @@ export function ChatProvider({ children }) {
         const token = res.data.token;
 
         await client.connectUser(user, token);
-        console.log(client);
 
-        if (isOnline) {
-          console.log(activeAdminName);
-          const supportChannel = client.channel(
-            "messaging",
-            `support-${guestId}`,
-            {
-              members: [guestId, activeAdminId, "ai-support-bot"].filter(
-                Boolean,
-              ),
-            },
-          );
-          await supportChannel.watch();
-          setChannel(supportChannel);
-        } else {
-          //introduce AI here
+        const admin = await fetchAdminStatus();
 
-          openNotification("warning", "AI Takeover", "Error");
+        const members = [guestId, admin.id, "ai-support-bot"];
+
+        const supportChannel = client.channel(
+          "messaging",
+          `support-${guestId}`,
+          { members },
+        );
+
+        await supportChannel.watch();
+        setChannel(supportChannel);
+
+        if (!admin) {
+          openNotification("warning", "AI assistant is helping you for now");
         }
       }
     } catch (error) {
@@ -135,7 +115,6 @@ export function ChatProvider({ children }) {
     client,
     channel,
     setChannel,
-    isAdminOnline,
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
